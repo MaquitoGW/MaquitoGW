@@ -592,7 +592,9 @@ footer section.main-footer .left-footer .saying {
 .slide {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 160px;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .project .slide img {
@@ -608,7 +610,9 @@ footer section.main-footer .left-footer .saying {
 
 .project .slide .img-none {
     position: relative;
-    visibility: hidden;
+    width: 280px;
+    height: 160px;
+    background: #333;
 }
 
 .project .slide img.img {

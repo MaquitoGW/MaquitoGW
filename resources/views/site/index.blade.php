@@ -31,10 +31,23 @@
                     <h4>{{ $item['name'] }}</h4>
                     <div class="slide">
 
-                        <img src="/img/site2.png" class="img-none" alt="image-project">
-                        <img src="/img/site2.png" class="img" alt="image-project">
-                        <img src="/img/site.png" class="img2" alt="image-project">
+                        @php
+                            // Decodifica o JSON para um array
+                            $images = json_decode($item['images'], true);
+                            $count = 1;
+                        @endphp
 
+                        <div class="img-none" title="Imagens do Projeto"></div>
+
+                        @if ($images)
+                            @foreach ($images as $image)
+                                @if ($count++ == 2)
+                                    <img src="{{ $image }}" class="img2" alt="image-project">
+                                @else
+                                    <img src="{{ $image }}" class="img" alt="image-project">
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
 
                     <div class="project-head">
@@ -43,9 +56,16 @@
                             <a title="Mais informações" class="button" href="details/{{ $item['demo'] }}">saber mais...</a>
                         </p>
                         <ul class="tags" title="Habilidades utilizadas">
-                            <li class="laravel">Laravel</li>
-                            <li class="php">PHP</li>
-                            <li class="js">JS</li>
+                            @php
+                                // Decodifica o JSON para um array
+                                $skills = json_decode($item['skills'], true);
+                            @endphp
+
+                            @if ($skills)
+                                @foreach ($skills as $skill)
+                                    <li class="{{ $skill }}">{{ $skill }}</li>
+                                @endforeach
+                            @endif
                         </ul>
                         <label for="options" class="options">
                             <a title="Vizualizar projeto" class="button" href="demo/{{ $item['demo'] }}"><i
@@ -112,9 +132,16 @@
             <div class="tag-linguagens">
                 <h5>Habilidades usadas:</h5>
                 <ul class="tags" title="Habilidades utilizadas">
-                    <li class="laravel">Laravel</li>
-                    <li class="php">PHP</li>
-                    <li class="js">JS</li>
+                    @php
+                        // Decodifica o JSON para um array
+                        $skills = json_decode($project['skills'], true);
+                    @endphp
+
+                    @if ($skills)
+                        @foreach ($skills as $skill)
+                            <li class="{{ $skill }}">{{ $skill }}</li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </section>
