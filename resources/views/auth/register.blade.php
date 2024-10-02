@@ -23,6 +23,6 @@
             @endforeach
         @endif
 
-        <button type="submit" class="button">Entrar</button>
+        <button type="submit" class="button">Cadastrar</button>
     </form>
 @endsection

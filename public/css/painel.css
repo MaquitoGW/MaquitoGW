@@ -293,7 +293,8 @@ section .infoBody h3 {
 }
 
 .options form button,
-.options a {
+.options a,
+table td a {
     background: #6200ff;
     color: #fff;
     border: none;
@@ -305,7 +306,8 @@ section .infoBody h3 {
 
 .options form button:hover,
 .options form a:hover,
-.options-list button:hover {
+.options-list button:hover,
+table td a:hover {
     background: #8400ff;
 }
 
@@ -390,4 +392,54 @@ footer a {
     font-weight: 600;
     text-decoration: none;
     color: #6200ff;
+}
+
+/* Tabelas  */
+
+table {
+    background-color: transparent;
+    width: 100%;
+    margin-block-end: 15px;
+    font-size: .9em;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+table td {
+    padding: 15px;
+    line-height: 1.5;
+    vertical-align: top;
+    border: 1px solid hsla(0, 0%, 50.2%, .5019607843);
+    background: #fff;
+    color: #333;
+}
+
+table td a {}
+
+table th {
+    background: #333;
+    color: #fff;
+    padding: 15px;
+    line-height: 1.5;
+    vertical-align: top;
+    border-left: 1px solid hsla(0, 0%, 50.2%, .5019607843);
+}
+
+table tfoot th,
+table thead th {
+    font-size: 1em;
+}
+
+table th {
+    font-weight: 700;
+}
+
+table caption+thead tr:first-child td,
+table caption+thead tr:first-child th,
+table colgroup+thead tr:first-child td,
+table colgroup+thead tr:first-child th,
+table thead:first-child tr:first-child td,
+table thead:first-child tr:first-child th {
+    border-block-start: 1px solid hsla(0, 0%, 50.2%, .5019607843);
 }
