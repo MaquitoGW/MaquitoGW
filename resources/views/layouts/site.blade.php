@@ -29,10 +29,10 @@
         <button id="open" class="btn"><i class="fa fa-solid fa-bars"></i></button>
         <nav id="navBar" class="not-visible">
             <ul class="list" id="listNav">
-                <li><a href="#sobre-mim" id="lk-sobre">Sobre Mim</a></li>
-                <li><a href="#portfolio" id="lk-portfolio">Projetos</a></li>
-                <li><a href="#habilidades" id="lk-habilidades">Habilidades</a></li>
-                <li><a href="#contato" id="lk-contato">Contato</a></li>
+                <li><a href="#sobre-mim" id="lk-sobre">{{__('site.head.1')}}</a></li>
+                <li><a href="#portfolio" id="lk-portfolio">{{__('site.head.2')}}</a></li>
+                <li><a href="#habilidades" id="lk-habilidades">{{__('site.head.3')}}</a></li>
+                <li><a href="#contato" id="lk-contato">{{__('site.head.4')}}</a></li>
             </ul>
 
             <ul class="list-social-midia">
@@ -66,17 +66,17 @@
     <footer>
         <section id="contato">
             <div class="info">
-                <h2>Entre em contato!</h2>
+                <h2>{{__('site.titles.4')}}</h2>
                 <ul class="contact-list">
-                    <li title="Email pessoal">
+                    <li title="{{__('site.other.email_personal')}}">
                         <span><i class="fa-regular fa-envelope"></i></span>
                         <a href="mailto:{{ $contacts['email_personal'] }}">{{ $contacts['email_personal'] }}</a>
                     </li>
-                    <li title="Email empresarial">
+                    <li title="{{__('site.other.email_business')}}">
                         <span><i class="fa-sharp fa-regular fa-building"></i></span>
                         <a href="mailto:{{ $contacts['email_business'] }}">{{ $contacts['email_business'] }}</a>
                     </li>
-                    <li title="Telefone de contato">
+                    <li title="{{__('site.other.telephone')}}">
                         <span><i class="fa-regular fa-mobile-notch"></i></span>
                         <a href="tel:{{ $contacts['tel'] }}">{{ $contacts['tel'] }}</a>
                     </li>
@@ -91,8 +91,8 @@
         <section class="main-footer">
             <div class="left-footer">
                 <div class="logoname"></div>
-                <p>&copy; {{ date('Y') }} por {{ $infos['fullname'] }}</p>
-                <p class="saying">{{ $frase }} ~{{ $autor }}</p>
+                <p>&copy; {{ date('Y') }} || {{ $infos['fullname'] }}</p>
+                <p class="saying">{{ $quote }} ~{{ $author }}</p>
             </div>
             <div class="right-footer">
                 <ul class="list-social-midia">

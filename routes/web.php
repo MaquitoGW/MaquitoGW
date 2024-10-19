@@ -3,10 +3,13 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\site\HomeController;
+use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\RandQuote;
+use App\Http\Middleware\UserLanguage;
 use Illuminate\Support\Facades\Route;
 
 // HOME ROUTE
-Route::prefix('/')->group(function () {
+Route::middleware(UserLanguage::class, RandQuote::class)->prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/details/{id}', [HomeController::class, 'index']);
     Route::get('/demo/{id}', [HomeController::class, 'demo']);
@@ -34,7 +37,11 @@ Route::prefix('admin')->group(function () {
     });
 
     // ADMIN ROUTES 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
-    Route::get('/skills', [AdminController::class, 'skills'])->name('skills');
+    Route::middleware(AuthMiddleware::class)->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/skills', [AdminController::class, 'skills']);
+        Route::get('/skills/new', [AdminController::class, 'skills'])->name('skill_new');
+        Route::post('/skills/add', [AdminController::class, 'skill_add'])->name('skill_add');
+    });
 });

@@ -26,43 +26,46 @@ class AdminController extends Controller
     // Dashboard
     public function dashboard()
     {
-        if (Auth::check()) {
-
-
-
-            return view('admin.dashboard', [
-                'selected' => 1
-            ]);
-        } else return redirect()->route('login');
+        return view('admin.dashboard', [
+            'selected' => 1
+        ]);
     }
 
     // Users 
 
     public function users()
     {
-        if (Auth::check()) {
-            // Obter usuarios
-            $users = User::get();
+        // Obter usuarios
+        $users = User::get();
 
-            return view('admin.users', [
-                'users' => $users,
-                'selected' => 5
-            ]);
-        } else return redirect()->route('login');
+        return view('admin.users', [
+            'users' => $users,
+            'selected' => 5
+        ]);
     }
 
     // Habilidades
 
     public function skills()
     {
-        if (Auth::check()) {
-            // Obter todas as habilidades
-            $skills = Skill::get();
+        // Obter todas as habilidades
+        $skills = Skill::get();
 
-            return view('admin.skills', [
-                'skills' => $skills,
-                'selected' => 3
-            ]);
-        } else return redirect()->route('login');
+        return view('admin.skills', [
+            'skills' => $skills,
+            'selected' => 3
+        ]);
+    }
+
+    // Adicionar uma nova habilidade
+
+    public function skill_add(Request $request) {
+        $addSkill = new Skill();
+
+        $addSkill->language = $request->skill;
+        $addSkill->year = $request->year;
+        $addSkill->info = $request->description;
+
+        $addSkill->save();
     }
 }
