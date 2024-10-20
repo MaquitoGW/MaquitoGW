@@ -31,41 +31,57 @@
     <main>
         <nav class="navBar">
             <ul>
-                <li @if ($selected == 1) aria-selected="true" @endif meta-click="dashboard">
+                <li @if (Route::currentRouteName() == 'dashboard') aria-selected="true" @endif meta-click="dashboard">
                     <i class="fa fa-solid fa-server"></i>
                     <label>Dashboard</label>
                 </li>
-                <li @if ($selected == 2) aria-selected="true" @endif meta-click="projects">
+                <li @if (Route::currentRouteName() == 'projects') aria-selected="true" @endif meta-click="projects">
                     <i class="fa-sharp fa-regular fa-code"></i>
                     <label>Projetos</label>
                 </li>
-                <li @if ($selected == 3) aria-selected="true" @endif meta-click="skills">
+                <li @if (Route::currentRouteName() == 'skills') aria-selected="true" @endif meta-click="skills">
                     <i class="fa-solid fa-star"></i>
                     <label>Habilidades</label>
                 </li>
-                <li @if ($selected == 4) aria-selected="true" @endif meta-click="info">
+                <li @if (Route::currentRouteName() == 'info') aria-selected="true" @endif meta-click="info">
                     <i class="fa-solid fa-circle-info"></i>
                     <label>Informações</label>
                 </li>
-                <li @if ($selected == 5) aria-selected="true" @endif meta-click="users">
+                <li @if (Route::currentRouteName() == 'users') aria-selected="true" @endif meta-click="users">
                     <i class="fa fa-solid fa-users"></i>
                     <label>Usuários</label>
                 </li>
+                <li @if (Route::currentRouteName() == 'customization') aria-selected="true" @endif meta-click="customization">
+                    <i class="fa-regular fa-wand-magic-sparkles"></i>
+                    <label>Personalização</label>
+                </li>
+                <li @if (Route::currentRouteName() == 'settings') aria-selected="true" @endif meta-click="settings">
+                    <i class="fa fa-solid fa-gear"></i>
+                    <label>Configurações</label>
+                </li>
             </ul>
-        </nav>
-        <section>
-            @yield('content')
+
             <footer>
                 {{ env('APP_NAME') }} @ {{ date('Y') }} | <a href="{{ env('APP_URL') }}"
                     target="_blank">{{ env('APP_DOMINE') }}</a>
             </footer>
+        </nav>
+        <section>
+            @yield('content')
         </section>
 
         {{-- Mensagem de alerta  --}}
         @if (session('success'))
-            <div class="popup">
-                <span class="close">&times;</span>
+            <div id="popup" class="popup success">
+                <span id="close" class="close"><i class="fa-regular fa-xmark"></i></span>
                 <p>{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @if (session('err'))
+            <div id="popup" class="popup err">
+                <span id="close" class="close"><i class="fa-regular fa-xmark"></i></span>
+                <p>{{ session('err') }}</p>
             </div>
         @endif
     </main>

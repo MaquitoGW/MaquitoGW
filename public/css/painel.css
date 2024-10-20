@@ -147,6 +147,7 @@ section::-webkit-scrollbar-thumb {
 /* Barra lateral */
 
 main nav.navBar {
+    position: relative;
     background: #18181B;
     width: 100%;
     max-width: 225px;
@@ -304,6 +305,8 @@ table td a {
     padding: 5px 10px;
     cursor: pointer;
     font-size: 13px;
+    text-align: center;
+    align-content: center;
 }
 
 .options form button:hover,
@@ -348,12 +351,19 @@ table td a:hover {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #f44336;
     color: white;
-    padding: 15px;
+    padding: 15px 25px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.err, form .err {
+    background: #a80b00 !important;
+}
+
+.success, form .success {
+    background: #006619 !important;
 }
 
 .popup p {
@@ -362,9 +372,13 @@ table td a:hover {
 
 .close {
     position: absolute;
-    top: 0;
-    right: 5px;
+    top: -5px;
+    right: -5px;
     cursor: pointer;
+    font-size: 13px;
+    background: #ff0000;
+    padding: 5px 8px;
+    border-radius: 50%;
 }
 
 @keyframes fadeIn {
@@ -383,11 +397,14 @@ table td a:hover {
 /* Rodape  */
 
 footer {
-    position: relative;
+    position: absolute;
+    bottom: 80px;
     text-align: center;
     color: #666;
     font-size: 14px;
-    margin-top: 20px;
+    margin: 0 10px;
+    padding: 20px 0;
+    border-top: solid 1px rgb(217 217 217 / 20%);
 }
 
 footer a {
@@ -488,10 +505,58 @@ form select {
     font-size: 15px;
     color: #000;
     outline: 0;
+    resize: none;
 }
 
-form button {
+form button,
+form a {
     margin: 10px 0;
     padding: 10px;
-    font-size: 15px;
+    font-size: 15px !important;
+}
+
+form .options {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+form .options button,
+form .options a {
+    width: 25%;
+    margin: 10px 5px;
+}
+
+form span.icon {
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+}
+
+form span.icon input {
+    margin-left: 10px;
+}
+
+
+/* Alerta */
+
+.alert {
+    background: red;
+    margin: 10px 0;
+    margin-bottom: 0;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.alert span.icon {
+    font-size: 18px;
+    margin: 0px 5px;
+    display: flex;
+    align-items: center;
 }

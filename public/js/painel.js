@@ -5,3 +5,12 @@ meta_click.forEach(element => {
         location.href = element.getAttribute('meta-click');
     });
 });
+
+// Alerta remover
+if (document.getElementById('close')) {
+    var closePOP = document.getElementById('close');
+    var popup = document.getElementById('popup');
+    closePOP.addEventListener('click', () => {
+        popup.parentNode.removeChild(popup);
+    });
+}

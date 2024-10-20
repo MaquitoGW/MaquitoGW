@@ -8,16 +8,24 @@ use App\Models\Info;
 use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
     // Função inicial
-    public function index($id = null)
+    public function index(Request $request, $id = null)
     {
+        // Verificar o idioma do BD
+        $languageUserGET = str_replace("-", "_", App::getLocale());
+        if ($languageUserGET == 'pt_BR' || $languageUserGET == 'en_US') $language = $languageUserGET;
+        else $language = env('APP_FAKER_LOCALE');
+
         // Obter informações
-        $infos = Info::first();
+        $infos = Info::where('language', $language)->first();
+
         $contacts = Contact::first();
         $projects = Project::get();
+
         $skills = Skill::orderBy('year', 'asc')->get();
         $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
 

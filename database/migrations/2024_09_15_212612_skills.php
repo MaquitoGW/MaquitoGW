@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id(); // Chave primária
             $table->string('code'); // Linguagem de programação ou habilidade
             $table->integer('year'); // Anos de experiência ou ano de aprendizado
-            $table->text('description')->nullable(); // Informações adicionais sobre a habilidade
             $table->timestamps(); // Colunas 'created_at' e 'updated_at'
         });
     }

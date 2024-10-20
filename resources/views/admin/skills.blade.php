@@ -2,11 +2,11 @@
 @section('title', 'Habilidades')
 @section('content')
     <div class="options-list">
-        <a href="{{ route('skill_new') }}"> Adicionar Habilidades</a>
+        <a href="{{ route('skill.new') }}"> Adicionar Habilidades</a>
     </div>
 
-    @if (Route::currentRouteName() == 'skill_new')
-        <form action="{{ route('skill_add') }}" method="post">
+    @if (Route::currentRouteName() == 'skill.new')
+        <form action="{{ route('skill.add') }}" method="post">
             @csrf
             <h3>Adicionar Habilidade</h3>
             <label for="skills">Habilidade</label>
@@ -27,7 +27,10 @@
             <label for="year">Ano</label>
             <input required type="number" name="year" min="2000" max="2100" placeholder="Year">
 
-            <button type="submit">Adicionar</button>
+            <div class="options">
+                <button type="submit">Adicionar</button>
+                <a class="success" href="{{route('skills')}}">Fechar</a>
+            </div>
         </form>
     @endif
 
@@ -47,13 +50,12 @@
                         @if ($code == $skill->code)
                             <tr>
                                 <td>
-                                    <span class="icon"><i
-                                            class="{{ $language['icon'] }}"></i></span><br>
+                                    <span class="icon"><i class="{{ $language['icon'] }}"></i></span><br>
                                     <span>{{ $language['name'] }}</span>
                                 </td>
                                 <td>{{ $skill->year }}</td>
                                 <td>{{ $language['description_pt'] }}</td>
-                                <td><a href="delete/{{$code}}">Remover</a></td>
+                                <td><a href="delete/{{ $code }}">Remover</a></td>
                             </tr>
                         @endif
                     @endforeach
