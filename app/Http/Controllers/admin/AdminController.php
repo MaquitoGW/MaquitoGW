@@ -51,7 +51,11 @@ class AdminController extends Controller
         // Obter todas as habilidades
         $skills = Skill::get();
 
+        // Obter habilidades para o selected
+        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+
         return view('admin.skills', [
+            'skillsJson' => $skillsJson,
             'skills' => $skills,
             'selected' => 3
         ]);
@@ -62,10 +66,17 @@ class AdminController extends Controller
     public function skill_add(Request $request) {
         $addSkill = new Skill();
 
-        $addSkill->language = $request->skill;
+        $addSkill->code = $request->skill;
         $addSkill->year = $request->year;
-        $addSkill->info = $request->description;
 
         $addSkill->save();
+        return back()->with('success', 'Habilidade adicionada com sucesso');
+    }
+
+    // Apagar habilidade
+    public function skill_delete($code) {
+        Skill::where('code', $code)->delete();
+
+        return back()->with('success', 'Habilidade deletada com sucesso');
     }
 }

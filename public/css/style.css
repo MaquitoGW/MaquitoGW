@@ -475,6 +475,7 @@ footer section.main-footer .left-footer .saying {
     padding: 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .skills-list li,
@@ -503,7 +504,6 @@ footer section.main-footer .left-footer .saying {
     justify-content: center;
     transition: all .3s ease-in-out;
     cursor: pointer;
-
 }
 
 .skills-list li label {
@@ -514,41 +514,11 @@ footer section.main-footer .left-footer .saying {
     cursor: pointer;
 }
 
-.skills-list li label[for="PHP"] span,
-.php {
-    color: #777BB4;
-    /* Cor padrão do logo do PHP */
-}
-
-
-.skills-list li label[for="Laravel"] span,
-.laravel {
-    color: #F9322C;
-    /* Cor padrão do logo do Laravel */
-}
-
-.skills-list li label[for="JS"] span,
-.js {
-    color: #F7DF1E;
-    /* Cor amarela padrão do logo do JavaScript */
-}
-
-.skills-list li label[for="CSS3"] span,
-.css3 {
-    color: #2965F1;
-    /* Cor azul padrão do logo do CSS3 */
-}
-
-.skills-list li label[for="HTML5"] span,
-.html {
-    color: #E34C26;
-    /* Cor laranja padrão do logo do HTML5 */
-}
-
-
 .skills-list li label span {
+    color: #6200ff;
     font-size: 80px;
 }
+
 
 .skills-list li label b {
     font-size: 16px;

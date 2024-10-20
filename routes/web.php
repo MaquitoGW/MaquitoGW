@@ -43,5 +43,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/skills', [AdminController::class, 'skills']);
         Route::get('/skills/new', [AdminController::class, 'skills'])->name('skill_new');
         Route::post('/skills/add', [AdminController::class, 'skill_add'])->name('skill_add');
+        Route::get('/skills/delete/{code}', [AdminController::class, 'skill_delete']);
     });
 });

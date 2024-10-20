@@ -6,22 +6,26 @@
     </div>
 
     @if (Route::currentRouteName() == 'skill_new')
-        <form action="{{route('skill_add')}}" method="post">
+        <form action="{{ route('skill_add') }}" method="post">
             @csrf
             <h3>Adicionar Habilidade</h3>
             <label for="skills">Habilidade</label>
             <select name="skill" id="skills" required>
                 <option disabled selected>Selecione uma habilidade</option>
-                <option value="java">Java</option>
-                <option value="python">Python</option>
+                <optgroup label="Linguagens">
+                    @foreach ($skillsJson['languages'] as $code => $language)
+                        <option value="{{ $code }}">{{ $language['name'] }}</option>
+                    @endforeach
+                </optgroup>
+                <optgroup label="Frameworks">
+                    @foreach ($skillsJson['frameworks'] as $code => $framework)
+                        <option value="{{ $code }}">{{ $framework['name'] }}</option>
+                    @endforeach
+                </optgroup>
             </select>
 
             <label for="year">Ano</label>
             <input required type="number" name="year" min="2000" max="2100" placeholder="Year">
-
-            <label for="description">Descrição</label>
-            <textarea name="description" id="description" cols="30" rows="10"
-                placeholder="Essa habilidade consiste em....."></textarea>
 
             <button type="submit">Adicionar</button>
         </form>
@@ -37,19 +41,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($skills as $item)
-                <tr>
-                    <td>
-                        <span class="icon"><i class="fa-brands fa-{{ strtolower($item->language) }}"></i></span><br>
-                        <span>{{ $item->language }}</span>
-                    </td>
-                    <td>{{ $item->year }}</td>
-                    <td>{{ $item->info }}</td>
-                    <td>
-                        <a href="">Remover</a>
-                        <a href="">Editar</a>
-                    </td>
-                </tr>
+            @foreach ($skills as $skill)
+                @foreach ($skillsJson as $type)
+                    @foreach ($type as $code => $language)
+                        @if ($code == $skill->code)
+                            <tr>
+                                <td>
+                                    <span class="icon"><i
+                                            class="{{ $language['icon'] }}"></i></span><br>
+                                    <span>{{ $language['name'] }}</span>
+                                </td>
+                                <td>{{ $skill->year }}</td>
+                                <td>{{ $language['description_pt'] }}</td>
+                                <td><a href="delete/{{$code}}">Remover</a></td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @endforeach
             @endforeach
 
         </tbody>

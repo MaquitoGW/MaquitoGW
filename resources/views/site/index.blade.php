@@ -4,9 +4,9 @@
     <section id="index">
         <div class="left-index">
             <p class="col1">Hello world ☝️🤓,</p>
-            <p class="col2">{{__('site.other.welcome')}} {{ $infos['name'] }},</p>
+            <p class="col2">{{ __('site.other.welcome') }} {{ $infos['name'] }},</p>
             <p id="write" class="col3"></p>
-            <a class="col-button" href="#contato">{{__('site.other.button')}}</a>
+            <a class="col-button" href="#contato">{{ __('site.other.button') }}</a>
         </div>
         <div class="right-index">
             <img src="/img/bk.png" class="background" alt="background">
@@ -17,13 +17,13 @@
     <section id="sobre-mim">
         <div class="avatar"><img src="{{ $infos['avatar'] }}" alt="avatar"></div>
         <div class="left">
-            <h2>{{__('site.titles.1')}}</h2>
+            <h2>{{ __('site.titles.1') }}</h2>
             <p>{{ $infos['description'] }}</p>
         </div>
     </section>
 
     <section id="portfolio">
-        <h2><span>{{__('site.titles.2')}}</span></h2>
+        <h2><span>{{ __('site.titles.2') }}</span></h2>
         <div class="flex-box">
 
             @foreach ($projects as $item)
@@ -80,43 +80,24 @@
     </section>
 
     <section id="habilidades">
-        <h2><span>{{__('site.titles.3')}}</span></h2>
+        <h2><span>{{ __('site.titles.3') }}</span></h2>
         <ul class="skills-list">
-            <li>
-                <label for="PHP">
-                    <span><i class="fa-brands fa-php"></i></span>
-                    <b>PHP</b>
-                    <p>{{__('site.other.since')}} 2022</p>
-                </label>
-            </li>
-            <li>
-                <label for="Laravel">
-                    <span><i class="fa-brands fa-laravel"></i></span>
-                    <b>Laravel</b>
-                    <p>{{__('site.other.since')}} 2024</p>
-                </label>
-            </li>
-            <li>
-                <label for="JS">
-                    <span><i class="fa-brands fa-js"></i></span>
-                    <b>JavaScript</b>
-                    <p>{{__('site.other.since')}} 2022</p>
-                </label>
-            </li>
-            <li>
-                <label for="CSS3">
-                    <span><i class="fa-brands fa-css3"></i></span>
-                    <b>CSS3</b>
-                    <p>{{__('site.other.since')}} 2022</p>
-                </label>
-            </li>
-            <li>
-                <label for="HTML5">
-                    <span><i class="fa-brands fa-html5"></i></span>
-                    <b>HTML5</b>
-                    <p>{{__('site.other.since')}} 2022</p>
-                </label>
-            </li>
+
+            @foreach ($skills as $skill)
+                @foreach ($skillsJson as $type)
+                    @foreach ($type as $code => $language)
+                        @if ($code == $skill->code)
+                            <li>
+                                <label for="{{ $language['name'] }}">
+                                    <span><i class="{{ $language['icon'] }}"></i></span>
+                                    <b>{{ $language['name'] }}</b>
+                                    <p>{{ __('site.other.since') }} {{ $skill->year }}</p>
+                                </label>
+                            </li>
+                        @endif
+                    @endforeach
+                @endforeach
+            @endforeach
         </ul>
     </section>
 

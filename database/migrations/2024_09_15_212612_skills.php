@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('skills', function (Blueprint $table) {
             $table->id(); // Chave primária
-            $table->string('language'); // Linguagem de programação ou habilidade
+            $table->string('code'); // Linguagem de programação ou habilidade
             $table->integer('year'); // Anos de experiência ou ano de aprendizado
-            $table->text('info')->nullable(); // Informações adicionais sobre a habilidade
+            $table->text('description')->nullable(); // Informações adicionais sobre a habilidade
             $table->timestamps(); // Colunas 'created_at' e 'updated_at'
         });
     }
