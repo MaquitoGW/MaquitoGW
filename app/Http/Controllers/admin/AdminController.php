@@ -172,4 +172,11 @@ class AdminController extends Controller
 
         return back()->with('success', 'Dados atualizados com sucesso');
     }
+
+    // PERSONALIZAÇÂO
+    public function customization() {
+        return view('admin.customization',[
+            
+        ]);
+    }
 }

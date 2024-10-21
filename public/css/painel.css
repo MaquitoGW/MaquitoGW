@@ -538,6 +538,25 @@ form span.icon input {
     margin-left: 10px;
 }
 
+form img.images  {
+    background: #6200ff;
+    height: 130px;
+    border-radius: 5px;
+    margin: 0 0 15px 0;
+}
+
+form span.info {
+    appearance: auto;
+    border: solid 1px hsla(0, 0%, 50.2%, .5019607843);
+    padding: 10px 15px;
+    font-size: 14px;
+    margin: 0 0 15px 0;
+    border-radius: 5px;
+}
+
+form input[type="color"] {
+    height: 40px;
+}
 
 /* Alerta */
 

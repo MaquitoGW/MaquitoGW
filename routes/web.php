@@ -61,7 +61,7 @@ Route::prefix('admin')->group(function () {
         });
 
         
-        Route::get('customization', [AdminController::class, 'info'])->name('customization');
+        Route::get('customization', [AdminController::class, 'customization'])->name('customization');
         Route::get('settings', [AdminController::class, 'info'])->name('info');
     });
 });
