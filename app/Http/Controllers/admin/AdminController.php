@@ -6,6 +6,7 @@ use App\Http\Controllers\Apis\McsrvstatController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\functions\UpdateController;
 use App\Models\Contact;
+use App\Models\Customization;
 use App\Models\Info;
 use App\Models\Skill;
 use App\Models\User;
@@ -174,9 +175,86 @@ class AdminController extends Controller
     }
 
     // PERSONALIZAÇÂO
-    public function customization() {
-        return view('admin.customization',[
-            
+    public function customization()
+    {
+        // Procurar configuração
+        function search($config, $else)
+        {
+            $customizations = Customization::where('config', $config);
+            $customization = $customizations->first();
+
+            if ($customizations->count() > 0) return $customization->value;
+            else return $else;
+        }
+
+        return view('admin.customization', [
+            'search' => fn($config, $else = null) => search($config, $else)
         ]);
+    }
+
+    // PERSONALIZAÇÂO UPDATE
+    public function updateCustomization(Request $request)
+    {
+        // Instanciar uma nova customização
+        $customization = new Customization();
+        // Ignorar TOKEN e faz o Loop das arrays
+        foreach ($request->except('_token') as $config => $value) {
+            // Verifica se existe e atualiza
+            $check = Customization::where('config', $config);
+            if ($check->count() > 0) {
+                // Atualizar configuração
+                $get = $check->first();
+                Customization::where('id', $get->id)->update([
+                    'value' => $value
+                ]);
+            } else {
+                // Criar configuração
+                $customization->config = $config;
+                $customization->value = $value;
+
+                $customization->save();
+            }
+        }
+        return back()->with('success', 'Configurações atualizadas com sucesso');
+    }
+
+    public function updateImagesCustomization(Request $request)
+    {
+        // Instanciar uma nova customização
+        $customization = new Customization();
+        // Iterar sobre as configurações enviadas, exceto o _token
+        foreach ($request->except('_token') as $config => $e) {
+            // Verificar se é um arquivo de imagem válido
+            if ($request->hasFile($config) && $request->file($config)->isValid()) {
+                // Processar a imagem
+                $image = $request->file($config);
+                $extension = $image->extension();
+                $imageName = md5($image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+                // Mover a imagem para a pasta de eventos
+                $path = '/img/upload/';
+                $image->move(public_path($path), $imageName);
+
+                // Atualizar o valor com o caminho da imagem
+                $pathAdded = $path . $imageName;
+
+                $check = Customization::where('config', $config);
+                if ($check->count() > 0) {
+                    // Atualizar configuração
+                    $get = $check->first();
+                    Customization::where('id', $get->id)->update([
+                        'value' => $pathAdded
+                    ]);
+                } else {
+                    // Criar configuração
+                    $customization->config = $config;
+                    $customization->value = $pathAdded;
+
+                    $customization->save();
+                }
+            }
+        }
+
+        return back()->with('success', 'Imagens atualizadas com sucesso');
     }
 }

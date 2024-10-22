@@ -62,6 +62,8 @@ Route::prefix('admin')->group(function () {
 
         
         Route::get('customization', [AdminController::class, 'customization'])->name('customization');
+        Route::post('customization/update', [AdminController::class, 'updateCustomization'])->name('customization.update');
+        Route::post('customization/update/images', [AdminController::class, 'updateImagesCustomization'])->name('customization.update.images');
         Route::get('settings', [AdminController::class, 'info'])->name('info');
     });
 });
