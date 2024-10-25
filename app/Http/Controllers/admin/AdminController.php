@@ -257,4 +257,11 @@ class AdminController extends Controller
 
         return back()->with('success', 'Imagens atualizadas com sucesso');
     }
+
+    // PROJECTS
+    public function projects() {
+        return view('admin.projects', [
+            
+        ]);
+    }
 }

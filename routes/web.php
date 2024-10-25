@@ -60,6 +60,7 @@ Route::prefix('admin')->group(function () {
             Route::get('add/pt_BR', [AdminController::class, 'info'])->name('info.add.pt_BR');
         });
 
+        Route::get('projects', [AdminController::class, 'projects'])->name('projects');
         
         Route::get('customization', [AdminController::class, 'customization'])->name('customization');
         Route::post('customization/update', [AdminController::class, 'updateCustomization'])->name('customization.update');

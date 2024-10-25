@@ -358,11 +358,13 @@ table td a:hover {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.err, form .err {
+.err,
+form .err {
     background: #a80b00 !important;
 }
 
-.success, form .success {
+.success,
+form .success {
     background: #006619 !important;
 }
 
@@ -490,6 +492,7 @@ form h3 {
 }
 
 form label {
+    appearance: auto;
     margin: 10px 0;
     font-size: 15px;
 }
@@ -538,7 +541,7 @@ form span.icon input {
     margin-left: 10px;
 }
 
-form img.images  {
+form img.images {
     background: #6200ff;
     height: 130px;
     border-radius: 5px;
@@ -556,6 +559,85 @@ form span.info {
 
 form input[type="color"] {
     height: 40px;
+}
+
+/* Formulario de adicionar novo projeto */
+/* Lista de opções  */
+form ul.list-checkbox {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+form ul.list-checkbox li {
+    border: solid 1px hsla(0, 0%, 50.2%, .5019607843);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form ul.list-checkbox li:hover {
+    background: rgba(19, 19, 19, 0.233);
+    border: solid 1px transparent;
+}
+
+form ul.list-checkbox li label {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    cursor: pointer;
+}
+
+form ul.list-checkbox li input[type="checkbox"]{
+    margin: 0 10px;
+    width: 15px;
+}
+
+
+/* Adicionar imagens */
+
+.data-form .data {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.data-form .data .added_data {
+    height: 150px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.data-form .data .new_data {
+    height: 150px;
+    border: solid 1px hsla(0, 0%, 50.2%, .5019607843);
+    display: grid;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    align-content: space-around;
+    border-radius: 5px;
+}
+
+.data-form .data .new_data .icon-form {
+    font-size: 50px;
+}
+
+.data-form .data .new_data .text {
+    margin: 0px 0 10px 0;
+    font-size: 13px;
+}
+
+.data-form .data .new_data .info {
+    font-size: 13px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 /* Alerta */
