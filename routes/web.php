@@ -60,8 +60,13 @@ Route::prefix('admin')->group(function () {
             Route::get('add/pt_BR', [AdminController::class, 'info'])->name('info.add.pt_BR');
         });
 
-        Route::get('projects', [AdminController::class, 'projects'])->name('projects');
-        
+        // PROJECTS GROUP ROUTE
+        Route::prefix('projects')->group(function () {
+            Route::get('/', [AdminController::class, 'projects'])->name('projects');
+            Route::get('new', [AdminController::class, 'newProjects'])->name('projects.new');
+            Route::post('add', [AdminController::class, 'addProjects'])->name('projects.add');
+        });
+
         Route::get('customization', [AdminController::class, 'customization'])->name('customization');
         Route::post('customization/update', [AdminController::class, 'updateCustomization'])->name('customization.update');
         Route::post('customization/update/images', [AdminController::class, 'updateImagesCustomization'])->name('customization.update.images');

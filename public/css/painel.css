@@ -574,6 +574,7 @@ form ul.list-checkbox li {
     border: solid 1px hsla(0, 0%, 50.2%, .5019607843);
     border-radius: 5px;
     cursor: pointer;
+    margin: 5px 0;
 }
 
 form ul.list-checkbox li:hover {
@@ -587,7 +588,12 @@ form ul.list-checkbox li label {
     justify-content: flex-start;
     flex-wrap: nowrap;
     cursor: pointer;
+    align-items: center;
 }
+
+form ul.list-checkbox li label svg {
+    margin-right: 10px;
+} 
 
 form ul.list-checkbox li input[type="checkbox"]{
     margin: 0 10px;

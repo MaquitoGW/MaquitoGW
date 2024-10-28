@@ -8,6 +8,7 @@ use App\Http\Controllers\functions\UpdateController;
 use App\Models\Contact;
 use App\Models\Customization;
 use App\Models\Info;
+use App\Models\Project;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\World;
@@ -259,9 +260,64 @@ class AdminController extends Controller
     }
 
     // PROJECTS
-    public function projects() {
-        return view('admin.projects', [
-            
+    public function projects()
+    {
+        return view('admin.projects', []);
+    }
+
+    public function newProjects()
+    {
+        // Obter todas as habilidades
+        $skills = Skill::get();
+
+        // Obter habilidades para o selected
+        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+
+        return view('admin.projectsNew', [
+            'skillsJson' => $skillsJson,
+            'skills' => $skills
         ]);
+    }
+
+    public function addProjects(Request $e)
+    {
+        // // Salvar informnações no BD
+        $projetc = new Project();
+
+        $projetc->name = $e->name;
+        $projetc->description = $e->description;
+        $projetc->demo = md5($e->name . rand(11111111, 99999999) . strtotime('now')); //gerar nome
+        // $projetc->demo_location =$e->
+        $projetc->github = $e->github;
+        $projetc->skills = json_encode($e->skills, true);
+
+
+        // Salvar imagens
+        $images = [];
+        foreach ($e['images'] as $key => $value) {
+
+            $image_base64 = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $value);
+            $image_binary = base64_decode($image_base64);
+            $imageName = 'image_' . md5('images' . $key . strtotime('now')) . '.png';
+            file_put_contents(public_path('storage/images/') . $imageName, $image_binary); // salva no diretorio public
+
+            // Salvar path
+            $images[] = 'storage/images/' . $imageName;
+        }
+        $projetc->images = json_encode($images, true);
+
+        // Salvar video 
+        if ($e->hasFile('video') && $e->file('video')->isvalid()) { // Ele verifica se e um arquivo e se o arquivo e valido
+            $eVideo = $e->video; // Salva em uma varievel
+            $videoName = md5($eVideo->video->getClientOriginalName() . strtotime("now")) . "." . $eVideo->extension(); // Gera um novo nome com MD5 usando o nome original com o tempo atual
+            $eVideo->move('/public/storage/videos/', $videoName); // salva no diretorio public
+
+            // Enviar para o bd
+            $projetc->videos = 'storage/videos/' . $videoName;
+        } else $projetc->videos = null;
+
+        // Salvar e voltar
+        $projetc->save();
+        return redirect(route('projects'))->with('success', 'Projeto adicionada com sucesso');
     }
 }

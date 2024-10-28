@@ -113,6 +113,12 @@ function _construct(id) {
 
     // Chamar funcoes essenciais
     buttonsActions();
+
+    // Adicionar a input os valores
+    var inputEditable = document.getElementById('description');
+    setInterval(() => {
+        inputEditable.value = editable.innerHTML;
+    }, 100);
 }
 
 // ----------------------------Funcoes-------------------------- 
@@ -145,11 +151,6 @@ function buttonsActions() {
                 case 'html':
                     var html = document.getElementById('editor').innerHTML;
                     alert(html);
-                    break;
-                case 'img':
-                case 'video':
-
-                    insertData(ariaAttribute);
                     break;
 
                 default:
@@ -205,24 +206,27 @@ function handleFileSelect() {
         if (file) {
             var reader = new FileReader();
             reader.onload = function (event) {
+                // Exibir imagem
                 var fileData = document.createElement('img');
                 fileData.src = event.target.result;
                 fileData.alt = 'image';
                 fileData.className = 'added_data';
 
+                // criar inputs de checkbox
+                var inputData = document.createElement('input');
+                inputData.value = event.target.result;
+                inputData.type = 'checkbox';
+                inputData.checked = true;
+                inputData.hidden = true;
+                inputData.name = 'images[]';
+
+                // Adicionar a pagina
                 document.getElementById('added').appendChild(fileData);
+                document.getElementById('added').appendChild(inputData);
             };
             reader.readAsDataURL(file);
         }
     }
-}
-
-
-// Gerar numeros aleatorios
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
 }
 
 // Função para criar elementos e adicionar atributos
@@ -240,69 +244,4 @@ function createButton(text, type, attributes) {
     button.setAttribute('type', type);
     button.innerHTML = text;
     return button;
-}
-
-
-// enviar
-function formSend(action, form) {
-    form.addEventListener('submit', function (event) {
-        // Impede o envio normal do formulário
-        event.preventDefault();
-
-        // Obtém todas as imagens carregadas
-        var images = document.querySelectorAll('#editor img');
-        var imageData = [];
-
-        // Coleta os dados das imagens
-        images.forEach(function (image) {
-            imageData.push({
-                src: image.src,
-                id: image.id
-            });
-
-            // adiciona src e remove id
-            image.src = image.id
-            image.removeAttribute('id');
-        });
-
-        // Obtém todos os vídeos carregados
-        var videos = document.querySelectorAll('#editor video');
-        var videoData = [];
-
-        // Coleta os dados dos vídeos
-        videos.forEach(function (video) {
-            videoData.push({
-                src: video.src,
-                id: video.id
-            });
-
-            // adiciona src e controls e remove poster e id
-            video.src = video.id;
-            video.controls = true;
-            video.removeAttribute('id');
-            video.removeAttribute('poster');
-        });
-
-        // Obtém o conteúdo do editor
-        var conteudo = [document.getElementById('editor').innerHTML];
-
-        // enviar usando AJAX
-        var formData = new FormData(this);
-        formData.append('conteudo', JSON.stringify(conteudo));
-        formData.append('imageData', JSON.stringify(imageData));
-        formData.append('videoData', JSON.stringify(videoData));
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', action, true);
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                // Sucesso
-                location.reload();
-            } else {
-                // Erro
-                console.error('Erro ao enviar');
-            }
-        };
-        xhr.send(formData);
-    });
 }

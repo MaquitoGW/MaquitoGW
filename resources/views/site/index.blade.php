@@ -41,22 +41,23 @@
 
                         @if ($images)
                             @foreach ($images as $image)
-                                @if ($count++ == 2)
+                                @if ($count == 2)
                                     <img src="{{ $image }}" class="img2" alt="image-project">
-                                @else
+                                @elseif($count == 1)
                                     <img src="{{ $image }}" class="img" alt="image-project">
                                 @endif
+                                @php $count++ @endphp
                             @endforeach
                         @endif
                     </div>
 
                     <div class="project-head">
                         <p class="description">
-                            <span>{{ $item['description'] }}</span>
+                            <span>{{ $item['preview'] }}</span>
                             <a title="Mais informações" class="button" href="details/{{ $item['demo'] }}">saber mais...</a>
                         </p>
                         <ul class="tags" title="Habilidades utilizadas">
-                            @php
+                            {{-- @php
                                 // Decodifica o JSON para um array
                                 $skills = json_decode($item['skills'], true);
                             @endphp
@@ -65,7 +66,7 @@
                                 @foreach ($skills as $skill)
                                     <li class="{{ $skill }}">{{ $skill }}</li>
                                 @endforeach
-                            @endif
+                            @endif --}}
                         </ul>
                         <label for="options" class="options">
                             <a title="Vizualizar projeto" class="button" href="demo/{{ $item['demo'] }}"><i
@@ -108,7 +109,7 @@
             <div class="video">
                 <video controls src="/{{ $project['videos'] }}"></video>
             </div>
-            <div class="description">{{ $project['description'] }}</div>
+            <div class="description">{!! $project['description'] !!}</div>
 
             <div class="tag-linguagens">
                 <h5>Habilidades usadas:</h5>
