@@ -18,15 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public $versionName;
-    public $gameMode;
-    public $maxPlayers;
-    public $totalOnline;
-    public $porta;
-    public $mcsrvstat;
-    public $data;
-    public $discord;
-
     // Dashboard
     public function dashboard()
     {
@@ -262,7 +253,10 @@ class AdminController extends Controller
     // PROJECTS
     public function projects()
     {
-        return view('admin.projects', []);
+        $projects = Project::get();
+        return view('admin.projects', [
+            "projects" => $projects
+        ]);
     }
 
     public function newProjects()
@@ -281,15 +275,16 @@ class AdminController extends Controller
 
     public function addProjects(Request $e)
     {
-        // // Salvar informnações no BD
-        $projetc = new Project();
+        // Salvar informnações no BD
+        $project = new Project();
 
-        $projetc->name = $e->name;
-        $projetc->description = $e->description;
-        $projetc->demo = md5($e->name . rand(11111111, 99999999) . strtotime('now')); //gerar nome
-        // $projetc->demo_location =$e->
-        $projetc->github = $e->github;
-        $projetc->skills = json_encode($e->skills, true);
+        $project->name = $e->name;
+        $project->preview = $e->preview;
+        $project->description = $e->description;
+        $project->demo = md5($e->name . rand(11111111, 99999999) . strtotime('now'));
+        // $project->demo_location =$e->
+        $project->github = $e->github;
+        $project->skills = json_encode($e->skills, true);
 
 
         // Salvar imagens
@@ -304,20 +299,19 @@ class AdminController extends Controller
             // Salvar path
             $images[] = 'storage/images/' . $imageName;
         }
-        $projetc->images = json_encode($images, true);
+        $project->images = json_encode($images, true);
 
-        // Salvar video 
-        if ($e->hasFile('video') && $e->file('video')->isvalid()) { // Ele verifica se e um arquivo e se o arquivo e valido
-            $eVideo = $e->video; // Salva em uma varievel
-            $videoName = md5($eVideo->video->getClientOriginalName() . strtotime("now")) . "." . $eVideo->extension(); // Gera um novo nome com MD5 usando o nome original com o tempo atual
-            $eVideo->move('/public/storage/videos/', $videoName); // salva no diretorio public
-
-            // Enviar para o bd
-            $projetc->videos = 'storage/videos/' . $videoName;
-        } else $projetc->videos = null;
+        // Verificar se há um vídeo e se o arquivo é válido
+        if ($e->hasFile('videos') && $e->file('videos')->isValid()) {
+            $eVideo = $e->file('videos'); 
+            $videoName = md5($eVideo->getClientOriginalName() . strtotime("now")) . "." . $eVideo->getClientOriginalExtension(); // Gera um nome único com MD5
+            $eVideo->move(public_path('storage/videos/'), $videoName);
+        
+            $project->videos = 'storage/videos/' . $videoName;
+        } else $project->videos = null;
 
         // Salvar e voltar
-        $projetc->save();
+        $project->save();
         return redirect(route('projects'))->with('success', 'Projeto adicionada com sucesso');
     }
 }

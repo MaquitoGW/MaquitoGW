@@ -57,16 +57,25 @@
                             <a title="Mais informações" class="button" href="details/{{ $item['demo'] }}">saber mais...</a>
                         </p>
                         <ul class="tags" title="Habilidades utilizadas">
-                            {{-- @php
+                            @foreach ($skills as $skill)
+                            @endforeach
+
+                            @php
                                 // Decodifica o JSON para um array
-                                $skills = json_decode($item['skills'], true);
+                                $skillsProjects = json_decode($item['skills'], true);
                             @endphp
 
-                            @if ($skills)
-                                @foreach ($skills as $skill)
-                                    <li class="{{ $skill }}">{{ $skill }}</li>
+                            @if ($skillsProjects)
+                                @foreach ($skillsProjects as $skill)
+                                    @foreach ($skillsJson as $type)
+                                        @foreach ($type as $code => $e)
+                                            @if ($code == $skill)
+                                                <li title="{{ $e['name'] }}"><i class="{{ $e['icon'] }}"></i></li>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                 @endforeach
-                            @endif --}}
+                            @endif
                         </ul>
                         <label for="options" class="options">
                             <a title="Vizualizar projeto" class="button" href="demo/{{ $item['demo'] }}"><i
@@ -103,25 +112,40 @@
     </section>
 
     @if ($project)
+        @php
+            // Decodifica o JSON para um array
+            $skillsProjectsView = json_decode($item['skills'], true);
+            $projectsImages= json_decode($item['images'], true);
+        @endphp
+
         <section class="details">
             <a href="/" class="btn-details"><i class="fa fa-solid fa-xmark"></i></a>
             <h4>{{ $project['name'] }}</h4>
             <div class="video">
                 <video controls src="/{{ $project['videos'] }}"></video>
             </div>
+
+            <div class="images">
+                @foreach ($projectsImages as $image)
+                    <img src="/{{$image}}" alt="image">
+                @endforeach
+            </div>
+
             <div class="description">{!! $project['description'] !!}</div>
 
             <div class="tag-linguagens">
                 <h5>Habilidades usadas:</h5>
                 <ul class="tags" title="Habilidades utilizadas">
-                    @php
-                        // Decodifica o JSON para um array
-                        $skills = json_decode($project['skills'], true);
-                    @endphp
 
-                    @if ($skills)
-                        @foreach ($skills as $skill)
-                            <li class="{{ $skill }}">{{ $skill }}</li>
+                    @if ($skillsProjectsView)
+                        @foreach ($skillsProjectsView as $skill)
+                            @foreach ($skillsJson as $type)
+                                @foreach ($type as $code => $e)
+                                    @if ($code == $skill)
+                                        <li title="{{ $e['name'] }}">{{ $e['name'] }}</li>
+                                    @endif
+                                @endforeach
+                            @endforeach
                         @endforeach
                     @endif
                 </ul>

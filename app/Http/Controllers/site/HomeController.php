@@ -44,9 +44,6 @@ class HomeController extends Controller
         ]);
     }
 
-
-
-
     // Demo do projeto 
     public function demo(Request $request) {}
 }

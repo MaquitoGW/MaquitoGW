@@ -629,13 +629,23 @@ footer section.main-footer .left-footer .saying {
 }
 
 .project .project-head ul.tags li {
+    width: 25px;
+    height: 25px;
     list-style: none;
     margin: 0 5px;
-    padding: 3px 10px;
-    border: solid 1px #979595;
-    border-radius: 3px;
-    font-size: 13px;
-    cursor: pointer;
+    padding: 5px;
+    border: solid 1px #97959585;
+    color: #97959585;
+    font-size: 18px;
+    border-radius: 50%;
+    text-align: center;
+    align-content: center;
+}
+
+.project .project-head ul.tags li:hover {
+    background: #181818;
+    border: solid 1px transparent;
+    color: #fff;
 }
 
 .project .project-head .options {
@@ -740,6 +750,22 @@ section.details a.btn-details:hover {
     color: #fff;
 }
 
+section.details .images {
+    margin: 0px 0px 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    justify-content: center;
+    align-items: center;
+}
+
+section.details .images img {
+    height: 100px;
+    margin: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 section.details .description {
     background: #181818;
     padding: 8px;
@@ -749,16 +775,19 @@ section.details .description {
     overflow-y: scroll;
 }
 
-section.details .description::-webkit-scrollbar {
+section.details .description::-webkit-scrollbar,
+section.details .images::-webkit-scrollbar {
     width: 3px;
-
+    height: 3px;
 }
 
-section.details .description::-webkit-scrollbar-track {
-    background: #333;
+section.details .description::-webkit-scrollbar-track,
+section.details .images::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-section.details .description::-webkit-scrollbar-thumb {
+section.details .description::-webkit-scrollbar-thumb,
+section.details .images::-webkit-scrollbar-thumb {
     background: #6200ff;
     border-radius: 25px;
 }
@@ -813,3 +842,4 @@ section.details .tag-linguagens ul.tags li {
     border-radius: 3px;
     margin: 0 5px 0 0;
 }
+

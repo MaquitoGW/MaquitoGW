@@ -6,14 +6,17 @@
         <a href="{{ route('projects') }}">Voltar</a>
     </div>
 
-    <form action="{{ route('projects.add') }}" id="form" method="post">
+    <form action="{{ route('projects.add') }}" id="form" method="post" enctype="multipart/form-data">
         @csrf
         <label for="pagename">Nome do projeto</label>
         <input type="text" name="name" required placeholder="Qual nome do seu projeto?">
 
+        <label for="preview">Descrição curta</label>
+        <textarea required name="preview" cols="30" rows="5" placeholder="Insirar uma breve descrição sobre o projeto."></textarea>
+
         <label for="description">Descrição do projeto</label>
         <div id="textbox"></div>
-        <input type="text" name="description" id="description">
+        <input type="text" name="description" id="description" hidden>
 
         <label for="skills">Habilidades usadas</label>
         <ul class="list-checkbox">
@@ -51,7 +54,7 @@
         <span class="info">Selecione um vídeo do seu projeto</span>
         <span class="icon">
             <i class="fa-light fa-video"></i>
-            <input type="file" name="video" accept="video/mp4">
+            <input type="file" name="videos" accept="video/mp4">
         </span>
 
         <label for="github">Link do seu projeto no GitHub</label>
@@ -62,7 +65,7 @@
 
         <label for="project">Seu projeto</label>
         <span class="info">Envie seu projeto compactado</span>
-        <input type="file" name="project" accept=".zip,.rar,.7z,.tar.gz,.tar">
+        <input type="file" required name="project" accept=".zip,.rar,.7z,.tar.gz,.tar">
 
         <div class="options">
             <button type="submit">Adicionar</button>

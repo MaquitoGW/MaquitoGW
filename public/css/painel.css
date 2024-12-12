@@ -593,9 +593,9 @@ form ul.list-checkbox li label {
 
 form ul.list-checkbox li label svg {
     margin-right: 10px;
-} 
+}
 
-form ul.list-checkbox li input[type="checkbox"]{
+form ul.list-checkbox li input[type="checkbox"] {
     margin: 0 10px;
     width: 15px;
 }
@@ -666,4 +666,65 @@ form ul.list-checkbox li input[type="checkbox"]{
     margin: 0px 5px;
     display: flex;
     align-items: center;
+}
+
+/* List itens desiner */
+
+.list-itens {
+    display: grid;
+    flex: 10px;
+}
+
+.list-itens h3 {
+    margin: 0 0 20px;
+}
+
+.list-itens .item {
+    background: #fff;
+    color: #000;
+    font-size: 15px;
+    display: flex
+;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 15px 25px;
+    border-radius: 8px;
+}
+
+.list-itens .item div {}
+
+.list-itens .item div span {
+    appearance: auto;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.list-itens .item p {
+    text-align: left;
+    margin: 0;
+    max-width: 500px;
+}
+
+.list-itens .item ul.list-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+.list-itens .item ul.list-options li {
+    margin: 0 5px;
+}
+
+.list-itens .item ul.list-options li a {
+    color: #fff;
+    background: #6200ff;
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 3px;
+    font-size: 13px;
+    text-align: center;
 }

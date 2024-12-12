@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id(); // Chave primária
             $table->string('name'); // Nome do projeto
+            $table->text('preview')->nullable(); // Pequena descrição
             $table->text('description')->nullable(); // Descrição do projeto
             $table->string('videos')->nullable(); // URL ou caminho dos vídeos relacionados ao projeto
             $table->json('images')->nullable(); // Imagens relacionadas ao projeto (JSON)
