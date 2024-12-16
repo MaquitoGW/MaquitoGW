@@ -29,10 +29,10 @@
         <button id="open" class="btn"><i class="fa fa-solid fa-bars"></i></button>
         <nav id="navBar" class="not-visible">
             <ul class="list" id="listNav">
-                <li><a href="#sobre-mim" id="lk-sobre">{{__('site.head.1')}}</a></li>
-                <li><a href="#portfolio" id="lk-portfolio">{{__('site.head.2')}}</a></li>
-                <li><a href="#habilidades" id="lk-habilidades">{{__('site.head.3')}}</a></li>
-                <li><a href="#contato" id="lk-contato">{{__('site.head.4')}}</a></li>
+                <li><a href="#sobre-mim" id="lk-sobre">{{ __('site.head.1') }}</a></li>
+                <li><a href="#portfolio" id="lk-portfolio">{{ __('site.head.2') }}</a></li>
+                <li><a href="#habilidades" id="lk-habilidades">{{ __('site.head.3') }}</a></li>
+                <li><a href="#contato" id="lk-contato">{{ __('site.head.4') }}</a></li>
             </ul>
 
             <ul class="list-social-midia">
@@ -66,17 +66,17 @@
     <footer>
         <section id="contato">
             <div class="info">
-                <h2>{{__('site.titles.4')}}</h2>
+                <h2>{{ __('site.titles.4') }}</h2>
                 <ul class="contact-list">
-                    <li title="{{__('site.other.email_personal')}}">
+                    <li title="{{ __('site.other.email_personal') }}">
                         <span><i class="fa-regular fa-envelope"></i></span>
                         <a href="mailto:{{ $contacts['email_personal'] }}">{{ $contacts['email_personal'] }}</a>
                     </li>
-                    <li title="{{__('site.other.email_business')}}">
+                    <li title="{{ __('site.other.email_business') }}">
                         <span><i class="fa-sharp fa-regular fa-building"></i></span>
                         <a href="mailto:{{ $contacts['email_business'] }}">{{ $contacts['email_business'] }}</a>
                     </li>
-                    <li title="{{__('site.other.telephone')}}">
+                    <li title="{{ __('site.other.telephone') }}">
                         <span><i class="fa-regular fa-mobile-notch"></i></span>
                         <a href="tel:{{ $contacts['tel'] }}">{{ $contacts['tel'] }}</a>
                     </li>
@@ -121,8 +121,10 @@
         </section>
     </footer>
 
-    <div id="top-nav"><i class="fa fa-solid fa-angle-up"></i></div>
-
+    <div class="top-nav">
+        <div title="{{__('site.other.cv')}}" class="pdf"><i class="fa-light fa-file"></i></div>
+        <div id="top-nav"><i class="fa fa-solid fa-angle-up"></i></div>
+    </div>
     <script src="/js/script.js"></script>
 </body>
 

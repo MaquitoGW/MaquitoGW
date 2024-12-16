@@ -677,12 +677,17 @@ footer section.main-footer .left-footer .saying {
 }
 
 /* Botão de voltar para o topo  */
-#top-nav {
-    display: none;
+
+.top-nav {
     position: fixed;
     right: 0;
     bottom: 0;
     margin: 20px;
+    display: grid;
+}
+
+.top-nav div {
+    display: none;
     width: 50px;
     height: 50px;
     border: solid 1px #6200ff;
@@ -693,9 +698,15 @@ footer section.main-footer .left-footer .saying {
     border-radius: 50%;
     transition: all .3s ease-in-out;
     cursor: pointer;
+    margin-top: 10px;
 }
 
-#top-nav:hover {
+.top-nav div.pdf {
+    margin-top: 0;
+    display: grid !important;
+}
+
+.top-nav div:hover {
     background: #6200ff;
     color: #fff;
 }

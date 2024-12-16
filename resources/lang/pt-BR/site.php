@@ -18,6 +18,7 @@ return [
         'since' => 'Desde',
         'email_personal' => 'E-mail pessoal',
         'email_business' => 'E-mail empresarial',
-        'telephone' => 'Telefone de contato'
+        'telephone' => 'Telefone de contato',
+        'cv' => 'Acesse meu currículo'
     ]
 ];

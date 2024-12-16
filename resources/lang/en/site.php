@@ -18,6 +18,7 @@ return [
         'since' => 'Since',
         'email_personal' => 'E-mail personal',
         'email_business' => 'E-mail business',
-        'telephone' => 'Contact phone'
+        'telephone' => 'Contact phone',
+        'cv' => 'Access my CV'
     ]
 ];
