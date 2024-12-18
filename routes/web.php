@@ -6,13 +6,13 @@ use App\Http\Controllers\site\HomeController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\RandQuote;
 use App\Http\Middleware\UserLanguage;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 // HOME ROUTE
 Route::middleware(UserLanguage::class, RandQuote::class)->prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/details/{id}', [HomeController::class, 'index']);
-    Route::get('/demo/{id}', [HomeController::class, 'demo']);
 });
 
 
@@ -64,7 +64,12 @@ Route::prefix('admin')->group(function () {
         Route::prefix('projects')->group(function () {
             Route::get('/', [AdminController::class, 'projects'])->name('projects');
             Route::get('new', [AdminController::class, 'newProjects'])->name('projects.new');
+            Route::get('edit', [AdminController::class, 'editProjects'])->name('projects.edit');
             Route::post('add', [AdminController::class, 'addProjects'])->name('projects.add');
+
+            Route::get('demo/{uuid}', [AdminController::class, 'demoProjects']);
+            Route::post('demo/update/{uuid}', [AdminController::class, 'demoProjectsUpdate']);
+            Route::match(['get', 'post'], 'filemanager', [AdminController::class, 'filemanagerProjects'])->name('filemanager');
         });
 
         Route::get('customization', [AdminController::class, 'customization'])->name('customization');

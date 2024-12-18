@@ -15,6 +15,9 @@ use App\Models\World;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use ZipArchive;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -282,7 +285,6 @@ class AdminController extends Controller
         $project->preview = $e->preview;
         $project->description = $e->description;
         $project->demo = md5($e->name . rand(11111111, 99999999) . strtotime('now'));
-        // $project->demo_location =$e->
         $project->github = $e->github;
         $project->skills = json_encode($e->skills, true);
 
@@ -303,15 +305,79 @@ class AdminController extends Controller
 
         // Verificar se há um vídeo e se o arquivo é válido
         if ($e->hasFile('videos') && $e->file('videos')->isValid()) {
-            $eVideo = $e->file('videos'); 
+            $eVideo = $e->file('videos');
             $videoName = md5($eVideo->getClientOriginalName() . strtotime("now")) . "." . $eVideo->getClientOriginalExtension(); // Gera um nome único com MD5
             $eVideo->move(public_path('storage/videos/'), $videoName);
-        
+
             $project->videos = 'storage/videos/' . $videoName;
         } else $project->videos = null;
+
+        // Lógica para salvar o arquivo ZIP
+        if ($e->hasFile('project') && $e->file('project')->isValid()) {
+            $zipFile = $e->file('project');
+            $zipFileName = md5($zipFile->getClientOriginalName() . strtotime("now")) . '.' . $zipFile->getClientOriginalExtension();
+
+            // Pastas temporarias
+            $tempDir = storage_path('app/temp/');
+            $tempPath = $tempDir . $zipFileName;
+            $zipFile->move($tempDir, $zipFileName);
+            $extractPath = storage_path('app/temp/unzipped/' . $project->demo);
+
+            $zip = new ZipArchive;
+            if ($zip->open($tempPath) === true) {
+                $zip->extractTo($extractPath);
+                $zip->close();
+
+                $mainDemoPath = $extractPath . '/' . pathinfo($zipFile->getClientOriginalName(), PATHINFO_FILENAME);
+                if (is_dir($mainDemoPath)) {
+                    File::moveDirectory($mainDemoPath, public_path('demos/' . $project->demo));
+                }
+                File::deleteDirectory($tempDir);
+            } else {
+                return redirect()->back()->withErrors(['project' => 'Erro ao descompactar o arquivo.']);
+            }
+        }
 
         // Salvar e voltar
         $project->save();
         return redirect(route('projects'))->with('success', 'Projeto adicionada com sucesso');
+    }
+
+    public function demoProjects($uuid)
+    {
+        // Obter informacoes da demo
+        if (!is_null($uuid)) {
+            $project = Project::where("demo", $uuid);
+            if ($project->count() > 0) {
+                $project = $project->first();
+                session(["uuid" => $uuid]);
+            } else return redirect()->route("projects")->with('success', "Nenhum projeto foi encontrado");
+
+            return view("admin.projectsDemo", ['project' => $project]);
+        } else return redirect()->route("projects")->with('success', "A requisição enviada é ínvalida");
+    }
+
+    public function demoProjectsUpdate(Request $e, $uuid)
+    {
+        // Atuliza demo do projeto
+        if (!is_null($uuid)) {
+            $project = Project::where('demo', $uuid)->first();
+            if ($project) {
+                $project->demo_location = $e->demo_location;
+                $project->save();
+                return redirect()->route("projects")->with('success', "Configurações de demo salvo com sucesso");
+            } else return redirect()->route("projects")->with('success', "Projeto não encontrado");
+        } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");
+    }
+
+    public function filemanagerProjects(Request $e)
+    {
+        // Gerar grenciador de arquivos
+        if (!is_null(session('uuid'))) {
+            define('FM_EMBED', true);
+            define("FM_ROOT_URL", '/demos/' . session('uuid'));
+            define('FM_ROOT_PATH', public_path('demos/' . session('uuid')));
+            require storage_path('app/include/filemanager.php');
+        } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");;
     }
 }

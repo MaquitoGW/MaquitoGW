@@ -15,10 +15,9 @@
                 </div>
                 <p>{{ $project['preview'] }}</p>
                 <ul class="list-options">
-                    <li><a href="">Apagar</a></li>
-                    <li><a href="">Editar</a></li>
-                    <li><a href="">Demo</a></li>
-                    <li><a href="">GitHub</a></li>
+                    <li><a href="projects/delete/{{$project['demo']}}">Apagar</a></li>
+                    <li><a href="projects/edit/{{$project['demo']}}">Editar</a></li>
+                    <li><a href="projects/demo/{{$project['demo']}}">Configurações de Demo</a></li>
                 </ul>
             </div>
         @endforeach

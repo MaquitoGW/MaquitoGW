@@ -78,7 +78,7 @@
                             @endif
                         </ul>
                         <label for="options" class="options">
-                            <a title="Vizualizar projeto" class="button" href="demo/{{ $item['demo'] }}"><i
+                            <a title="Vizualizar projeto" class="button" href="demos/{{ $item['demo'] }}/"><i
                                     class="fa fa-solid fa-eye"></i></a>
                             <a title="Repositório GitHub" class="button" href="{{ $item['github'] }}"><i
                                     class="fa fa-brands fa-github"></i></a>

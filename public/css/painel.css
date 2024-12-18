@@ -523,6 +523,7 @@ form .options {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
+    align-items: center;
 }
 
 form .options button,
@@ -644,6 +645,11 @@ form ul.list-checkbox li input[type="checkbox"] {
     padding: 8px 12px;
     box-sizing: border-box;
     margin: 0;
+}
+
+.data-form iframe {
+    width: 100%;
+    height: 100vh;
 }
 
 /* Alerta */
