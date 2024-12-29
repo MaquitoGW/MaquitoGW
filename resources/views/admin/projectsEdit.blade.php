@@ -1,21 +1,23 @@
 @extends('layouts.admin')
-@section('title', 'Novo projeto')
+@section('title', 'Editar projeto')
 @section('content')
 
     <div class="options-list">
         <a href="{{ route('projects') }}">Voltar</a>
     </div>
 
-    <form action="{{ route('projects.add') }}" id="form" method="post" enctype="multipart/form-data">
+    <form action="../update/{{ $project->demo }}" id="form" method="post" enctype="multipart/form-data">
         @csrf
+
         <label for="pagename">Nome do projeto</label>
-        <input type="text" name="name" required placeholder="Qual nome do seu projeto?">
+        <input type="text" value="{{ $project->name }}" name="name" required placeholder="Qual nome do seu projeto?">
 
         <label for="preview">Descrição curta</label>
-        <textarea required name="preview" cols="30" rows="5" placeholder="Insirar uma breve descrição sobre o projeto."></textarea>
+        <textarea required name="preview" cols="30" rows="5"
+            placeholder="Insirar uma breve descrição sobre o projeto.">{{ $project->preview }}</textarea>
 
         <label for="description">Descrição do projeto</label>
-        <div id="textbox"></div>
+        <div id="textbox">{{ $project->description }}</div>
         <input type="text" name="description" id="description" hidden>
 
         <label for="skills">Habilidades usadas</label>
@@ -26,7 +28,9 @@
                         @if ($code == $skill->code)
                             <li>
                                 <label>
-                                    <input type="checkbox" name="skills[]" value="{{ $code }}">
+                                    <input
+                                        @foreach ($skillsChecked as $item) @if ($code == $item) checked @endif @endforeach
+                                        type="checkbox" name="skills[]" value="{{ $code }}">
                                     <i class="{{ $language['icon'] }}"></i>
                                     {{ $language['name'] }}
                                 </label>
@@ -47,11 +51,22 @@
                     <input type="file" id="fileInput" hidden multiple accept="image/*">
                 </div>
 
+                @foreach ($images as $image)
+                    <div class="added_data_wrapper">
+                        <img src="{{ $image }}" class="added_data" alt="Imagem">
+                        <input class="inputImage" type="checkbox" value="{{ $image }}" checked hidden name="images[]">
+                    </div>
+                @endforeach
+
             </div>
         </div>
 
         <label for="video">Vídeo</label>
-        <span class="info">Selecione um vídeo do seu projeto</span>
+        <div class="video-preview">
+            <video src="/{{ $project->videos }}" controls></video>
+            <span class="info">Selecione um vídeo do seu projeto</span>
+        </div>
+
         <span class="icon">
             <i class="fa-light fa-video"></i>
             <input type="file" name="videos" accept="video/mp4">
@@ -60,17 +75,17 @@
         <label for="github">Link do seu projeto no GitHub</label>
         <span class="icon">
             <i class="fa-brands fa-github"></i>
-            <input required type="url" name="github" placeholder="Insirar aqui o link do projeto">
+            <input required type="url" name="github" value="{{ $project->github }}"
+                placeholder="Insirar aqui o link do projeto">
         </span>
 
-        <label for="project">Seu projeto</label>
-        <span class="info">Envie seu projeto compactado</span>
-        <input type="file" required name="project" accept=".zip,.rar,.7z,.tar.gz,.tar">
+        <div class="data-form">
+            <label for="filemanager">Gerenciador de arquivos</label>
+            <iframe width="100%" src="{{ route('filemanager') }}" frameborder="0"></iframe>
+        </div>
 
         <div class="options">
-            <button type="submit">Adicionar</button>
-            <a href="">Salvar rascunho</a>
-            <a class="success" href="">Fechar</a>
+            <button type="submit">Salvar alterações</button>
         </div>
     </form>
 

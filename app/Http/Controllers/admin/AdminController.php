@@ -19,6 +19,8 @@ use ZipArchive;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
+use function Pest\Laravel\put;
+
 class AdminController extends Controller
 {
     // Dashboard
@@ -262,7 +264,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function newProjects()
+    public function newProject()
     {
         // Obter todas as habilidades
         $skills = Skill::get();
@@ -276,7 +278,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function addProjects(Request $e)
+    public function addProject(Request $e)
     {
         // Salvar informnações no BD
         $project = new Project();
@@ -287,7 +289,6 @@ class AdminController extends Controller
         $project->demo = md5($e->name . rand(11111111, 99999999) . strtotime('now'));
         $project->github = $e->github;
         $project->skills = json_encode($e->skills, true);
-
 
         // Salvar imagens
         $images = [];
@@ -343,31 +344,118 @@ class AdminController extends Controller
         return redirect(route('projects'))->with('success', 'Projeto adicionada com sucesso');
     }
 
-    public function demoProjects($uuid)
+    public function editProject($uuid)
     {
-        // Obter informacoes da demo
-        if (!is_null($uuid)) {
-            $project = Project::where("demo", $uuid);
-            if ($project->count() > 0) {
-                $project = $project->first();
-                session(["uuid" => $uuid]);
-            } else return redirect()->route("projects")->with('success', "Nenhum projeto foi encontrado");
+        // Obter todas as habilidades
+        $skills = Skill::get();
+        $project = Project::where("demo", $uuid)->first();
+        Session::put("uuid", $uuid);
 
-            return view("admin.projectsDemo", ['project' => $project]);
-        } else return redirect()->route("projects")->with('success', "A requisição enviada é ínvalida");
+        // Obter habilidades para o selected
+        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $skillsChecked = json_decode($project->skills, true);
+
+        $images = [];
+        $dataImage = json_decode($project->images, true);
+        if ($dataImage) {
+            foreach ($dataImage as $image) {
+                if (file_exists($image)) {
+                    $data = file_get_contents($image);
+                    $images[] = "data:image/jpeg;base64," . base64_encode($data);
+                }
+            }
+        }
+
+        return view('admin.projectsEdit', [
+            'project' => $project,
+            'images' => $images,
+            'skillsChecked' => $skillsChecked,
+            'skillsJson' => $skillsJson,
+            'skills' => $skills
+        ]);
     }
 
-    public function demoProjectsUpdate(Request $e, $uuid)
+    public function updateProject(Request $e, $uuid)
     {
-        // Atuliza demo do projeto
-        if (!is_null($uuid)) {
-            $project = Project::where('demo', $uuid)->first();
-            if ($project) {
-                $project->demo_location = $e->demo_location;
-                $project->save();
-                return redirect()->route("projects")->with('success', "Configurações de demo salvo com sucesso");
-            } else return redirect()->route("projects")->with('success', "Projeto não encontrado");
-        } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");
+        // Encontrar o projeto pelo ID
+        $project = Project::where("demo", $uuid)->first();
+
+        if (!$project) {
+            return redirect()->back()->withErrors(['project' => 'Projeto não encontrado.']);
+        }
+
+        // Atualizar os dados do projeto
+        $project->name = $e->name;
+        $project->preview = $e->preview;
+        $project->description = $e->description;
+        $project->github = $e->github;
+        $project->skills = json_encode($e->skills, true);
+
+        // Atualizar imagens
+        $images = [];
+        if ($e->has('images')) {
+            // Delete images
+            $dataImage = json_decode($project->images, true);
+            if ($dataImage) {
+                foreach ($dataImage as $image) {
+                    if (file_exists($image)) unlink(public_path($image));
+                }
+            }
+
+            // Atualizar
+            foreach ($e['images'] as $key => $value) {
+                $image_base64 = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $value);
+                $image_binary = base64_decode($image_base64);
+                $imageName = 'image_' . md5('images' . $key . strtotime('now')) . '.png';
+                file_put_contents(public_path('storage/images/') . $imageName, $image_binary);
+                $images[] = 'storage/images/' . $imageName;
+            }
+            $project->images = json_encode($images, true);
+        }
+
+        // Atualizar vídeo
+        if ($e->hasFile('videos') && $e->file('videos')->isValid()) {
+            // Delete video
+            if (file_exists($project->videos)) unlink(public_path($project->videos));
+
+            $eVideo = $e->file('videos');
+            $videoName = md5($eVideo->getClientOriginalName() . strtotime("now")) . "." . $eVideo->getClientOriginalExtension();
+            $eVideo->move(public_path('storage/videos/'), $videoName);
+            $project->videos = 'storage/videos/' . $videoName;
+        }
+
+        // Salvar e voltar
+        $project->save();
+        return redirect(route('projects'))->with('success', 'O projeto ' . $e->name . ' foi atualizado com sucesso.');
+    }
+
+    public function deleteProject($uuid)
+    {
+        // Encontrar o projeto pelo ID
+        $project = Project::where("demo", $uuid)->first();
+
+        if ($project) {
+            // Delete images
+            $dataImage = json_decode($project->images, true);
+            if ($dataImage) {
+                foreach ($dataImage as $image) {
+                    if (file_exists($image)) unlink(public_path($image));
+                }
+            }
+
+            // Delete video
+            if (file_exists($project->videos)) unlink(public_path($project->videos));
+
+            // Delete diretorio
+            $diretorio = public_path("demos/" . $uuid);
+            if (File::exists($diretorio)) {
+                File::deleteDirectory($diretorio);
+            }
+
+            $name = $project->name;
+            $project->delete();
+            return redirect()->route("projects")->with('success', "O projeto " . $name . " foi apagado com sucesso");
+        } else return redirect()->route("projects")->with('success', "Ocorreu um erro ao apagar o projeto");
     }
 
     public function filemanagerProjects(Request $e)
@@ -375,9 +463,34 @@ class AdminController extends Controller
         // Gerar grenciador de arquivos
         if (!is_null(session('uuid'))) {
             define('FM_EMBED', true);
+            define('CSFR_TOKEN', csrf_token());
             define("FM_ROOT_URL", '/demos/' . session('uuid'));
             define('FM_ROOT_PATH', public_path('demos/' . session('uuid')));
             require storage_path('app/include/filemanager.php');
-        } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");;
+        } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");
+    }
+
+    public function settings() {
+        return view("admin.settings");
+    }
+
+    public function settingsUpdate(Request $request) {
+        $env = File::get(base_path('.env'));
+
+        $env = str_replace('APP_TITLE='.env('APP_TITLE'), 'APP_TITLE="'.$request->input('app-name').'"', $env);
+        $env = str_replace('APP_ENV='.env('APP_ENV'), 'APP_ENV='.$request->input('app-env'), $env);
+        $env = str_replace('APP_DEBUG='.env('APP_DEBUG'), 'APP_DEBUG='.$request->input('app-debug'), $env);
+        $env = str_replace('APP_TIMEZONE='.env('APP_TIMEZONE'), 'APP_TIMEZONE='.$request->input('app-timezone'), $env);
+        
+        $env = str_replace('APP_FAKER_LOCALE='.env('APP_FAKER_LOCALE'), 'APP_FAKER_LOCALE='.$request->input('app-faker-locale'), $env);
+        $language = explode("_",$request->input('app-faker-locale'))[0];
+
+        $env = str_replace('APP_LOCALE='.env('APP_LOCALE'), 'APP_LOCALE='.$language, $env);
+        $env = str_replace('APP_FALLBACK_LOCALE='.env('APP_FALLBACK_LOCALE'), 'APP_FALLBACK_LOCALE='.$language, $env);
+        $env = str_replace('MULTIPLE_LANGUAGES='.env('MULTIPLE_LANGUAGES'), 'MULTIPLE_LANGUAGES='.$request->input('multiple-languages'), $env);
+
+        File::put(base_path('.env'), $env);
+    
+        return redirect()->back()->with('success', 'Configurações atualizadas com sucesso!');
     }
 }

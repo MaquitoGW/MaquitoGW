@@ -63,18 +63,22 @@ Route::prefix('admin')->group(function () {
         // PROJECTS GROUP ROUTE
         Route::prefix('projects')->group(function () {
             Route::get('/', [AdminController::class, 'projects'])->name('projects');
-            Route::get('new', [AdminController::class, 'newProjects'])->name('projects.new');
-            Route::get('edit', [AdminController::class, 'editProjects'])->name('projects.edit');
-            Route::post('add', [AdminController::class, 'addProjects'])->name('projects.add');
-
-            Route::get('demo/{uuid}', [AdminController::class, 'demoProjects']);
-            Route::post('demo/update/{uuid}', [AdminController::class, 'demoProjectsUpdate']);
+            Route::get('new', [AdminController::class, 'newProject'])->name('projects.new');
+            Route::post('add', [AdminController::class, 'addProject'])->name('projects.add');
+            Route::get('edit/{uuid}', [AdminController::class, 'editProject']);
+            Route::post('update/{uuid}', [AdminController::class, 'updateProject']);
+            Route::get('delete/{uuid}', [AdminController::class, 'deleteProject']);
             Route::match(['get', 'post'], 'filemanager', [AdminController::class, 'filemanagerProjects'])->name('filemanager');
         });
 
         Route::get('customization', [AdminController::class, 'customization'])->name('customization');
         Route::post('customization/update', [AdminController::class, 'updateCustomization'])->name('customization.update');
         Route::post('customization/update/images', [AdminController::class, 'updateImagesCustomization'])->name('customization.update.images');
-        Route::get('settings', [AdminController::class, 'info'])->name('info');
+
+        //SETTINGS GROUP ROUTE
+        Route::prefix('settings')->group(function () {
+            Route::get('/', [AdminController::class, 'settings'])->name('settings');
+            Route::post('update', [AdminController::class, 'settingsUpdate'])->name('settings.update');
+        });
     });
 });

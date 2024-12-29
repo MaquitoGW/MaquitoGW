@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('videos')->nullable(); // URL ou caminho dos vídeos relacionados ao projeto
             $table->json('images')->nullable(); // Imagens relacionadas ao projeto (JSON)
             $table->string('demo'); // Token da demo
-            $table->string('demo_location'); 
             $table->string('github')->nullable(); // URL do repositório no GitHub
             $table->json('skills'); // Habilidades necessárias para o projeto (JSON)
             $table->timestamps(); // Colunas 'created_at' e 'updated_at'
