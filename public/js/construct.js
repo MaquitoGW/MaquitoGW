@@ -109,6 +109,8 @@ function _construct(id) {
 
     // Adicionar ao form
     var textBox = document.querySelector(id);
+    editable.innerHTML = textBox.textContent;
+    textBox.innerHTML = "";
     textBox.appendChild(container);
 
     // Chamar funcoes essenciais
@@ -189,6 +191,17 @@ function link() {
 // Adicionar imagem
 document.querySelector('#new_image').addEventListener('click', insertData);
 
+// Remover imagens
+const addedRemove = document.getElementById('added'),
+    added_data_wrapper = document.querySelectorAll('.added_data_wrapper');
+
+added_data_wrapper.forEach(fileData => {
+    fileData.addEventListener('click', () => {
+        addedRemove.removeChild(fileData);
+    });
+});
+
+
 // Adicionar o listener de 'change' uma vez
 var fileInput = document.getElementById('fileInput');
 fileInput.addEventListener('change', handleFileSelect);
@@ -206,6 +219,9 @@ function handleFileSelect() {
         if (file) {
             var reader = new FileReader();
             reader.onload = function (event) {
+                var addedWrapper = document.createElement('div');
+                addedWrapper.className="added_data_wrapper";
+
                 // Exibir imagem
                 var fileData = document.createElement('img');
                 fileData.src = event.target.result;
@@ -219,10 +235,18 @@ function handleFileSelect() {
                 inputData.checked = true;
                 inputData.hidden = true;
                 inputData.name = 'images[]';
+                inputData.className = 'inputImage';
 
                 // Adicionar a pagina
-                document.getElementById('added').appendChild(fileData);
-                document.getElementById('added').appendChild(inputData);
+                var added = document.getElementById('added');
+                addedWrapper.appendChild(fileData);
+                addedWrapper.appendChild(inputData);
+                added.appendChild(addedWrapper);
+
+                // Remover imagem
+                addedWrapper.addEventListener('click', () => {
+                    added.removeChild(addedWrapper);
+                });
             };
             reader.readAsDataURL(file);
         }

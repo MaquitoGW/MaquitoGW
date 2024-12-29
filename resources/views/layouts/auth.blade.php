@@ -19,7 +19,7 @@
     </main>
 
     <footer>
-        {{ env('APP_NAME') }} @ {{ date('Y') }} | <a href="{{ env('APP_URL') }}"
+        {{ env('APP_TITLE') }} @ {{ date('Y') }} | <a href="{{ env('APP_URL') }}"
             target="_blank">{{ env('APP_DOMINE') }}</a>
     </footer>
 </body>

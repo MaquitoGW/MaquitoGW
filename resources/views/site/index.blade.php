@@ -1,5 +1,5 @@
 @extends('layouts.site')
-@section('title', 'MaquitoGW || Portifólio')
+@section('title', env("APP_TITLE"))
 @section('main')
     <section id="index">
         <div class="left-index">

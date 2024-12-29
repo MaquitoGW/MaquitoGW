@@ -110,21 +110,26 @@ class AuthController extends Controller
     }
 
     // Atualizar dados
-    // Atualizar dados
+    
     public function update(Request $request)
     {
-        // // Obtendo o usuário autenticado
-        // $user = Auth::user();
+        // Validação dos dados
+        $request->validate([
+            'email' => 'nullable|email|unique:users,email,' . Auth::id(), 
+            'name' => 'nullable|string|max:255',
+            'password' => 'nullable|min:6|confirmed', 
+        ]);
 
-        // // Atualizar o email e o nome
-        // $user->email = $request->email;
-        // $user->name = $request->name;
-        // $user->password = Hash::make($request->password);
+        $user = Auth::user(); 
+        $user->email = $request->input('email');
+        $user->name = $request->input('name');
 
-        // // Salvar as alterações no banco de dados
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
 
-        // $user->save();
-
-        // return redirect()->route('settings')->with('success', 'Dados de login atualizados com sucesso.');
+        $user->save();
+        return redirect()->back()->with('success', 'Dados de login atualizados com sucesso.');
     }
+    
 }
