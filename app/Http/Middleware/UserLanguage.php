@@ -17,12 +17,12 @@ class UserLanguage
     public function handle(Request $request, Closure $next): Response
     {
         // Set user language
-        $languages = explode(",", $request->server('HTTP_ACCEPT_LANGUAGE')); 
-        
-        if ($languages != null) { 
+        $languages = explode(",", $request->server('HTTP_ACCEPT_LANGUAGE'));
+
+        if ($languages != null && env("MULTIPLE_LANGUAGES") == 1) {
             App::setLocale($languages[0]);
         } else {
-            App::setLocale('pt-BR');
+            App::setLocale(str_replace("_", "-", env("APP_FAKER_LOCALE")));
         }
         return $next($request);
     }
