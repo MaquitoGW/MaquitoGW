@@ -8,6 +8,12 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" />
     <link rel="stylesheet" href="/css/auth.css">
     <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
+    <style>
+        :root {
+            --primary-color: {{ $customization('color_primary', '#6200ff') }};
+            --secondary-color: {{ $customization('color_primary', '#8400ff') }};
+        }
+    </style>
 </head>
 
 <body>

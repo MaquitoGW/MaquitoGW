@@ -4,6 +4,14 @@
     font-family: Karla;
 }
 
+:root {
+    --background-color: #181818;
+    --gray-dark: #333;
+    --gray-light: #979595;
+    --gray: #ccc;
+    --white-color: #f0f0f0;
+}
+
 a {
     text-decoration: none;
     color: #fff;
@@ -51,7 +59,7 @@ header .name {
 
 header .name-section {
     font-size: 15px;
-    color: #ccc;
+    color: var(--gray);
 }
 
 header .user-login {
@@ -73,7 +81,7 @@ header .user-login .info {
 
 header .user-login .info span {
     font-size: 13px;
-    color: #ccc;
+    color: var(--gray);
 }
 
 header .user-login a {
@@ -239,7 +247,7 @@ section .infoBody h3 {
 
 .options-list button,
 .options-list a {
-    background: #6200ff;
+    background: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -298,7 +306,7 @@ form button,
 .options form button,
 .options a,
 table td a {
-    background: #6200ff;
+    background: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -313,7 +321,7 @@ table td a {
 .options form a:hover,
 .options-list button:hover,
 table td a:hover {
-    background: #8400ff;
+    background: var(--secondary-color);
 }
 
 /* painel de configurações  */
@@ -412,7 +420,7 @@ footer {
 footer a {
     font-weight: 600;
     text-decoration: none;
-    color: #6200ff;
+    color: var(--primary-color);
 }
 
 /* Tabelas  */
@@ -433,7 +441,7 @@ table td {
     vertical-align: top;
     border: 1px solid hsla(0, 0%, 50.2%, .5019607843);
     background: #fff;
-    color: #333;
+    color: var(--gray-dark);
 
     text-align: center;
     align-content: center;
@@ -450,7 +458,7 @@ table td a {
 }
 
 table th {
-    background: #333;
+    background: var(--gray-dark);
     color: #fff;
     padding: 15px;
     line-height: 1.5;
@@ -543,7 +551,7 @@ form span.icon input {
 }
 
 form img.images {
-    background: #6200ff;
+    background: var(--primary-color);
     height: 130px;
     border-radius: 5px;
     margin: 0 0 15px 0;
@@ -791,7 +799,7 @@ form p span.icon {
 
 .list-itens .item ul.list-options li a {
     color: #fff;
-    background: #6200ff;
+    background: var(--primary-color);
     text-decoration: none;
     padding: 5px 15px;
     border-radius: 3px;

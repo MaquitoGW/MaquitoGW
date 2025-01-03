@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Customization;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +25,7 @@ class AuthController extends Controller
         } else {
             $currentRoute = Route::current();
             return view('auth.login', [
+                'customization' => fn($config, $else = null) => $this->search($config, $else),
                 'routeName' => $currentRoute->getName()
             ]);
         }
@@ -37,6 +38,7 @@ class AuthController extends Controller
         if (User::count() <= 0 || Auth::check()) {
             $currentRoute = Route::current();
             return view('auth/register', [
+                'customization' => fn($config, $else = null) => $this->search($config, $else),
                 'routeName' => $currentRoute->getName()
             ]);
         } else return redirect()->route('login'); // Redirecionar para o login caso não esteja logado
@@ -110,17 +112,17 @@ class AuthController extends Controller
     }
 
     // Atualizar dados
-    
+
     public function update(Request $request)
     {
         // Validação dos dados
         $request->validate([
-            'email' => 'nullable|email|unique:users,email,' . Auth::id(), 
+            'email' => 'nullable|email|unique:users,email,' . Auth::id(),
             'name' => 'nullable|string|max:255',
-            'password' => 'nullable|min:6|confirmed', 
+            'password' => 'nullable|min:6|confirmed',
         ]);
 
-        $user = Auth::user(); 
+        $user = Auth::user();
         $user->email = $request->input('email');
         $user->name = $request->input('name');
 
@@ -131,5 +133,14 @@ class AuthController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'Dados de login atualizados com sucesso.');
     }
-    
+
+    // Procurar configuração
+    private function search($config, $else = null)
+    {
+        $customizations = Customization::where('config', $config);
+        $customization = $customizations->first();
+
+        if ($customizations->count() > 0) return $customization->value;
+        else return $else;
+    }
 }
