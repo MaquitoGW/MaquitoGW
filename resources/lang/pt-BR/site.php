@@ -20,6 +20,16 @@ return [
         'email_business' => 'E-mail empresarial',
         'telephone' => 'Telefone de contato',
         'cv' => 'Acesse meu currículo',
-        'training' => 'Desenvolvedor Web Full Stack.'
+        'post_title' => 'Em breve...',
+        'post_p1'=>'Aprendizado constante!',
+        'post_p2'=>'Em breve muitos outros projetos.',
+        'title_buttons_post_demo' => 'Demo projeto',
+        'title_buttons_post_view' => 'Vizualizar informações do projeto',
+        'title_buttons_post_git' => 'Repositório GitHub'
+    ],
+    'details' => [
+        'demo' => 'Ver demo',
+        'description' =>'Descrição',
+        'skills' => 'Habilidades usadas'
     ]
 ];
