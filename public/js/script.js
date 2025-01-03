@@ -1,3 +1,30 @@
+// Capturar acoes do detalhes
+if (document.querySelectorAll("[view]")) {
+    const view = document.querySelectorAll("[view]"),
+    remove = document.querySelectorAll(".view");
+    view.forEach(element => {
+        element.addEventListener("click", () => {
+            // esconder elementos
+            remove.forEach(el => el.classList.remove("visible_"));
+
+            element.classList.add("visible_");
+            var attribute = element.getAttribute("view");
+            switch (attribute) {
+                case "image":
+                    var tag = element.getAttribute("tag");
+                    document.getElementById(tag).classList.add("visible_");
+                    break;
+                case "video":
+                    document.getElementById("player").classList.add("visible_");
+                    break
+
+                default:
+                    break;
+            }
+        });
+    });
+}
+
 window.onscroll = function () {
     var header = document.getElementById('header');
 
@@ -30,8 +57,8 @@ topButton.onclick = function () {
 
 
 var a = 0;
-var text = "Desenvolvedor Web Full Stack.";
 var write = document.getElementById('write');
+var text = write.getAttribute("aria-value");
 setInterval(() => {
     var array = text.split("");
 
@@ -67,7 +94,7 @@ openNav.addEventListener('click', () => {
 
 closeNav.addEventListener('click', close);
 
-function close()  {
+function close() {
     closeNav.classList.remove('visible');
     closeNav.classList.add('not-visible');
 

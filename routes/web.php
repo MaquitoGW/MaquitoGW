@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 // HOME ROUTE
 Route::middleware(UserLanguage::class, RandQuote::class)->prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
-    Route::get('/details/{id}', [HomeController::class, 'index']);
+    Route::get('/details/{id}', [HomeController::class, 'details']);
 });
 
 

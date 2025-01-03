@@ -19,6 +19,11 @@
     <meta property="og:image:width" content="2560">
     <meta property="og:image:height" content="500">
     <meta name="theme-color" content="{{ env('THEME_COLOR') }}">
+    <style>
+        :root {
+            --primary: {{ $customization("color_primary","#6200ff") }};
+        }
+    </style>
 </head>
 
 <body>
@@ -29,10 +34,10 @@
         <button id="open" class="btn"><i class="fa fa-solid fa-bars"></i></button>
         <nav id="navBar" class="not-visible">
             <ul class="list" id="listNav">
-                <li><a href="#sobre-mim" id="lk-sobre">{{ __('site.head.1') }}</a></li>
-                <li><a href="#portfolio" id="lk-portfolio">{{ __('site.head.2') }}</a></li>
-                <li><a href="#habilidades" id="lk-habilidades">{{ __('site.head.3') }}</a></li>
-                <li><a href="#contato" id="lk-contato">{{ __('site.head.4') }}</a></li>
+                <li><a href="/#sobre-mim" id="lk-sobre">{{ __('site.head.1') }}</a></li>
+                <li><a href="/#portfolio" id="lk-portfolio">{{ __('site.head.2') }}</a></li>
+                <li><a href="/#habilidades" id="lk-habilidades">{{ __('site.head.3') }}</a></li>
+                <li><a href="/#contato" id="lk-contato">{{ __('site.head.4') }}</a></li>
             </ul>
 
             <ul class="list-social-midia">
@@ -122,7 +127,7 @@
     </footer>
 
     <div class="top-nav">
-        <div title="{{__('site.other.cv')}}" class="pdf"><i class="fa-light fa-file"></i></div>
+        <a href="{{$contacts->csv}}" title="{{__('site.other.cv')}}" class="pdf"><i class="fa-light fa-file"></i></a>
         <div id="top-nav"><i class="fa fa-solid fa-angle-up"></i></div>
     </div>
     <script src="/js/script.js"></script>

@@ -19,6 +19,7 @@ return [
         'email_personal' => 'E-mail personal',
         'email_business' => 'E-mail business',
         'telephone' => 'Contact phone',
-        'cv' => 'Access my CV'
+        'cv' => 'Access my CV',
+        'training' => 'Full Stack Web Developer.'
     ]
 ];

@@ -1,11 +1,11 @@
 @extends('layouts.site')
-@section('title', env("APP_TITLE"))
+@section('title', env('APP_TITLE'))
 @section('main')
     <section id="index">
         <div class="left-index">
             <p class="col1">Hello world ☝️🤓,</p>
             <p class="col2">{{ __('site.other.welcome') }} {{ $infos['name'] }},</p>
-            <p id="write" class="col3"></p>
+            <p id="write" class="col3" aria-value="{{ __('site.other.training') }}"></p>
             <a class="col-button" href="#contato">{{ __('site.other.button') }}</a>
         </div>
         <div class="right-index">
@@ -15,7 +15,7 @@
     </section>
 
     <section id="sobre-mim">
-        <div class="avatar"><img src="{{ $infos['avatar'] }}" alt="avatar"></div>
+        <div class="avatar"><img src="{{ $customization('myphoto', '/img/my.jpg') }}" alt="avatar"></div>
         <div class="left">
             <h2>{{ __('site.titles.1') }}</h2>
             <p>{{ $infos['description'] }}</p>
@@ -28,7 +28,6 @@
 
             @foreach ($projects as $item)
                 <div class="project">
-                    <h4>{{ $item['name'] }}</h4>
                     <div class="slide">
 
                         @php
@@ -51,10 +50,11 @@
                         @endif
                     </div>
 
+                    <h4>{{ $item['name'] }}</h4>
+
                     <div class="project-head">
                         <p class="description">
                             <span>{{ $item['preview'] }}</span>
-                            <a title="Mais informações" class="button" href="details/{{ $item['demo'] }}">saber mais...</a>
                         </p>
                         <ul class="tags" title="Habilidades utilizadas">
                             @foreach ($skills as $skill)
@@ -78,14 +78,29 @@
                             @endif
                         </ul>
                         <label for="options" class="options">
-                            <a title="Vizualizar projeto" class="button" href="demos/{{ $item['demo'] }}/"><i
-                                    class="fa fa-solid fa-eye"></i></a>
-                            <a title="Repositório GitHub" class="button" href="{{ $item['github'] }}"><i
-                                    class="fa fa-brands fa-github"></i></a>
+                            <a title="Demo projeto" class="button" href="demo/{{ $item['demo'] }}/">
+                                <i class="fa-solid fa-cube"></i>
+                            </a>
+                            <a title="Vizualizar informações do projeto" class="button"
+                                href="details/{{ $item['demo'] }}/">
+                                <i class="fa fa-solid fa-eye"></i>
+                            </a>
+                            <a title="Repositório GitHub" class="button" href="{{ $item['github'] }}">
+                                <i class="fa fa-brands fa-github"></i>
+                            </a>
                         </label>
                     </div>
                 </div>
             @endforeach
+
+            <div class="project">
+                <div class="in">
+                    <span><i class="fa-solid fa-graduation-cap"></i></span>
+                    <h3>Em breve...</h3>
+                    <p>Aprendizado constante!</p>
+                    <p>Em breve muitos outros projetos.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -110,47 +125,5 @@
             @endforeach
         </ul>
     </section>
-
-    @if ($project)
-        @php
-            // Decodifica o JSON para um array
-            $skillsProjectsView = json_decode($item['skills'], true);
-            $projectsImages= json_decode($item['images'], true);
-        @endphp
-
-        <section class="details">
-            <a href="/" class="btn-details"><i class="fa fa-solid fa-xmark"></i></a>
-            <h4>{{ $project['name'] }}</h4>
-            <div class="video">
-                <video controls src="/{{ $project['videos'] }}"></video>
-            </div>
-
-            <div class="images">
-                @foreach ($projectsImages as $image)
-                    <img src="/{{$image}}" alt="image">
-                @endforeach
-            </div>
-
-            <div class="description">{!! $project['description'] !!}</div>
-
-            <div class="tag-linguagens">
-                <h5>Habilidades usadas:</h5>
-                <ul class="tags" title="Habilidades utilizadas">
-
-                    @if ($skillsProjectsView)
-                        @foreach ($skillsProjectsView as $skill)
-                            @foreach ($skillsJson as $type)
-                                @foreach ($type as $code => $e)
-                                    @if ($code == $skill)
-                                        <li title="{{ $e['name'] }}">{{ $e['name'] }}</li>
-                                    @endif
-                                @endforeach
-                            @endforeach
-                        @endforeach
-                    @endif
-                </ul>
-            </div>
-        </section>
-    @endif
 
 @endsection

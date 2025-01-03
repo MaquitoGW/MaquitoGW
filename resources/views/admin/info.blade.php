@@ -56,7 +56,7 @@
     @foreach ($infos as $info)
         <form action="{{ route('info.update') }}" method="post">
             @csrf
-            <h3>Minhas Informações ({{$info->language}})</h3>
+            <h3>Minhas Informações ({{ $info->language }})</h3>
 
             <label for="name">Nome</label>
             <input required type="text" name="name" value="{{ $info->name }}"
@@ -73,46 +73,75 @@
         </form>
     @endforeach
 
-    
-    <form action="@if($contactsCheck > 0) {{route('contacts.update')}} @else {{route('contacts.add')}} @endif" method="post">
+
+    <form
+        action="@if ($contactsCheck > 0) {{ route('contacts.update') }} @else {{ route('contacts.add') }} @endif"
+        method="post" enctype="multipart/form-data">
         @csrf
+        <h3>Meu currículo</h3>
+        @if ($contacts->csv)
+            <p class="info">
+                <span class="icon">
+                    <i class="fa-solid fa-link"></i>
+                    <a href="{{ $contacts->csv }}">Veja seu currículo</a>
+                </span>
+            </p>
+        @endif
+        <input type="file" name="csv" accept=".pdf">
+
         <h3>Minhas redes sociais</h3>
 
         <label for="instagram">Instagram</label>
         <span class="icon">
             <i class="fa-brands fa-instagram"></i>
-            <input required type="text" name="instagram" @if($contactsCheck > 0) value="{{ $contacts->instagram }}" @endif placeholder="Digite seu @">
+            <input required type="text" name="instagram"
+                @if ($contactsCheck > 0) value="{{ $contacts->instagram }}" @endif placeholder="Digite seu @">
         </span>
 
         <label for="Twitter">Twitter (X)</label>
         <span class="icon">
             <i class="fa-brands fa-twitter"></i>
-            <input required type="text" name="twitter" @if($contactsCheck > 0) value="{{ $contacts->twitter }}" @endif placeholder="Digite seu @">
+            <input required type="text" name="twitter"
+                @if ($contactsCheck > 0) value="{{ $contacts->twitter }}" @endif placeholder="Digite seu @">
         </span>
 
         <label for="linkedin">Linkedin</label>
         <span class="icon">
             <i class="fa-brands fa-linkedin"></i>
-            <input required type="text" name="linkedin" @if($contactsCheck > 0) value="{{ $contacts->linkedin }}" @endif placeholder="Digite seu @">
+            <input required type="text" name="linkedin"
+                @if ($contactsCheck > 0) value="{{ $contacts->linkedin }}" @endif placeholder="Digite seu @">
         </span>
 
         <label for="github">GitHub</label>
         <span class="icon">
             <i class="fa-brands fa-github"></i>
-            <input required type="text" name="github" @if($contactsCheck > 0) value="{{ $contacts->github }}" @endif placeholder="Digite seu @">
+            <input required type="text" name="github"
+                @if ($contactsCheck > 0) value="{{ $contacts->github }}" @endif placeholder="Digite seu @">
         </span>
 
         <h3>Meus Contatos</h3>
 
         <label for="tel">Telefone</label>
-        <input required type="tel" name="tel" @if($contactsCheck > 0) value="{{ $contacts->tel }}" @endif placeholder="Digite dessa forma: +5531993292980 ">
+        <input required type="tel" name="tel"
+            @if ($contactsCheck > 0) value="{{ $contacts->tel }}" @endif
+            placeholder="Digite dessa forma: +5531993292980 ">
 
         <label for="email_personal">E-mail pessoal</label>
-        <input required type="email" name="email_personal" @if($contactsCheck > 0) value="{{ $contacts->email_personal }}" @endif placeholder="endereco@email.com">
+        <input required type="email" name="email_personal"
+            @if ($contactsCheck > 0) value="{{ $contacts->email_personal }}" @endif
+            placeholder="endereco@email.com">
 
         <label for="email_business">E-mail empresarial</label>
-        <input required type="email" name="email_business" @if($contactsCheck > 0) value="{{ $contacts->email_business }}" @endif placeholder="endereco@email.com">
+        <input required type="email" name="email_business"
+            @if ($contactsCheck > 0) value="{{ $contacts->email_business }}" @endif
+            placeholder="endereco@email.com">
 
-        <button @if($contactsCheck > 0) name="id" value="{{$contacts->id }}" @endif type="submit">@if($contactsCheck > 0) Atualizar @else Adicionar @endif</button>
+        <button @if ($contactsCheck > 0) name="id" value="{{ $contacts->id }}" @endif type="submit">
+            @if ($contactsCheck > 0)
+                Atualizar
+            @else
+                Adicionar
+            @endif
+        </button>
     </form>
 @endsection

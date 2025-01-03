@@ -55,7 +55,7 @@
                                 </td>
                                 <td>{{ $skill->year }}</td>
                                 <td>{{ $language['description_pt'] }}</td>
-                                <td><a href="delete/{{ $code }}">Remover</a></td>
+                                <td><a href="skills/delete/{{ $code }}">Remover</a></td>
                             </tr>
                         @endif
                     @endforeach

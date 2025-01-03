@@ -497,13 +497,13 @@ footer section.main-footer .left-footer .saying {
 
 .skills-list li {
     margin: 5px;
-    border-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
     width: 180px;
     height: 180px;
     display: flex;
     justify-content: center;
     transition: all .3s ease-in-out;
-    cursor: pointer;
 }
 
 .skills-list li label {
@@ -511,11 +511,9 @@ footer section.main-footer .left-footer .saying {
     justify-items: center;
     align-content: center;
     align-items: center;
-    cursor: pointer;
 }
 
 .skills-list li label span {
-    color: #6200ff;
     font-size: 80px;
 }
 
@@ -553,9 +551,27 @@ footer section.main-footer .left-footer .saying {
 .project {
     position: relative;
     width: 280px;
+    height: 480px;
     padding: 15px;
     border-radius: 20px;
     backdrop-filter: brightness(0.5);
+    margin: 10px;
+}
+
+.project .in {
+    height: 100%;
+    display: grid;    
+    justify-items: center;
+    align-content: center;
+}
+
+.project .in p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.project .in span {
+    font-size: 50px;
     margin: 10px;
 }
 
@@ -601,7 +617,7 @@ footer section.main-footer .left-footer .saying {
     box-sizing: border-box;
     width: 100%;
     text-align: center;
-    padding: 3px 8px 18px;
+    padding: 18px 8px 3px;
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -612,12 +628,11 @@ footer section.main-footer .left-footer .saying {
     font-size: 15px;
 }
 
-/* .project .project-head .description span {} */
-
-.project .project-head .description a {
-    color: #6200ff;
-    text-decoration: none;
+.project .project-head .description {
+    text-align: justify;
 }
+
+/* .project .project-head .description span {} */
 
 .project .project-head ul.tags {
     margin: 0;
@@ -634,7 +649,7 @@ footer section.main-footer .left-footer .saying {
     list-style: none;
     margin: 0 5px;
     padding: 5px;
-    border: solid 1px #97959585;
+    border: solid 1px transparent;
     color: #97959585;
     font-size: 18px;
     border-radius: 50%;
@@ -643,8 +658,6 @@ footer section.main-footer .left-footer .saying {
 }
 
 .project .project-head ul.tags li:hover {
-    background: #181818;
-    border: solid 1px transparent;
     color: #fff;
 }
 
@@ -686,7 +699,7 @@ footer section.main-footer .left-footer .saying {
     display: grid;
 }
 
-.top-nav div {
+.top-nav div, .top-nav a {
     display: none;
     width: 50px;
     height: 50px;
@@ -701,12 +714,12 @@ footer section.main-footer .left-footer .saying {
     margin-top: 10px;
 }
 
-.top-nav div.pdf {
+.top-nav a.pdf {
     margin-top: 0;
     display: grid !important;
 }
 
-.top-nav div:hover {
+.top-nav a:hover {
     background: #6200ff;
     color: #fff;
 }
@@ -718,23 +731,52 @@ footer section.main-footer .left-footer .saying {
 /* Mais detalhes sobre o projeto  */
 
 section.details {
-    width: 35%;
-    position: fixed;
-    background: #0a0a0a;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: auto;
     border-radius: 10px;
-    z-index: 99;
+    position: relative;
+    backdrop-filter: brightness(0.5);
     padding: 25px;
-    margin: 0;
-    box-shadow: 0px 0px 20px 10px #0000008c;
 }
 
 section.details h4 {
     width: 100%;
-    text-align: center;
+    text-align: left;
     margin: 0 0 10px 0;
+}
+
+section.details .elements {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+    max-height: 450px;
+}
+
+section.details .elements .data {
+    width: 100%;
+    display: grid;
+    gap: 20px;
+}
+
+section.details .elements .data a {
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    border: solid 1px #6200ff;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all .3s ease-in-out;
+    color: #6200ff;
+}
+
+section.details .elements .data a:hover {
+    background: #6200ff;
+    color: #fff;
 }
 
 section.details a.btn-details {
@@ -762,19 +804,33 @@ section.details a.btn-details:hover {
 }
 
 section.details .images {
-    margin: 0px 0px 20px;
+    padding: 10px;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
-section.details .images img {
+section.details .images img,
+section.details .images video {
+    width: auto;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+section.details .images label{
+    width: 180px;
     height: 100px;
     margin: 3px;
-    border-radius: 3px;
     cursor: pointer;
+    background: #333;
+    border-radius: 3px;
+}
+
+section.details .images label.visible_ {
+    border: solid 1px #979595;
 }
 
 section.details .description {
@@ -782,8 +838,12 @@ section.details .description {
     padding: 8px;
     border-radius: 5px;
     font-size: 15px;
-    max-height: 175px;
+    max-height: 320px;
     overflow-y: scroll;
+}
+
+section.details h4.description {
+    margin: 0 !important;
 }
 
 section.details .description::-webkit-scrollbar,
@@ -807,21 +867,25 @@ section.details .description p {
     margin: 5px;
 }
 
-section.details div.video {
+section.details div.preview {
+    width: auto;
+    height: 300px;
+}
+
+section.details div.preview video,
+section.details div.preview img {
+    display: none;
     width: 100%;
-    height: auto;
+    height: 100%;
+    max-height: 300px;
     background: #181818;
     border-radius: 8px;
-    margin: 20px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
 }
 
-section.details div.video video {
-    width: 100%;
-    height: 100%;
+section.details div.preview video.visible_,
+section.details div.preview img.visible_ {
+    display: block;
 }
 
 section.details .tag-linguagens {
@@ -833,7 +897,6 @@ section.details .tag-linguagens {
 }
 
 section.details .tag-linguagens h5 {
-
     margin: 0 0 5px 0;
 }
 
@@ -853,4 +916,3 @@ section.details .tag-linguagens ul.tags li {
     border-radius: 3px;
     margin: 0 5px 0 0;
 }
-
