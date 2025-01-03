@@ -5,12 +5,11 @@
         <div class="left-index">
             <p class="col1">Hello world ☝️🤓,</p>
             <p class="col2">{{ __('site.other.welcome') }} {{ $infos['name'] }},</p>
-            <p id="write" class="col3" aria-value="{{ __('site.other.training') }}"></p>
+            <p id="write" class="col3" aria-value="{{ $infos['position'] }}."></p>
             <a class="col-button" href="#contato">{{ __('site.other.button') }}</a>
         </div>
         <div class="right-index">
-            <img src="/img/bk.png" class="background" alt="background">
-            <img src="/img/bk_logo.png" class="background-logo" alt="background-logo">
+            <img src="{{ $customization('bklogo', '/img/bk_logo.png') }}" class="background-logo" alt="background-logo">
         </div>
     </section>
 
@@ -78,14 +77,16 @@
                             @endif
                         </ul>
                         <label for="options" class="options">
-                            <a title="Demo projeto" class="button" href="demo/{{ $item['demo'] }}/">
+                            <a title="{{ __('site.other.title_buttons_post_demo') }}" class="button"
+                                href="demo/{{ $item['demo'] }}/">
                                 <i class="fa-solid fa-cube"></i>
                             </a>
-                            <a title="Vizualizar informações do projeto" class="button"
+                            <a title="{{ __('site.other.title_buttons_post_view') }}" class="button"
                                 href="details/{{ $item['demo'] }}/">
                                 <i class="fa fa-solid fa-eye"></i>
                             </a>
-                            <a title="Repositório GitHub" class="button" href="{{ $item['github'] }}">
+                            <a title="{{ __('site.other.title_buttons_post_git') }}" class="button"
+                                href="{{ $item['github'] }}">
                                 <i class="fa fa-brands fa-github"></i>
                             </a>
                         </label>
@@ -96,34 +97,36 @@
             <div class="project">
                 <div class="in">
                     <span><i class="fa-solid fa-graduation-cap"></i></span>
-                    <h3>Em breve...</h3>
-                    <p>Aprendizado constante!</p>
-                    <p>Em breve muitos outros projetos.</p>
+                    <h3>{{ __('site.other.post_title') }}</h3>
+                    <p>{{ __('site.other.post_p1') }}</p>
+                    <p>{{ __('site.other.post_p2') }}</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="habilidades">
-        <h2><span>{{ __('site.titles.3') }}</span></h2>
-        <ul class="skills-list">
+    @if (count($skills) > 0)
+        <section id="habilidades">
+            <h2><span>{{ __('site.titles.3') }}</span></h2>
+            <ul class="skills-list">
 
-            @foreach ($skills as $skill)
-                @foreach ($skillsJson as $type)
-                    @foreach ($type as $code => $language)
-                        @if ($code == $skill->code)
-                            <li>
-                                <label for="{{ $language['name'] }}">
-                                    <span><i class="{{ $language['icon'] }}"></i></span>
-                                    <b>{{ $language['name'] }}</b>
-                                    <p>{{ __('site.other.since') }} {{ $skill->year }}</p>
-                                </label>
-                            </li>
-                        @endif
+                @foreach ($skills as $skill)
+                    @foreach ($skillsJson as $type)
+                        @foreach ($type as $code => $language)
+                            @if ($code == $skill->code)
+                                <li>
+                                    <label for="{{ $language['name'] }}">
+                                        <span><i class="{{ $language['icon'] }}"></i></span>
+                                        <b>{{ $language['name'] }}</b>
+                                        <p>{{ __('site.other.since') }} {{ $skill->year }}</p>
+                                    </label>
+                                </li>
+                            @endif
+                        @endforeach
                     @endforeach
                 @endforeach
-            @endforeach
-        </ul>
-    </section>
+            </ul>
+        </section>
+    @endif
 
 @endsection

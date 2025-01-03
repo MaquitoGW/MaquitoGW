@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{App::getLocale()}}">
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,8 @@
     <meta name="theme-color" content="{{ env('THEME_COLOR') }}">
     <style>
         :root {
-            --primary: {{ $customization("color_primary","#6200ff") }};
+            --primary-color: {{ $customization('color_primary', '#6200ff') }};
+            --secondary-color: {{ $customization('color_primary', '#8400ff') }};
         }
     </style>
 </head>
@@ -29,7 +30,7 @@
 <body>
 
     <header class="header" id="header">
-        <a href="#" class="logoname"></a>
+        <a href="/" class="logoname"></a>
         <button id="close" class="btn not-visible"><i class="fa fa-solid fa-xmark"></i></button>
         <button id="open" class="btn"><i class="fa fa-solid fa-bars"></i></button>
         <nav id="navBar" class="not-visible">
@@ -41,26 +42,37 @@
             </ul>
 
             <ul class="list-social-midia">
-                <li>
-                    <a class="social" href="https://instagram.com/{{ $contacts['instagram'] }}">
-                        <i class="fa fa-brands fa-instagram"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="social" href="https://github.com/{{ $contacts['github'] }}">
-                        <i class="fa fa-brands fa-github"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="social" href="https://linkedin.com/in/{{ $contacts['linkedin'] }}">
-                        <i class="fa fa-brands fa-linkedin"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="social" href="https://x.com/{{ $contacts['twitter'] }}">
-                        <i class="fa fa-brands fa-twitter"></i>
-                    </a>
-                </li>
+                @if (!is_null($contacts['instagram']))
+                    <li>
+                        <a class="social" href="https://instagram.com/{{ $contacts['instagram'] }}">
+                            <i class="fa fa-brands fa-instagram"></i>
+                        </a>
+                    </li>
+                @endif
+
+                @if (!is_null($contacts['github']))
+                    <li>
+                        <a class="social" href="https://github.com/{{ $contacts['github'] }}">
+                            <i class="fa fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                @endif
+
+                @if (!is_null($contacts['linkedin']))
+                    <li>
+                        <a class="social" href="https://linkedin.com/in/{{ $contacts['linkedin'] }}">
+                            <i class="fa fa-brands fa-linkedin"></i>
+                        </a>
+                    </li>
+                @endif
+
+                @if (!is_null($contacts['twitter']))
+                    <li>
+                        <a class="social" href="https://x.com/{{ $contacts['twitter'] }}">
+                            <i class="fa fa-brands fa-twitter"></i>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </header>
@@ -73,18 +85,24 @@
             <div class="info">
                 <h2>{{ __('site.titles.4') }}</h2>
                 <ul class="contact-list">
-                    <li title="{{ __('site.other.email_personal') }}">
-                        <span><i class="fa-regular fa-envelope"></i></span>
-                        <a href="mailto:{{ $contacts['email_personal'] }}">{{ $contacts['email_personal'] }}</a>
-                    </li>
-                    <li title="{{ __('site.other.email_business') }}">
-                        <span><i class="fa-sharp fa-regular fa-building"></i></span>
-                        <a href="mailto:{{ $contacts['email_business'] }}">{{ $contacts['email_business'] }}</a>
-                    </li>
-                    <li title="{{ __('site.other.telephone') }}">
-                        <span><i class="fa-regular fa-mobile-notch"></i></span>
-                        <a href="tel:{{ $contacts['tel'] }}">{{ $contacts['tel'] }}</a>
-                    </li>
+                    @if (!is_null($contacts['email_personal']))
+                        <li title="{{ __('site.other.email_personal') }}">
+                            <span><i class="fa-regular fa-envelope"></i></span>
+                            <a href="mailto:{{ $contacts['email_personal'] }}">{{ $contacts['email_personal'] }}</a>
+                        </li>
+                    @endif
+                    @if (!is_null($contacts['email_business']))
+                        <li title="{{ __('site.other.email_business') }}">
+                            <span><i class="fa-sharp fa-regular fa-building"></i></span>
+                            <a href="mailto:{{ $contacts['email_business'] }}">{{ $contacts['email_business'] }}</a>
+                        </li>
+                    @endif
+                    @if (!is_null($contacts['tel']))
+                        <li title="{{ __('site.other.telephone') }}">
+                            <span><i class="fa-regular fa-mobile-notch"></i></span>
+                            <a href="tel:{{ $contacts['tel'] }}">{{ $contacts['tel'] }}</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
 
@@ -101,33 +119,48 @@
             </div>
             <div class="right-footer">
                 <ul class="list-social-midia">
-                    <li>
-                        <a class="social" href="https://instagram.com/{{ $contacts['instagram'] }}">
-                            <i class="fa fa-brands fa-instagram"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="social" href="https://github.com/{{ $contacts['github'] }}">
-                            <i class="fa fa-brands fa-github"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="social" href="https://linkedin.com/in/{{ $contacts['linkedin'] }}">
-                            <i class="fa fa-brands fa-linkedin"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="social" href="https://x.com/{{ $contacts['twitter'] }}">
-                            <i class="fa fa-brands fa-twitter"></i>
-                        </a>
-                    </li>
+                    @if (!is_null($contacts['instagram']))
+                        <li>
+                            <a class="social" href="https://instagram.com/{{ $contacts['instagram'] }}">
+                                <i class="fa fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (!is_null($contacts['github']))
+                        <li>
+                            <a class="social" href="https://github.com/{{ $contacts['github'] }}">
+                                <i class="fa fa-brands fa-github"></i>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (!is_null($contacts['linkedin']))
+                        <li>
+                            <a class="social" href="https://linkedin.com/in/{{ $contacts['linkedin'] }}">
+                                <i class="fa fa-brands fa-linkedin"></i>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (!is_null($contacts['twitter']))
+                        <li>
+                            <a class="social" href="https://x.com/{{ $contacts['twitter'] }}">
+                                <i class="fa fa-brands fa-twitter"></i>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </section>
     </footer>
 
     <div class="top-nav">
-        <a href="{{$contacts->csv}}" title="{{__('site.other.cv')}}" class="pdf"><i class="fa-light fa-file"></i></a>
+        @if (!is_null($contacts->csv))
+            <a href="{{ $contacts->csv }}" title="{{ __('site.other.cv') }}" class="pdf">
+                <i class="fa-light fa-file"></i>
+            </a>
+        @endif
         <div id="top-nav"><i class="fa fa-solid fa-angle-up"></i></div>
     </div>
     <script src="/js/script.js"></script>

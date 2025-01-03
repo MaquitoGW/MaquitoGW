@@ -194,8 +194,8 @@
 }
 
 .playerAwe__control.playerAwe__tab-focus {
-	outline: 3px dotted var(--primary);
-	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary)))) dotted 3px;
+	outline: 3px dotted var(--primary-color);
+	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color)))) dotted 3px;
 	outline-offset: 2px;
 }
 
@@ -464,8 +464,8 @@ a.playerAwe__control:before {
 }
 
 .playerAwe__menu__container .playerAwe__control[role=menuitemradio][aria-checked=true]:before {
-	background: var(--primary);
-	background: var(--playerAwe-control-toggle-checked-background, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary))));
+	background: var(--primary-color);
+	background: var(--playerAwe-control-toggle-checked-background, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color))));
 }
 
 .playerAwe__menu__container .playerAwe__control[role=menuitemradio][aria-checked=true]:after {
@@ -497,8 +497,8 @@ a.playerAwe__control:before {
 	border: 0;
 	border-radius: 26px;
 	border-radius: calc(var(--playerAwe-range-thumb-height, 13px)*2);
-	color: var(--primary);
-	color: var(--playerAwe-range-fill-background, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary))));
+	color: var(--primary-color);
+	color: var(--playerAwe-range-fill-background, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color))));
 	display: block;
 	height: 19px;
 	height: calc(var(--playerAwe-range-thumb-active-shadow-width, 3px)*2 + var(--playerAwe-range-thumb-height, 13px));
@@ -640,20 +640,20 @@ a.playerAwe__control:before {
 }
 
 .playerAwe--full-ui input[type=range].playerAwe__tab-focus::-webkit-slider-runnable-track {
-	outline: 3px dotted var(--primary);
-	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary)))) dotted 3px;
+	outline: 3px dotted var(--primary-color);
+	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color)))) dotted 3px;
 	outline-offset: 2px;
 }
 
 .playerAwe--full-ui input[type=range].playerAwe__tab-focus::-moz-range-track {
-	outline: 3px dotted var(--primary);
-	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary)))) dotted 3px;
+	outline: 3px dotted var(--primary-color);
+	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color)))) dotted 3px;
 	outline-offset: 2px;
 }
 
 .playerAwe--full-ui input[type=range].playerAwe__tab-focus::-ms-track {
-	outline: 3px dotted var(--primary);
-	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary)))) dotted 3px;
+	outline: 3px dotted var(--primary-color);
+	outline: var(--playerAwe-tab-focus-color, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color)))) dotted 3px;
 	outline-offset: 2px;
 }
 
@@ -942,8 +942,8 @@ a.playerAwe__control:before {
 .playerAwe--audio .playerAwe__control.playerAwe__tab-focus,
 .playerAwe--audio .playerAwe__control:hover,
 .playerAwe--audio .playerAwe__control[aria-expanded=true] {
-	background: var(--primary);
-	background: var(--playerAwe-audio-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary))));
+	background: var(--primary-color);
+	background: var(--playerAwe-audio-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color))));
 	color: #fff;
 	color: var(--playerAwe-audio-control-color-hover, #fff);
 }
@@ -1071,15 +1071,15 @@ a.playerAwe__control:before {
 .playerAwe--video .playerAwe__control.playerAwe__tab-focus,
 .playerAwe--video .playerAwe__control:hover,
 .playerAwe--video .playerAwe__control[aria-expanded=true] {
-	background: var(--primary);
-	background: var(--playerAwe-video-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary))));
+	background: var(--primary-color);
+	background: var(--playerAwe-video-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color))));
 	color: #fff;
 	color: var(--playerAwe-video-control-color-hover, #fff);
 }
 
 .playerAwe__control--overlaid {
-	background: var(--primary);
-	background: var(--playerAwe-video-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary))));
+	background: var(--primary-color);
+	background: var(--playerAwe-video-control-background-hover, var(--playerAwe-color-main, var(--playerAwe-color-main, var(--primary-color))));
 	border: 0;
 	border-radius: 100%;
 	color: #fff;

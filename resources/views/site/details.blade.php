@@ -32,18 +32,18 @@
                 </div>
             </div>
             <div class="data">
-                <h4 class="description">Descrição:</h4>
+                <h4 class="description">{{__('site.details.description')}}</h4>
                 <div class="description">
                     {!! $project['description'] !!}
                 </div>
 
-                <a href="/demo/{{ $project['demo'] }}/">Ver demo</a>
+                <a href="/demo/{{ $project['demo'] }}/">{{__('site.details.demo')}}</a>
             </div>
         </div>
 
         <div class="tag-linguagens">
-            <h4>Habilidades usadas:</h4>
-            <ul class="tags" title="Habilidades utilizadas">
+            <h4>{{__('site.details.skills')}}</h4>
+            <ul class="tags" title="{{__('site.details.skills')}}">
 
                 @if ($skillsProjectsView)
                     @foreach ($skillsProjectsView as $skill)

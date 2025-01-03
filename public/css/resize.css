@@ -127,8 +127,14 @@
         padding: 80px 0;
     }
 
+    footer section.main-footer .left-footer {
+        width: auto !important;
+        text-align: justify;
+    }
+
     footer section.main-footer .left-footer p {
-        width: auto;
+        width: auto !important;
+        font-size: 14px;
     }
 
     footer section.main-footer .right-footer ul.list-social-midia {
