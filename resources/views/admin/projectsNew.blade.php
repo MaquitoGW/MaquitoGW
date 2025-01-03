@@ -12,7 +12,8 @@
         <input type="text" name="name" required placeholder="Qual nome do seu projeto?">
 
         <label for="preview">Descrição curta</label>
-        <textarea required name="preview" cols="30" rows="5" placeholder="Insirar uma breve descrição sobre o projeto."></textarea>
+        <textarea required name="preview" cols="30" rows="5"
+            placeholder="Insirar uma breve descrição sobre o projeto."></textarea>
 
         <label for="description">Descrição do projeto</label>
         <div id="textbox"></div>
@@ -20,21 +21,28 @@
 
         <label for="skills">Habilidades usadas</label>
         <ul class="list-checkbox">
-            @foreach ($skills as $skill)
-                @foreach ($skillsJson as $type)
-                    @foreach ($type as $code => $language)
-                        @if ($code == $skill->code)
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="skills[]" value="{{ $code }}">
-                                    <i class="{{ $language['icon'] }}"></i>
-                                    {{ $language['name'] }}
-                                </label>
-                            </li>
-                        @endif
+            @if (count($skills) > 0)
+                @foreach ($skills as $skill)
+                    @foreach ($skillsJson as $type)
+                        @foreach ($type as $code => $language)
+                            @if ($code == $skill->code)
+                                <li>
+                                    <label>
+                                        <input type="checkbox" name="skills[]" value="{{ $code }}">
+                                        <i class="{{ $language['icon'] }}"></i>
+                                        {{ $language['name'] }}
+                                    </label>
+                                </li>
+                            @endif
+                        @endforeach
                     @endforeach
                 @endforeach
-            @endforeach
+            @else
+                <p class="alert">
+                    <span class="icon"><i class="fa-light fa-circle-exclamation"></i></span>
+                    <span>Adicione pelo menos uma habilidade.</span>
+                </p>
+            @endif
         </ul>
 
         <div class="data-form">
@@ -69,8 +77,7 @@
 
         <div class="options">
             <button type="submit">Adicionar</button>
-            <a href="">Salvar rascunho</a>
-            <a class="success" href="">Fechar</a>
+            <a class="success" href="{{ route('projects') }}">Fechar</a>
         </div>
     </form>
 

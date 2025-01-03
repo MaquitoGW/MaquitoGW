@@ -17,18 +17,31 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // Verificar o idioma do BD
-        $languageUserGET = str_replace("-", "_", App::getLocale());
-        if ($languageUserGET == 'pt_BR' || $languageUserGET == 'en_US') $language = $languageUserGET;
-        else $language = env('APP_FAKER_LOCALE');
+        if (env("MULTIPLE_LANGUAGES") == 1) {
+            $languageUserGET = str_replace("-", "_", App::getLocale());
+            switch ($languageUserGET) {
+                case 'en_US':
+                case 'pt_BR':
+                    $language = $languageUserGET;
+                    break;
+
+                default:
+                    $language = env('APP_FAKER_LOCALE');
+                    break;
+            }
+        } else $language = env('APP_FAKER_LOCALE');
 
         // Obter informações
-        $customizations = Customization::get();
         $infos = Info::where('language', $language)->first();
         $contacts = Contact::first();
         $projects = Project::get();
 
         $skills = Skill::orderBy('year', 'asc')->get();
         $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+
+        // verificar se existe dados 
+
+        if (!$infos || !$contacts) abort(404);
 
         return view('site.index', [
             'customization' => fn($config, $else = null) => $this->search($config, $else),
@@ -53,16 +66,18 @@ class HomeController extends Controller
         $contacts = Contact::first();
 
         // Detalhes do projeto
-        $project = Project::where('demo', $id)->first();
+        $project = Project::where('demo', $id)->first() ?? null;
         $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
 
-        return view('site.details', [
-            'customization' => fn($config, $else = null) => $this->search($config, $else),
-            'infos' => $infos,
-            'contacts' => $contacts,
-            'project' => $project,
-            'skillsJson' => $skillsJson
-        ]);
+        if (!is_null($project)) {
+            return view('site.details', [
+                'customization' => fn($config, $else = null) => $this->search($config, $else),
+                'infos' => $infos,
+                'contacts' => $contacts,
+                'project' => $project,
+                'skillsJson' => $skillsJson
+            ]);
+        } else return redirect()->route('index');
     }
 
     // Procurar configuração

@@ -6,6 +6,9 @@
         <h3>Personalizações adicionais</h3>
             <label for="color_primary">Cor principal</label>
             <input type="color" name="color_primary" value="{{ $search('color_primary', '#6200ff') }}">
+
+            <label for="color_secondary">Cor secundaria</label>
+            <input type="color" name="color_secondary" value="{{ $search('color_secondary', '#8400ff') }}">
         <button type="submit">Atualizar</button>
     </form>
 

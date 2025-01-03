@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
     <link rel="stylesheet" href="/icons/css/all.css">
     <script src="/icons/js/all.js"></script>
+    <style>
+        :root {
+            --primary-color: {{ $customization('color_primary', '#6200ff') }};
+            --secondary-color: {{ $customization('color_primary', '#8400ff') }};
+        }
+    </style>
 </head>
 
 <body>

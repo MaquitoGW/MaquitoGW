@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('twitter')->nullable(); // Conta do Twitter
             $table->string('linkedin')->nullable(); // Conta do LinkedIn
             $table->string('github')->nullable(); // Conta do GitHub
-            $table->string('email_personal'); // Email pessoal
+            $table->string('email_personal')->nullable(); // Email pessoal
             $table->string('email_business')->nullable(); // Email empresarial
             $table->string('tel')->nullable(); // Número de telefone
             $table->string('csv')->nullable(); // Número de telefone

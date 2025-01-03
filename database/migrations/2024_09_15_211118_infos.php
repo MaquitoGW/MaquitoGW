@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('infos', function (Blueprint $table) {
             $table->id(); // Cria a coluna 'id' como chave primária e autoincremento
-            $table->string('avatar')->nullable(); // Coluna para armazenar URL ou caminho da imagem de avatar
             $table->string('language'); // Coluna para nome
             $table->string('name'); // Coluna para nome
+            $table->string('position')->nullable();
             $table->string('fullname'); // Coluna para nome completo
             $table->text('description')->nullable(); // Coluna para descrição
             $table->timestamps(); // Colunas 'created_at' e 'updated_at'
