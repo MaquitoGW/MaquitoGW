@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email_personal'); // Email pessoal
             $table->string('email_business')->nullable(); // Email empresarial
             $table->string('tel')->nullable(); // Número de telefone
+            $table->string('csv')->nullable(); // Número de telefone
             $table->timestamps(); // Cria as colunas 'created_at' e 'updated_at'
         });
     }

@@ -549,7 +549,11 @@ form img.images {
     margin: 0 0 15px 0;
 }
 
-form span.info {
+form img.none {
+    background: none !important;
+} 
+
+form span.info, p.info {
     appearance: auto;
     border: solid 1px hsla(0, 0%, 50.2%, .5019607843);
     padding: 10px 15px;
@@ -599,6 +603,16 @@ form ul.list-checkbox li label svg {
 form ul.list-checkbox li input[type="checkbox"] {
     margin: 0 10px;
     width: 15px;
+}
+
+form .info a {
+    color: #000;
+    margin: 0 0 0 10px;
+    padding: 0;
+}
+
+form p span.icon {
+    font-size: 15px;
 }
 
 /* Adicionar imagens */

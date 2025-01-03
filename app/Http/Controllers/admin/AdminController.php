@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Apis\McsrvstatController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\functions\UpdateController;
 use App\Models\Contact;
 use App\Models\Customization;
 use App\Models\Info;
 use App\Models\Project;
 use App\Models\Skill;
 use App\Models\User;
-use App\Models\World;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use ZipArchive;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-
-use function Pest\Laravel\put;
 
 class AdminController extends Controller
 {
@@ -150,6 +144,18 @@ class AdminController extends Controller
         $addContacts->email_business = $request->email_business;
         $addContacts->tel = $request->tel;
 
+        // Salvar curriculo 
+        if ($request->hasFile("csv") && $request->file("csv")->isValid()) {
+            $csv = $request->file("csv");
+            $extension = $csv->extension();
+            $csvName = md5($csv->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+            $path = '/storage/CSV/';
+            $csv->move(public_path($path), $csvName);
+
+            $addContacts->csv = $request->csv;
+        }
+
         $addContacts->save();
         return redirect(route('info'))->with('success', 'Informações de contato adicionada com sucesso');
     }
@@ -157,15 +163,31 @@ class AdminController extends Controller
     // Atualizar
     public function updateContacts(Request $request)
     {
+        // Salvar curriculo 
+        $contacts = Contact::where('id', $request->id);
+        if ($request->hasFile("csv") && $request->file("csv")->isValid()) {
+            $contactsGET = $contacts->first();
+            File::delete(public_path($contactsGET->csv));
+
+            $csv = $request->file("csv");
+            $extension = $csv->extension();
+            $csvName = md5($csv->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+            $path = '/storage/csv/';
+            $csvNamePath = $path . $csvName;
+            $csv->move(public_path($path), $csvName);
+        } else $csvNamePath = "";
+
         // Atualizar o registro diretamente
-        Contact::where('id', $request->id)->update([
+        $contacts->update([
             'instagram' => $request->instagram,
             'twitter' => $request->twitter,
             'github' => $request->github,
             'linkedin' => $request->linkedin,
             'email_personal' => $request->email_personal,
             'email_business' => $request->email_business,
-            'tel' => $request->tel
+            'tel' => $request->tel,
+            'csv' => $csvNamePath
         ]);
 
         return back()->with('success', 'Dados atualizados com sucesso');
@@ -229,7 +251,7 @@ class AdminController extends Controller
                 $imageName = md5($image->getClientOriginalName() . strtotime("now")) . "." . $extension;
 
                 // Mover a imagem para a pasta de eventos
-                $path = '/img/upload/';
+                $path = '/storage/images/';
                 $image->move(public_path($path), $imageName);
 
                 // Atualizar o valor com o caminho da imagem
@@ -331,7 +353,7 @@ class AdminController extends Controller
 
                 $mainDemoPath = $extractPath . '/' . pathinfo($zipFile->getClientOriginalName(), PATHINFO_FILENAME);
                 if (is_dir($mainDemoPath)) {
-                    File::moveDirectory($mainDemoPath, public_path('demos/' . $project->demo));
+                    File::moveDirectory($mainDemoPath, public_path('demo/' . $project->demo));
                 }
                 File::deleteDirectory($tempDir);
             } else {
@@ -447,7 +469,7 @@ class AdminController extends Controller
             if (file_exists($project->videos)) unlink(public_path($project->videos));
 
             // Delete diretorio
-            $diretorio = public_path("demos/" . $uuid);
+            $diretorio = public_path("demo/" . $uuid);
             if (File::exists($diretorio)) {
                 File::deleteDirectory($diretorio);
             }
@@ -464,33 +486,35 @@ class AdminController extends Controller
         if (!is_null(session('uuid'))) {
             define('FM_EMBED', true);
             define('CSFR_TOKEN', csrf_token());
-            define("FM_ROOT_URL", '/demos/' . session('uuid'));
-            define('FM_ROOT_PATH', public_path('demos/' . session('uuid')));
+            define("FM_ROOT_URL", '/demo/' . session('uuid'));
+            define('FM_ROOT_PATH', public_path('demo/' . session('uuid')));
             require storage_path('app/include/filemanager.php');
         } else return redirect()->route("projects")->with('success', "A requisição enviada é inválida");
     }
 
-    public function settings() {
+    public function settings()
+    {
         return view("admin.settings");
     }
 
-    public function settingsUpdate(Request $request) {
+    public function settingsUpdate(Request $request)
+    {
         $env = File::get(base_path('.env'));
 
-        $env = str_replace('APP_TITLE='.env('APP_TITLE'), 'APP_TITLE="'.$request->input('app-name').'"', $env);
-        $env = str_replace('APP_ENV='.env('APP_ENV'), 'APP_ENV='.$request->input('app-env'), $env);
-        $env = str_replace('APP_DEBUG='.env('APP_DEBUG'), 'APP_DEBUG='.$request->input('app-debug'), $env);
-        $env = str_replace('APP_TIMEZONE='.env('APP_TIMEZONE'), 'APP_TIMEZONE='.$request->input('app-timezone'), $env);
-        
-        $env = str_replace('APP_FAKER_LOCALE='.env('APP_FAKER_LOCALE'), 'APP_FAKER_LOCALE='.$request->input('app-faker-locale'), $env);
-        $language = explode("_",$request->input('app-faker-locale'))[0];
+        $env = str_replace('APP_TITLE=' . env('APP_TITLE'), 'APP_TITLE="' . $request->input('app-name') . '"', $env);
+        $env = str_replace('APP_ENV=' . env('APP_ENV'), 'APP_ENV=' . $request->input('app-env'), $env);
+        $env = str_replace('APP_DEBUG=' . env('APP_DEBUG'), 'APP_DEBUG=' . $request->input('app-debug'), $env);
+        $env = str_replace('APP_TIMEZONE=' . env('APP_TIMEZONE'), 'APP_TIMEZONE=' . $request->input('app-timezone'), $env);
 
-        $env = str_replace('APP_LOCALE='.env('APP_LOCALE'), 'APP_LOCALE='.$language, $env);
-        $env = str_replace('APP_FALLBACK_LOCALE='.env('APP_FALLBACK_LOCALE'), 'APP_FALLBACK_LOCALE='.$language, $env);
-        $env = str_replace('MULTIPLE_LANGUAGES='.env('MULTIPLE_LANGUAGES'), 'MULTIPLE_LANGUAGES='.$request->input('multiple-languages'), $env);
+        $env = str_replace('APP_FAKER_LOCALE=' . env('APP_FAKER_LOCALE'), 'APP_FAKER_LOCALE=' . $request->input('app-faker-locale'), $env);
+        $language = explode("_", $request->input('app-faker-locale'))[0];
+
+        $env = str_replace('APP_LOCALE=' . env('APP_LOCALE'), 'APP_LOCALE=' . $language, $env);
+        $env = str_replace('APP_FALLBACK_LOCALE=' . env('APP_FALLBACK_LOCALE'), 'APP_FALLBACK_LOCALE=' . $language, $env);
+        $env = str_replace('MULTIPLE_LANGUAGES=' . env('MULTIPLE_LANGUAGES'), 'MULTIPLE_LANGUAGES=' . $request->input('multiple-languages'), $env);
 
         File::put(base_path('.env'), $env);
-    
+
         return redirect()->back()->with('success', 'Configurações atualizadas com sucesso!');
     }
 }
