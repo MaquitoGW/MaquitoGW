@@ -57,7 +57,7 @@
             <input required type="text" name="fullname" placeholder="Insira apenas seu nome completo">
 
             <label for="position">Qual seu cargo</label>
-            <input required type="text" name="position" value="{{ $info->position }}" placeholder="Insira em que cargo você atua atualmente">
+            <input required type="text" name="position" placeholder="Insira em que cargo você atua atualmente">
 
             <label for="description">Descrição</label>
             <textarea name="description" cols="30" rows="10" placeholder="Fale um pouco sobre você..."></textarea>
