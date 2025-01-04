@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/resize.css">
-    <link rel="stylesheet" href="/icons/css/all.css">
-    <script src="/icons/js/all.js"></script>
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/icons.js"></script>
     <meta property="og:url" content="{{ env('APP_URL') }}">
     <meta property="og:description" content="{{ $infos['description'] }}">
     <meta name="description" content="{{ $infos['description'] }}">

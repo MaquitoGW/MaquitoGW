@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/css/painel.css">
     <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
-    <link rel="stylesheet" href="/icons/css/all.css">
-    <script src="/icons/js/all.js"></script>
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/icons.js"></script>
     <style>
         :root {
             --primary-color: {{ $customization('color_primary', '#6200ff') }};
