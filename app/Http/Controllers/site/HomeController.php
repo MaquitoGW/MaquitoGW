@@ -15,107 +15,120 @@ use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
-    // Função inicial
     public function index(Request $request)
     {
         $this->trackVisit($request, 'site');
 
-        // Verificar o idioma do BD
         if (env("MULTIPLE_LANGUAGES") == 1) {
             $languageUserGET = str_replace("-", "_", App::getLocale());
-            switch ($languageUserGET) {
-                case 'en_US':
-                case 'pt_BR':
-                    $language = $languageUserGET;
-                    break;
 
-                default:
-                    $language = env('APP_FAKER_LOCALE');
-                    break;
-            }
-        } else $language = env('APP_FAKER_LOCALE');
+            $language = match ($languageUserGET) {
+                'en_US', 'pt_BR' => $languageUserGET,
+                default => env('APP_FAKER_LOCALE'),
+            };
+        } else {
+            $language = env('APP_FAKER_LOCALE');
+        }
 
-        // Obter informações
         $infos = Info::where('language', $language)->first();
         $contacts = Contact::first();
-        $projects = Project::get();
-        $experiences = Experience::orderBy('position_order')->orderByDesc('start_date')->get();
+
+        // fallback global de sistema não configurado
+        if (!$infos || $contacts) {
+            return response()->view('site.not_configured', ['isNotConfigurad' => true], 200);
+        }
+
+        $projects = Project::all();
+        $experiences = Experience::orderBy('position_order')
+            ->orderByDesc('start_date')
+            ->get();
 
         $skills = Skill::orderBy('year', 'asc')->get();
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
 
-        // verificar se existe dados 
+        $skillsJsonPath = storage_path('app/json/languagens_and_frameworks.json');
 
-        if (!$infos || !$contacts) abort(404);
+        $skillsJson = file_exists($skillsJsonPath)
+            ? json_decode(file_get_contents($skillsJsonPath), true)
+            : [];
 
         $skin = $this->search('site_skin', 'default');
-        if ($skin == 'default' || empty($skin)) {
-            $skin = 'site.index';
-        } else {
-            $skin = 'templates.' . $skin;
-        }
+
+        $skin = ($skin === 'default' || empty($skin))
+            ? 'site.index'
+            : 'templates.' . $skin;
 
         return view($skin, [
             'customization' => fn($config, $else = null) => $this->search($config, $else),
+            'search' => fn($config, $else = null) => $this->search($config, $else),
+
             'infos' => $infos,
             'contacts' => $contacts,
             'projects' => $projects,
             'experiences' => $experiences,
             'skills' => $skills,
             'skillsJson' => $skillsJson,
-            'search' => fn($config, $else = null) => $this->search($config, $else)
         ]);
     }
 
-    // Demo do projeto 
     public function details($id)
     {
-        // Verificar o idioma do BD
         $languageUserGET = str_replace("-", "_", App::getLocale());
-        if ($languageUserGET == 'pt_BR' || $languageUserGET == 'en_US') $language = $languageUserGET;
-        else $language = env('APP_FAKER_LOCALE');
 
-        // Obter informações
+        $language = in_array($languageUserGET, ['pt_BR', 'en_US'])
+            ? $languageUserGET
+            : env('APP_FAKER_LOCALE');
+
         $infos = Info::where('language', $language)->first();
         $contacts = Contact::first();
 
-        // Detalhes do projeto
-        $project = Project::where('demo', $id)->first() ?? null;
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $project = Project::where('demo', $id)->first();
 
-        if (!is_null($project)) {
-            return view('site.details', [
-                'customization' => fn($config, $else = null) => $this->search($config, $else),
-                'infos' => $infos,
-                'contacts' => $contacts,
-                'project' => $project,
-                'skillsJson' => $skillsJson
-            ]);
-        } else return redirect()->route('index');
+        if (!$project) {
+            return redirect()->route('index');
+        }
+
+        $skillsJsonPath = storage_path('app/json/languagens_and_frameworks.json');
+
+        $skillsJson = file_exists($skillsJsonPath)
+            ? json_decode(file_get_contents($skillsJsonPath), true)
+            : [];
+
+        return view('site.details', [
+            'customization' => fn($config, $else = null) => $this->search($config, $else),
+
+            'infos' => $infos,
+            'contacts' => $contacts,
+            'project' => $project,
+            'skillsJson' => $skillsJson
+        ]);
     }
 
-    // Procurar configuração
+    // busca segura de customização
     private function search($config, $else = null)
     {
-        $customizations = Customization::where('config', $config);
-        $customization = $customizations->first();
+        $customization = Customization::where('config', $config)->first();
 
-        if ($customizations->count() > 0) {
-            if ($customization->encode) {
-                return base64_decode($customization->value);
-            } else {
-                return $customization->value;
-            }
-        } else return $else;
+        if (!$customization) {
+            return $else;
+        }
+
+        return $customization->encode
+            ? base64_decode($customization->value)
+            : $customization->value;
     }
 
+    // tracking seguro
     private function trackVisit(Request $request, string $type): void
     {
-        SiteVisit::create([
-            'type' => $type,
-            'path' => $request->path(),
-            'ip_hash' => hash('sha256', (string) $request->ip()),
-            'user_agent' => substr((string) $request->userAgent(), 0, 500),
-        ]);
+        try {
+            SiteVisit::create([
+                'type' => $type,
+                'path' => $request->path(),
+                'ip_hash' => hash('sha256', (string) $request->ip()),
+                'user_agent' => substr((string) $request->userAgent(), 0, 500),
+            ]);
+        } catch (\Throwable $e) {
+            // nunca quebra o site por tracking
+        }
     }
 }
