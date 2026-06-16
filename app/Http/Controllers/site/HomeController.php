@@ -34,7 +34,7 @@ class HomeController extends Controller
         $contacts = Contact::first();
 
         // fallback global de sistema não configurado
-        if (!$infos || $contacts) {
+        if (!$infos || !$contacts) {
             return response()->view('site.not_configured', ['isNotConfigurad' => true], 200);
         }
 
