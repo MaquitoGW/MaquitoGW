@@ -2,7 +2,7 @@
 @section('title', 'MaquitoGW || Portifólio::Register')
 @section('content')
     <form class="login-form" action="{{ route('register') }}" method="post">
-        <h2>Fazer registro <b>˚.⋆</b></h2>
+        <h2>Cadastrar Usuário</h2>
         @csrf
         <div class="form-group">
             <label for="username">usuário</label>
@@ -23,6 +23,6 @@
             @endforeach
         @endif
 
-        <button type="submit" class="button">Cadastrar</button>
+        <button type="submit" class="action-btn-v3 demo-btn-v3">Cadastrar</button>
     </form>
 @endsection

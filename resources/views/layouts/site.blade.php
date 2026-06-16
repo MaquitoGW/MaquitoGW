@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
+    @include('partials.favicon')
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Aldrich" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/resize.css">
+    <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="/css/icons.css">
     <script src="/js/icons.js"></script>
     <meta property="og:url" content="{{ env('APP_URL') }}">
@@ -19,12 +20,7 @@
     <meta property="og:image:width" content="2560">
     <meta property="og:image:height" content="500">
     <meta name="theme-color" content="{{ env('THEME_COLOR') }}">
-    <style>
-        :root {
-            --primary-color: {{ $customization('color_primary', '#6200ff') }};
-            --secondary-color: {{ $customization('color_primary', '#8400ff') }};
-        }
-    </style>
+    @include('partials.theme-config')
 </head>
 
 <body>
@@ -39,6 +35,11 @@
                 <li><a href="/#portfolio" id="lk-portfolio">{{ __('site.head.2') }}</a></li>
                 <li><a href="/#habilidades" id="lk-habilidades">{{ __('site.head.3') }}</a></li>
                 <li><a href="/#contato" id="lk-contato">{{ __('site.head.4') }}</a></li>
+                <li>
+                    <button class="theme-toggle site-theme-toggle" type="button" aria-label="Alternar tema">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </li>
             </ul>
 
             <ul class="list-social-midia">
@@ -163,6 +164,7 @@
         @endif
         <div id="top-nav"><i class="fa fa-solid fa-angle-up"></i></div>
     </div>
+    <script src="/js/theme.js"></script>
     <script src="/js/script.js"></script>
 </body>
 

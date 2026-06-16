@@ -5,8 +5,10 @@ namespace App\Http\Controllers\site;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\Customization;
+use App\Models\Experience;
 use App\Models\Info;
 use App\Models\Project;
+use App\Models\SiteVisit;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -16,6 +18,8 @@ class HomeController extends Controller
     // Função inicial
     public function index(Request $request)
     {
+        $this->trackVisit($request, 'site');
+
         // Verificar o idioma do BD
         if (env("MULTIPLE_LANGUAGES") == 1) {
             $languageUserGET = str_replace("-", "_", App::getLocale());
@@ -35,6 +39,7 @@ class HomeController extends Controller
         $infos = Info::where('language', $language)->first();
         $contacts = Contact::first();
         $projects = Project::get();
+        $experiences = Experience::orderBy('position_order')->orderByDesc('start_date')->get();
 
         $skills = Skill::orderBy('year', 'asc')->get();
         $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
@@ -43,13 +48,22 @@ class HomeController extends Controller
 
         if (!$infos || !$contacts) abort(404);
 
-        return view('site.index', [
+        $skin = $this->search('site_skin', 'default');
+        if ($skin == 'default' || empty($skin)) {
+            $skin = 'site.index';
+        } else {
+            $skin = 'templates.' . $skin;
+        }
+
+        return view($skin, [
             'customization' => fn($config, $else = null) => $this->search($config, $else),
             'infos' => $infos,
             'contacts' => $contacts,
             'projects' => $projects,
+            'experiences' => $experiences,
             'skills' => $skills,
-            'skillsJson' => $skillsJson
+            'skillsJson' => $skillsJson,
+            'search' => fn($config, $else = null) => $this->search($config, $else)
         ]);
     }
 
@@ -86,7 +100,22 @@ class HomeController extends Controller
         $customizations = Customization::where('config', $config);
         $customization = $customizations->first();
 
-        if ($customizations->count() > 0) return $customization->value;
-        else return $else;
+        if ($customizations->count() > 0) {
+            if ($customization->encode) {
+                return base64_decode($customization->value);
+            } else {
+                return $customization->value;
+            }
+        } else return $else;
+    }
+
+    private function trackVisit(Request $request, string $type): void
+    {
+        SiteVisit::create([
+            'type' => $type,
+            'path' => $request->path(),
+            'ip_hash' => hash('sha256', (string) $request->ip()),
+            'user_agent' => substr((string) $request->userAgent(), 0, 500),
+        ]);
     }
 }

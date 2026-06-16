@@ -7,13 +7,9 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito" />
     <link rel="stylesheet" href="/css/auth.css">
-    <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
-    <style>
-        :root {
-            --primary-color: {{ $customization('color_primary', '#6200ff') }};
-            --secondary-color: {{ $customization('color_primary', '#8400ff') }};
-        }
-    </style>
+    <link rel="stylesheet" href="/css/theme.css">
+    @include('partials.favicon')
+    @include('partials.theme-config')
 </head>
 
 <body>
@@ -28,6 +24,7 @@
         {{ env('APP_TITLE') }} @ {{ date('Y') }} | <a href="{{ env('APP_URL') }}"
             target="_blank">{{ env('APP_DOMINE') }}</a>
     </footer>
+    <script src="/js/theme.js"></script>
 </body>
 
 </html>

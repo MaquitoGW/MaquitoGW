@@ -117,8 +117,8 @@ class AuthController extends Controller
     {
         // Validação dos dados
         $request->validate([
-            'email' => 'nullable|email|unique:users,email,' . Auth::id(),
-            'name' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'name' => 'required|string|max:255',
             'password' => 'nullable|min:6|confirmed',
         ]);
 

@@ -11,7 +11,7 @@
         <div class="right-index">
             <img src="{{ $customization('bklogo', '/img/bk_logo.png') }}" class="background-logo" alt="background-logo">
         </div>
-    </section>
+    </section> 
 
     <section id="sobre-mim">
         <div class="avatar"><img src="{{ $customization('myphoto', '/img/my.jpg') }}" alt="avatar"></div>
@@ -25,7 +25,7 @@
         <h2><span>{{ __('site.titles.2') }}</span></h2>
         <div class="flex-box">
 
-            @foreach ($projects as $item)
+            @forelse ($projects as $item)
                 <div class="project">
                     <div class="slide">
 
@@ -92,7 +92,15 @@
                         </label>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="project">
+                    <div class="in">
+                        <span><i class="fa-solid fa-folder-open"></i></span>
+                        <h3>Nenhum projeto cadastrado</h3>
+                        <p>Novos projetos serao exibidos aqui em breve.</p>
+                    </div>
+                </div>
+            @endforelse
 
             <div class="project">
                 <div class="in">
@@ -105,12 +113,11 @@
         </div>
     </section>
 
-    @if (count($skills) > 0)
         <section id="habilidades">
             <h2><span>{{ __('site.titles.3') }}</span></h2>
             <ul class="skills-list">
 
-                @foreach ($skills as $skill)
+                @forelse ($skills as $skill)
                     @foreach ($skillsJson as $type)
                         @foreach ($type as $code => $language)
                             @if ($code == $skill->code)
@@ -124,9 +131,16 @@
                             @endif
                         @endforeach
                     @endforeach
-                @endforeach
+                @empty
+                    <li>
+                        <label>
+                            <span><i class="fa-solid fa-star"></i></span>
+                            <b>Nenhuma habilidade cadastrada</b>
+                            <p>As habilidades serao exibidas aqui em breve.</p>
+                        </label>
+                    </li>
+                @endforelse
             </ul>
         </section>
-    @endif
 
 @endsection

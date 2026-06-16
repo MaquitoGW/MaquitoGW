@@ -1,163 +1,314 @@
 {
-    "languages": {
-      "0001": {
-        "name": "JavaScript",
-        "description_pt": "Uma linguagem de programação amplamente utilizada para desenvolvimento web, tanto no frontend quanto no backend.",
-        "description_en": "A widely used programming language for web development, both frontend and backend.",
-        "icon": "fa-brands fa-js"
-      },
-      "0002": {
-        "name": "Python",
-        "description_pt": "Uma linguagem de programação versátil, popular em ciência de dados, aprendizado de máquina e desenvolvimento web.",
-        "description_en": "A versatile programming language, popular in data science, machine learning, and web development.",
-        "icon": "fa-brands fa-python"
-      },
-      "0003": {
-        "name": "Java",
-        "description_pt": "Uma linguagem de programação orientada a objetos, amplamente utilizada em desenvolvimento de aplicativos corporativos e Android.",
-        "description_en": "An object-oriented programming language widely used in enterprise applications and Android development.",
-        "icon": "fa-brands fa-java"
-      },
-      "0004": {
-        "name": "C#",
-        "description_pt": "Uma linguagem de programação desenvolvida pela Microsoft, usada principalmente para desenvolvimento de aplicativos Windows e jogos com Unity.",
-        "description_en": "A programming language developed by Microsoft, mainly used for Windows applications and games with Unity.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0005": {
-        "name": "PHP",
-        "description_pt": "Uma linguagem de script do lado do servidor, amplamente utilizada para desenvolvimento web.",
-        "description_en": "A server-side scripting language widely used for web development.",
-        "icon": "fa-brands fa-php"
-      },
-      "0006": {
-        "name": "Ruby",
-        "description_pt": "Uma linguagem de programação dinâmica e de alto nível, conhecida por sua simplicidade e produtividade, comumente usada em desenvolvimento web.",
-        "description_en": "A dynamic, high-level programming language known for its simplicity and productivity, commonly used in web development.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0007": {
-        "name": "TypeScript",
-        "description_pt": "Um superconjunto do JavaScript que adiciona tipagem estática, aumentando a escalabilidade e a manutenção do código.",
-        "description_en": "A superset of JavaScript that adds static typing, enhancing code scalability and maintenance.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0008": {
-        "name": "Go",
-        "description_pt": "Uma linguagem de programação desenvolvida pela Google, conhecida por sua eficiência e simplicidade, ideal para desenvolvimento de sistemas e serviços.",
-        "description_en": "A programming language developed by Google, known for its efficiency and simplicity, ideal for system and service development.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0009": {
-        "name": "Swift",
-        "description_pt": "Uma linguagem de programação desenvolvida pela Apple, usada principalmente para desenvolvimento de aplicativos iOS e macOS.",
-        "description_en": "A programming language developed by Apple, primarily used for iOS and macOS app development.",
-        "icon": "fa-brands fa-swift"
-      },
-      "0010": {
-        "name": "Kotlin",
-        "description_pt": "Uma linguagem de programação que é uma alternativa moderna ao Java para desenvolvimento Android, com uma sintaxe mais concisa.",
-        "description_en": "A programming language that is a modern alternative to Java for Android development, with a more concise syntax.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0011": {
-        "name": "Rust",
-        "description_pt": "Uma linguagem de programação focada em segurança e desempenho, amplamente utilizada em desenvolvimento de sistemas e aplicações de alto desempenho.",
-        "description_en": "A programming language focused on safety and performance, widely used in system and high-performance application development.",
-        "icon": "fa-brands fa-rust"
-      },
-      "0012": {
-        "name": "HTML5",
-        "description_pt": "HTML5 é uma linguagem de marcação para a World Wide Web e é uma tecnologia chave da Internet, originalmente proposto por Opera Software. É a quinta versão da linguagem HTML.",
-        "description_en": "HTML5 is a markup language for the World Wide Web and is a key Internet technology, originally proposed by Opera Software. It is the fifth version of the HTML language.",
-        "icon": "fa-brands fa-html5"
-      },
-      "0013": {
-        "name": "CSS3",
-        "description_pt": "CSS3 é a terceira mais nova versão das famosas Cascading Style Sheets, pela qual se define estilos para um projeto web. Com efeitos de transição, imagem, imagem de fundo/background e outros, pode-se criar estilos únicos para seus projetos web, alterando diversos aspectos de design no layout da página.",
-        "description_en": "CSS3 is the third newest version of the famous Cascading Style Sheets, which allows you to define styles for a web project. With transition effects, image, background image and others, you can create unique styles for your web projects, changing different design aspects of the page layout.",
-        "icon": "fa-brands fa-css3"
-      },
-      "0014": {
-        "name": "Perl",
-        "description_pt": "Uma linguagem de programação de propósito geral, conhecida por sua flexibilidade e uso em scripts e automação.",
-        "description_en": "A general-purpose programming language known for its flexibility and use in scripting and automation.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0015": {
-        "name": "Lua",
-        "description_pt": "Uma linguagem de programação leve e embutível, amplamente utilizada em desenvolvimento de jogos e aplicações embarcadas.",
-        "description_en": "A lightweight, embeddable programming language, widely used in game development and embedded applications.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0016": {
-        "name": "Node.js",
-        "description_pt": "Um ambiente de execução JavaScript do lado do servidor, permitindo que os desenvolvedores construam aplicações escaláveis e rápidas.",
-        "description_en": "A JavaScript runtime environment for server-side development, enabling developers to build scalable and fast applications.",
-        "icon": "fa-brands fa-node-js"
-      }
+  "languages": {
+    "0001": {
+      "name": "JavaScript",
+      "description_pt": "Uma linguagem de programação amplamente utilizada para desenvolvimento web, tanto no frontend quanto no backend.",
+      "description_en": "A widely used programming language for web development, both frontend and backend.",
+      "icon": "fa-brands fa-js"
     },
-    "frameworks": {
-      "0101": {
-        "name": "React",
-        "description_pt": "Uma biblioteca JavaScript para construir interfaces de usuário, desenvolvida pelo Facebook.",
-        "description_en": "A JavaScript library for building user interfaces, developed by Facebook.",
-        "icon": "fa-brands fa-react"
-      },
-      "0102": {
-        "name": "Angular",
-        "description_pt": "Um framework para construção de aplicações web dinâmicas, desenvolvido pelo Google.",
-        "description_en": "A framework for building dynamic web applications, developed by Google.",
-        "icon": "fa-brands fa-angular"
-      },
-      "0103": {
-        "name": "Vue.js",
-        "description_pt": "Um framework progressivo para construir interfaces de usuário, fácil de integrar em projetos existentes.",
-        "description_en": "A progressive framework for building user interfaces, easy to integrate into existing projects.",
-        "icon": "fa-brands fa-vuejs"
-      },
-      "0104": {
-        "name": "Django",
-        "description_pt": "Um framework de desenvolvimento web em Python que segue o padrão MVC e enfatiza a simplicidade e a rapidez.",
-        "description_en": "A Python web development framework that follows the MVC pattern and emphasizes simplicity and speed.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0105": {
-        "name": "Ruby on Rails",
-        "description_pt": "Um framework para desenvolvimento web em Ruby que promove a convenção sobre a configuração.",
-        "description_en": "A web development framework in Ruby that promotes convention over configuration.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0106": {
-        "name": "Laravel",
-        "description_pt": "Um framework de desenvolvimento web em PHP, conhecido por sua sintaxe expressiva e facilidade de uso.",
-        "description_en": "A PHP web development framework, known for its expressive syntax and ease of use.",
-        "icon": "fa-brands fa-laravel"
-      },
-      "0107": {
-        "name": "Spring",
-        "description_pt": "Um framework Java para desenvolvimento de aplicações corporativas robustas, com suporte para injeção de dependências e transações.",
-        "description_en": "A Java framework for building robust enterprise applications, with support for dependency injection and transactions.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0108": {
-        "name": "Express.js",
-        "description_pt": "Um framework minimalista para Node.js, utilizado para construir aplicações web rápidas e escaláveis.",
-        "description_en": "A minimalist framework for Node.js, used to build fast and scalable web applications.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0109": {
-        "name": "Flask",
-        "description_pt": "Um framework micro para Python, usado para construir aplicações web leves e modulares.",
-        "description_en": "A micro-framework for Python, used to build lightweight and modular web applications.",
-        "icon": "fa-solid fa-square-code"
-      },
-      "0110": {
-        "name": "Next.js",
-        "description_pt": "Next.js é uma estrutura da web de desenvolvimento front-end React de código aberto criada por Vercel que permite funcionalidades como renderização do lado do servidor e geração de sites estáticos para aplicativos da web baseados em React.",
-        "description_en": "Next.js is an open-source React front-end development web framework created by Vercel that enables functionality such as server-side rendering and static website generation for React-based web applications.",
-        "icon": "fa-solid fa-square-code"
-      }
+    "0002": {
+      "name": "Python",
+      "description_pt": "Uma linguagem de programação versátil, popular em ciência de dados, aprendizado de máquina e desenvolvimento web.",
+      "description_en": "A versatile programming language, popular in data science, machine learning, and web development.",
+      "icon": "fa-brands fa-python"
+    },
+    "0003": {
+      "name": "Java",
+      "description_pt": "Uma linguagem de programação orientada a objetos, amplamente utilizada em desenvolvimento de aplicativos corporativos e Android.",
+      "description_en": "An object-oriented programming language widely used in enterprise applications and Android development.",
+      "icon": "fa-brands fa-java"
+    },
+    "0004": {
+      "name": "C#",
+      "description_pt": "Uma linguagem de programação desenvolvida pela Microsoft, usada principalmente para desenvolvimento de aplicativos Windows e jogos com Unity.",
+      "description_en": "A programming language developed by Microsoft, mainly used for Windows applications and games with Unity.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0005": {
+      "name": "PHP",
+      "description_pt": "Uma linguagem de script do lado do servidor, amplamente utilizada para desenvolvimento web.",
+      "description_en": "A server-side scripting language widely used for web development.",
+      "icon": "fa-brands fa-php"
+    },
+    "0006": {
+      "name": "Ruby",
+      "description_pt": "Uma linguagem de programação dinâmica e de alto nível, conhecida por sua simplicidade e produtividade, comumente usada em desenvolvimento web.",
+      "description_en": "A dynamic, high-level programming language known for its simplicity and productivity, commonly used in web development.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0007": {
+      "name": "TypeScript",
+      "description_pt": "Um superconjunto do JavaScript que adiciona tipagem estática, aumentando a escalabilidade e a manutenção do código.",
+      "description_en": "A superset of JavaScript that adds static typing, enhancing code scalability and maintenance.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0008": {
+      "name": "Go",
+      "description_pt": "Uma linguagem de programação desenvolvida pela Google, conhecida por sua eficiência e simplicidade, ideal para desenvolvimento de sistemas e serviços.",
+      "description_en": "A programming language developed by Google, known for its efficiency and simplicity, ideal for system and service development.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0009": {
+      "name": "Swift",
+      "description_pt": "Uma linguagem de programação desenvolvida pela Apple, usada principalmente para desenvolvimento de aplicativos iOS e macOS.",
+      "description_en": "A programming language developed by Apple, primarily used for iOS and macOS app development.",
+      "icon": "fa-brands fa-swift"
+    },
+    "0010": {
+      "name": "Kotlin",
+      "description_pt": "Uma linguagem de programação que é uma alternativa moderna ao Java para desenvolvimento Android, com uma sintaxe mais concisa.",
+      "description_en": "A programming language that is a modern alternative to Java for Android development, with a more concise syntax.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0011": {
+      "name": "Rust",
+      "description_pt": "Uma linguagem de programação focada em segurança e desempenho, amplamente utilizada em desenvolvimento de sistemas e aplicações de alto desempenho.",
+      "description_en": "A programming language focused on safety and performance, widely used in system and high-performance application development.",
+      "icon": "fa-brands fa-rust"
+    },
+    "0012": {
+      "name": "HTML5",
+      "description_pt": "HTML5 é uma linguagem de marcação para a World Wide Web e é uma tecnologia chave da Internet.",
+      "description_en": "HTML5 is a markup language for the World Wide Web and is a key Internet technology.",
+      "icon": "fa-brands fa-html5"
+    },
+    "0013": {
+      "name": "CSS3",
+      "description_pt": "CSS3 é a terceira versão das Cascading Style Sheets, permitindo estilos avançados para web.",
+      "description_en": "CSS3 is the third version of Cascading Style Sheets, allowing advanced styling for web.",
+      "icon": "fa-brands fa-css3"
+    },
+    "0014": {
+      "name": "Perl",
+      "description_pt": "Uma linguagem de programação de propósito geral, conhecida por sua flexibilidade e uso em scripts e automação.",
+      "description_en": "A general-purpose programming language known for its flexibility and use in scripting and automation.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0015": {
+      "name": "Lua",
+      "description_pt": "Uma linguagem de programação leve e embutível, amplamente utilizada em desenvolvimento de jogos e aplicações embarcadas.",
+      "description_en": "A lightweight, embeddable programming language, widely used in game development and embedded applications.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0016": {
+      "name": "Node.js",
+      "description_pt": "Um ambiente de execução JavaScript do lado do servidor.",
+      "description_en": "A JavaScript runtime environment for server-side development.",
+      "icon": "fa-brands fa-node-js"
+    },
+    "0017": {
+      "name": "Scala",
+      "description_pt": "Uma linguagem que combina programação orientada a objetos e funcional, usada em big data.",
+      "description_en": "A language that combines object-oriented and functional programming, used in big data.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0018": {
+      "name": "C",
+      "description_pt": "Linguagem de programação de baixo nível, muito usada em sistemas embarcados.",
+      "description_en": "Low-level programming language, widely used in embedded systems.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0019": {
+      "name": "C++",
+      "description_pt": "Uma extensão do C com programação orientada a objetos, usada em games e sistemas de alto desempenho.",
+      "description_en": "An extension of C with object-oriented programming, used in games and high-performance systems.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0020": {
+      "name": "Elixir",
+      "description_pt": "Uma linguagem funcional focada em concorrência e tolerância a falhas, usada em aplicações distribuídas.",
+      "description_en": "A functional language focused on concurrency and fault tolerance, used in distributed applications.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0021": {
+      "name": "Haskell",
+      "description_pt": "Uma linguagem puramente funcional, usada em pesquisa e aplicações críticas.",
+      "description_en": "A purely functional language, used in research and critical applications.",
+      "icon": "fa-solid fa-square-code"
+    }
+  },
+  "frameworks": {
+    "0101": {
+      "name": "React",
+      "description_pt": "Uma biblioteca JavaScript para construir interfaces de usuário.",
+      "description_en": "A JavaScript library for building user interfaces.",
+      "icon": "fa-brands fa-react"
+    },
+    "0102": {
+      "name": "Angular",
+      "description_pt": "Um framework para construção de aplicações web dinâmicas.",
+      "description_en": "A framework for building dynamic web applications.",
+      "icon": "fa-brands fa-angular"
+    },
+    "0103": {
+      "name": "Vue.js",
+      "description_pt": "Um framework progressivo para construir interfaces de usuário.",
+      "description_en": "A progressive framework for building user interfaces.",
+      "icon": "fa-brands fa-vuejs"
+    },
+    "0104": {
+      "name": "Django",
+      "description_pt": "Framework web em Python que segue o padrão MVC.",
+      "description_en": "Python web framework that follows the MVC pattern.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0105": {
+      "name": "Ruby on Rails",
+      "description_pt": "Framework web em Ruby que promove a convenção sobre a configuração.",
+      "description_en": "Web development framework in Ruby promoting convention over configuration.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0106": {
+      "name": "Laravel",
+      "description_pt": "Framework PHP conhecido por sua sintaxe expressiva.",
+      "description_en": "PHP framework known for its expressive syntax.",
+      "icon": "fa-brands fa-laravel"
+    },
+    "0107": {
+      "name": "Spring",
+      "description_pt": "Framework Java para aplicações corporativas robustas.",
+      "description_en": "Java framework for robust enterprise applications.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0108": {
+      "name": "Express.js",
+      "description_pt": "Framework minimalista para Node.js.",
+      "description_en": "Minimalist framework for Node.js.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0109": {
+      "name": "Flask",
+      "description_pt": "Framework micro para Python.",
+      "description_en": "Micro-framework for Python.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0110": {
+      "name": "Next.js",
+      "description_pt": "Framework React com SSR e SSG.",
+      "description_en": "React framework with SSR and SSG.",
+      "icon": "fa-solid fa-square-code"
+    },
+    "0111": {
+      "name": "Svelte",
+      "description_pt": "Framework front-end moderno que compila componentes em JS puro.",
+      "description_en": "Modern front-end framework compiling components into pure JS.",
+      "icon": "fa-brands fa-svelte"
+    },
+    "0112": {
+      "name": "ASP.NET Core",
+      "description_pt": "Framework da Microsoft para web e APIs.",
+      "description_en": "Microsoft framework for web applications and APIs.",
+      "icon": "fa-brands fa-microsoft"
+    },
+    "0113": {
+      "name": "Symfony",
+      "description_pt": "Framework PHP robusto para grandes sistemas.",
+      "description_en": "Robust PHP framework for large systems.",
+      "icon": "fa-brands fa-php"
+    },
+    "0114": {
+      "name": "Ionic",
+      "description_pt": "Framework para apps mobile híbridos usando web tech.",
+      "description_en": "Framework for hybrid mobile apps using web technologies.",
+      "icon": "fa-brands fa-ionic"
+    },
+    "0115": {
+      "name": "Flutter",
+      "description_pt": "SDK para construir apps nativos multiplataforma com Dart.",
+      "description_en": "SDK for building cross-platform native apps using Dart.",
+      "icon": "fa-brands fa-google"
+    }
+  },
+  "software_skills": {
+    "0201": {
+      "name": "Adobe Photoshop",
+      "description_pt": "Software de edição de imagens.",
+      "description_en": "Image editing software.",
+      "icon": "fa-brands fa-adobe"
+    },
+    "0202": {
+      "name": "Adobe Illustrator",
+      "description_pt": "Software de design vetorial.",
+      "description_en": "Vector design software.",
+      "icon": "fa-brands fa-adobe"
+    },
+    "0203": {
+      "name": "Figma",
+      "description_pt": "Ferramenta de design de interfaces e prototipagem.",
+      "description_en": "Interface design and prototyping tool.",
+      "icon": "fa-brands fa-figma"
+    },
+    "0204": {
+      "name": "VS Code",
+      "description_pt": "Editor de código-fonte.",
+      "description_en": "Source code editor.",
+      "icon": "fa-solid fa-code"
+    },
+    "0205": {
+      "name": "Git",
+      "description_pt": "Controle de versão distribuído.",
+      "description_en": "Distributed version control system.",
+      "icon": "fa-brands fa-git"
+    },
+    "0206": {
+      "name": "Docker",
+      "description_pt": "Plataforma de containerização.",
+      "description_en": "Containerization platform.",
+      "icon": "fa-brands fa-docker"
+    },
+    "0207": {
+      "name": "Postman",
+      "description_pt": "Teste de APIs.",
+      "description_en": "API testing tool.",
+      "icon": "fa-brands fa-postman"
+    },
+    "0208": {
+      "name": "Jira",
+      "description_pt": "Gestão de projetos e tarefas.",
+      "description_en": "Project management tool.",
+      "icon": "fa-brands fa-jira"
+    },
+    "0209": {
+      "name": "Slack",
+      "description_pt": "Plataforma de comunicação para equipes.",
+      "description_en": "Team communication platform.",
+      "icon": "fa-brands fa-slack"
+    },
+    "0210": {
+      "name": "MySQL",
+      "description_pt": "Sistema de gerenciamento de banco de dados relacional.",
+      "description_en": "Relational database management system.",
+      "icon": "fa-solid fa-database"
+    },
+    "0211": {
+      "name": "PostgreSQL",
+      "description_pt": "Banco de dados relacional avançado.",
+      "description_en": "Advanced relational database.",
+      "icon": "fa-solid fa-database"
+    },
+    "0212": {
+      "name": "MongoDB",
+      "description_pt": "Banco de dados NoSQL orientado a documentos.",
+      "description_en": "NoSQL document-oriented database.",
+      "icon": "fa-solid fa-database"
+    },
+    "0213": {
+      "name": "AWS",
+      "description_pt": "Serviços de nuvem da Amazon.",
+      "description_en": "Amazon cloud services.",
+      "icon": "fa-brands fa-aws"
+    },
+    "0214": {
+      "name": "Azure",
+      "description_pt": "Serviços de nuvem da Microsoft.",
+      "description_en": "Microsoft cloud services.",
+      "icon": "fa-brands fa-microsoft"
+    },
+    "0215": {
+      "name": "Google Cloud",
+      "description_pt": "Serviços de nuvem do Google.",
+      "description_en": "Google cloud services.",
+      "icon": "fa-brands fa-google"
     }
   }
-  
+}

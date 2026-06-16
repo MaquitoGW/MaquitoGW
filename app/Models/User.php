@@ -20,6 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'links_slug',
+        'links_display_name',
+        'links_bio',
+        'links_avatar',
+        'links_banner',
     ];
 
     /**
@@ -43,5 +48,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all links for the user.
+     */
+    public function links()
+    {
+        return $this->hasMany(Link::class);
+    }
+
+    /**
+     * Get all experiences for the user.
+     */
+    public function experiences()
+    {
+        return $this->hasMany(Experience::class)->orderBy('position_order');
     }
 }

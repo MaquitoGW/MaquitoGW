@@ -1,0 +1,193 @@
+:root[data-app-theme-effective="dark"],
+body[data-app-theme-effective="dark"] {
+    --background-color: #0d1117;
+    --bg-sidebar: #161b22;
+    --card-bg: #161b22;
+    --active-bg: #21262d;
+    --text-light: #c9d1d9;
+    --text-secondary: #8b949e;
+    --border-color: #30363d;
+    --white-color: #f0f6fc;
+    --surface-muted: #010409;
+    --surface-hover: #1c2128;
+    --input-bg: #0d1117;
+    --primary-color: #2f81f7;
+    --primary-dark: #1f6feb;
+    --primary-light: #58a6ff;
+    --primary: #388bfd;
+    --primary-rgb: 56, 139, 253;
+    --theme-primary-rgb: 47, 129, 247;
+    --theme-secondary-rgb: 88, 166, 255;
+    --theme-radial-weak: rgba(var(--theme-primary-rgb), .08);
+    --theme-radial-medium: rgba(var(--theme-primary-rgb), .14);
+    --theme-radial-strong: rgba(var(--theme-primary-rgb), .24);
+    --background: #0f0f0f;
+    --foreground: #f8fafc;
+    --card: #0f0f0f;
+    --card-foreground: #f8fafc;
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+    --border: #27272a;
+    --input: #27272a;
+}
+
+:root[data-app-theme-effective="light"],
+body[data-app-theme-effective="light"] {
+    --background-color: #f6f8fa;
+    --bg-sidebar: #ffffff;
+    --card-bg: #ffffff;
+    --active-bg: #f6f8fa;
+    --text-light: #24292f;
+    --text-secondary: #57606a;
+    --border-color: #d0d7de;
+    --white-color: #1f2328;
+    --surface-muted: #f6f8fa;
+    --surface-hover: #eef1f4;
+    --input-bg: #ffffff;
+    --primary-color: #0969da;
+    --primary-dark: #0550ae;
+    --primary-light: #218bff;
+    --primary: #0969da;
+    --primary-rgb: 9, 105, 218;
+    --theme-primary-rgb: 9, 105, 218;
+    --theme-secondary-rgb: 31, 111, 235;
+    --theme-radial-weak: rgba(var(--theme-primary-rgb), .08);
+    --theme-radial-medium: rgba(var(--theme-primary-rgb), .12);
+    --theme-radial-strong: rgba(var(--theme-primary-rgb), .18);
+    --background: #ffffff;
+    --foreground: #0f0f0f;
+    --card: #ffffff;
+    --card-foreground: #0f0f0f;
+    --muted: #f4f4f5;
+    --muted-foreground: #757575;
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+}
+
+:root {
+    --button-text-color: var(--primary-foreground, #f8fafc);
+}
+
+.theme-toggle {
+    cursor: pointer;
+}
+
+.site-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--card-bg);
+    color: var(--text-light);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.app-theme-configured {
+    background-color: var(--background-color);
+    color: var(--text-light);
+}
+
+body.app-theme-configured .btn-primary,
+body.app-theme-configured .admin-btn-primary,
+body.app-theme-configured .new-project-btn,
+body.app-theme-configured .add-skill-btn,
+body.app-theme-configured .col-button {
+    background-color: var(--primary-color);
+    color: var(--button-text-color, #f8fafc);
+}
+
+body[data-app-theme-effective="light"] .admin-topbar,
+body[data-app-theme-effective="light"] .navBar,
+body[data-app-theme-effective="light"] .admin-card,
+body[data-app-theme-effective="light"] form,
+body[data-app-theme-effective="light"] .kpi-card,
+body[data-app-theme-effective="light"] .chart-card,
+body[data-app-theme-effective="light"] .admin-list-item,
+body[data-app-theme-effective="light"] .project-card-v3,
+body[data-app-theme-effective="light"] .skill-card {
+    box-shadow: 0 8px 24px rgba(140, 149, 159, .18) !important;
+}
+
+body[data-app-theme-effective="light"] .admin-title,
+body[data-app-theme-effective="light"] .admin-header h1,
+body[data-app-theme-effective="light"] .admin-card h1,
+body[data-app-theme-effective="light"] .admin-card h2,
+body[data-app-theme-effective="light"] .admin-card h3,
+body[data-app-theme-effective="light"] .admin-list-title,
+body[data-app-theme-effective="light"] .kpi-value,
+body[data-app-theme-effective="light"] .file-name,
+body[data-app-theme-effective="light"] .admin-topbar .name h3,
+body[data-app-theme-effective="light"] .admin-topbar .name-section,
+body[data-app-theme-effective="light"] .admin-topbar .user-login .info strong,
+body[data-app-theme-effective="light"] .account-summary strong,
+body[data-app-theme-effective="light"] .navBar li[aria-selected="true"] {
+    color: var(--white-color) !important;
+}
+
+body[data-app-theme-effective="light"] .navBar li,
+body[data-app-theme-effective="light"] .admin-subtitle,
+body[data-app-theme-effective="light"] .admin-meta,
+body[data-app-theme-effective="light"] .admin-list-description,
+body[data-app-theme-effective="light"] .account-summary span {
+    color: var(--text-secondary) !important;
+}
+
+body[data-app-theme-effective="light"] input,
+body[data-app-theme-effective="light"] textarea,
+body[data-app-theme-effective="light"] select {
+    color: var(--text-light) !important;
+    background: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+body[data-app-theme-effective="light"] .theme-switcher,
+body[data-app-theme-effective="light"] .theme-switcher button,
+body[data-app-theme-effective="light"] .icon-button,
+body[data-app-theme-effective="light"] .logout-button {
+    color: var(--text-light);
+    border-color: var(--border-color);
+}
+
+body[data-app-theme-effective="light"] header,
+body[data-app-theme-effective="light"] .admin-topbar,
+body[data-app-theme-effective="light"] .navBar,
+body[data-app-theme-effective="light"] .admin-card,
+body[data-app-theme-effective="light"] form,
+body[data-app-theme-effective="light"] .options-list,
+body[data-app-theme-effective="light"] .list,
+body[data-app-theme-effective="light"] .options-set,
+body[data-app-theme-effective="light"] .account-summary,
+body[data-app-theme-effective="light"] .admin-avatar,
+body[data-app-theme-effective="light"] .admin-list-item,
+body[data-app-theme-effective="light"] .file-row,
+body[data-app-theme-effective="light"] .admin-alert {
+    border-color: #d0d7de !important;
+}
+
+body[data-app-theme-effective="light"] form,
+body[data-app-theme-effective="light"] .admin-card,
+body[data-app-theme-effective="light"] .options-list,
+body[data-app-theme-effective="light"] .list,
+body[data-app-theme-effective="light"] .options-set {
+    background: #ffffff !important;
+    color: #24292f !important;
+}
+
+body[data-app-theme-effective="light"] .admin-topbar,
+body[data-app-theme-effective="light"] .navBar,
+body[data-app-theme-effective="light"] .theme-switcher,
+body[data-app-theme-effective="light"] .admin-topbar .user-login,
+body[data-app-theme-effective="light"] .icon-button,
+body[data-app-theme-effective="light"] .logout-button,
+body[data-app-theme-effective="light"] .account-summary,
+body[data-app-theme-effective="light"] .file-row {
+    background: #ffffff !important;
+}
+
+body[data-app-theme-effective="light"] .admin-avatar,
+body[data-app-theme-effective="light"] .theme-switcher button.active,
+body[data-app-theme-effective="light"] .navBar li[aria-selected="true"] {
+    background: #f6f8fa !important;
+}

@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 @section('title', 'Habilidades')
 @section('content')
-    <div class="options-list">
-        <a href="{{ route('skill.new') }}"> Adicionar Habilidades</a>
+    <div class="top-actions">
+        <button action-click="{{ route('skill.new') }}" class="add-skill-btn">
+            <i class="fas fa-plus"></i> Adicionar Habilidade
+        </button>
     </div>
 
     @if (Route::currentRouteName() == 'skill.new')
@@ -22,6 +24,11 @@
                         <option value="{{ $code }}">{{ $framework['name'] }}</option>
                     @endforeach
                 </optgroup>
+                <optgroup label="Software skill">
+                    @foreach ($skillsJson['software_skills'] as $code => $software_skill)
+                        <option value="{{ $code }}">{{ $software_skill['name'] }}</option>
+                    @endforeach
+                </optgroup>
             </select>
 
             <label for="year">Ano</label>
@@ -29,39 +36,42 @@
 
             <div class="options">
                 <button type="submit">Adicionar</button>
-                <a class="success" href="{{route('skills')}}">Fechar</a>
+                <a class="success" href="{{ route('skills') }}">Fechar</a>
             </div>
         </form>
     @endif
 
-    <table>
-        <thead>
-            <tr>
-                <th>Habilidade</th>
-                <th>Ano</th>
-                <th>Descrição</th>
-                <th>Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($skills as $skill)
-                @foreach ($skillsJson as $type)
-                    @foreach ($type as $code => $language)
-                        @if ($code == $skill->code)
-                            <tr>
-                                <td>
-                                    <span class="icon"><i class="{{ $language['icon'] }}"></i></span><br>
-                                    <span>{{ $language['name'] }}</span>
-                                </td>
-                                <td>{{ $skill->year }}</td>
-                                <td>{{ $language['description_pt'] }}</td>
-                                <td><a href="skills/delete/{{ $code }}">Remover</a></td>
-                            </tr>
-                        @endif
-                    @endforeach
+    <div class="skills-grid">
+        @forelse ($skills as $skill)
+            @foreach ($skillsJson as $type)
+                @foreach ($type as $code => $language)
+                    @if ($code == $skill->code)
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <i class="{{ $language['icon'] }} skill-icon"></i>
+                                <span class="skill-year">{{ $skill->year }}</span>
+                            </div>
+                            <div class="skill-content">
+                                <h3 class="skill-title">{{ $language['name'] }}</h3>
+                                <p class="skill-description">{{ $language['description_pt'] }}</p>
+                            </div>
+                            <div class="skill-footer">
+                                <button action-click="skills/delete/{{ $code }}" class="remove-skill-btn"><i class="fas fa-trash-alt"></i> Remover</button>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
             @endforeach
+        @empty
+            <div class="empty-state">
+                <i class="fa-solid fa-star"></i>
+                <h3>Nenhuma habilidade cadastrada</h3>
+                <p>Adicione habilidades para destacar as tecnologias usadas nos projetos.</p>
+                <button action-click="{{ route('skill.new') }}" class="add-skill-btn">
+                    <i class="fas fa-plus"></i> Adicionar habilidade
+                </button>
+            </div>
+        @endforelse
 
-        </tbody>
-    </table>
+    </div>
 @endsection

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Customization extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'config',
+        'value',
+        'encode',
+    ];
 }

@@ -2,7 +2,7 @@
 @section('title', 'MaquitoGW || Portifólio::Login')
 @section('content')
     <form class="login-form" action="{{ route('login') }}" method="post">
-        <h2>Faça seu login <b>˚.⋆</b></h2>
+        <h2>Acessar Painel de Admin</h2>
         @csrf
 
         <div class="form-group">
