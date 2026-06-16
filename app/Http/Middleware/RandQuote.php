@@ -17,21 +17,22 @@ class RandQuote
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Recupera as frases do arquivo de tradução
         $frases = __('quotes');
 
-        // Pega um índice aleatório
+        if (!is_array($frases) || empty($frases)) {
+            view()->share('quote', 'Frase não encontrada');
+            view()->share('author', 'Autor desconhecido');
+            return $next($request);
+        }
+
         $indiceAleatorio = array_rand($frases);
 
-        // Pega a frase e o autor correspondentes
         $fraseAleatoria = $frases[$indiceAleatorio]['quote'] ?? 'Frase não encontrada';
         $autorAleatorio = $frases[$indiceAleatorio]['author'] ?? 'Autor desconhecido';
 
-        // Compartilha a frase com todas as views
         view()->share('quote', $fraseAleatoria);
         view()->share('author', $autorAleatorio);
 
-        // Continua o ciclo da requisição
         return $next($request);
     }
 }
