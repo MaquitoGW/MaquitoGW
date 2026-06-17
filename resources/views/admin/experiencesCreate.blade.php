@@ -2,6 +2,10 @@
 @section('title', 'Adicionar Experiencia')
 
 @section('content')
+    @php
+        $languageSettings = $languageSettings ?? ['multiple' => false, 'auto' => false];
+        $skillCatalog = collect($skillsJson ?? [])->flatMap(fn($group) => $group);
+    @endphp
     <div class="admin-page">
         <div class="admin-header">
             <div>
@@ -64,6 +68,53 @@
                 <label for="description" class="admin-label">Descricao</label>
                 <textarea id="description" name="description" rows="5" class="admin-input" placeholder="Descreva responsabilidades, resultados e tecnologias utilizadas">{{ old('description') }}</textarea>
                 @error('description') <span class="form-error">{{ $message }}</span> @enderror
+            </div>
+
+            @if ($languageSettings['multiple'])
+                <div class="admin-field">
+                    <label for="position_en" class="admin-label">Cargo em ingles</label>
+                    <input type="text" id="position_en" name="position_en" value="{{ old('position_en') }}" class="admin-input" placeholder="ex: Senior Frontend Developer">
+                    @error('position_en') <span class="form-error">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="admin-field">
+                    <label for="description_en" class="admin-label">Descricao em ingles</label>
+                    <textarea id="description_en" name="description_en" rows="5" class="admin-input" placeholder="Responsibilities, achievements and technologies used">{{ old('description_en') }}</textarea>
+                    @error('description_en') <span class="form-error">{{ $message }}</span> @enderror
+                </div>
+            @endif
+
+            <div class="admin-field">
+                <label for="promotions" class="admin-label">Evolucoes / promocoes no cargo</label>
+                <textarea id="promotions" name="promotions" rows="4" class="admin-input" placeholder="Uma evolucao por linha">{{ old('promotions') }}</textarea>
+                @error('promotions') <span class="form-error">{{ $message }}</span> @enderror
+            </div>
+
+            @if ($languageSettings['multiple'])
+                <div class="admin-field">
+                    <label for="promotions_en" class="admin-label">Evolucoes / promocoes em ingles</label>
+                    <textarea id="promotions_en" name="promotions_en" rows="4" class="admin-input" placeholder="One promotion per line">{{ old('promotions_en') }}</textarea>
+                    @error('promotions_en') <span class="form-error">{{ $message }}</span> @enderror
+                </div>
+            @endif
+
+            <div class="admin-field">
+                <label class="admin-label">Habilidades usadas</label>
+                <ul class="list-checkbox">
+                    @forelse ($skills as $skill)
+                        @php $catalogSkill = $skillCatalog[$skill->code] ?? ['name' => $skill->code, 'icon' => 'fa-solid fa-code']; @endphp
+                        <li>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="{{ $skill->code }}" @checked(in_array($skill->code, old('skills', [])))>
+                                <i class="{{ $catalogSkill['icon'] }}"></i>
+                                {{ $catalogSkill['name'] }}
+                            </label>
+                        </li>
+                    @empty
+                        <p class="admin-subtitle">Nenhuma habilidade cadastrada ainda.</p>
+                    @endforelse
+                </ul>
+                @error('skills') <span class="form-error">{{ $message }}</span> @enderror
             </div>
 
             <label class="admin-check">

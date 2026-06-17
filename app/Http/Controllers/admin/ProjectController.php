@@ -5,7 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Skill;
+use App\Services\AssetStorageService;
 use App\Services\ProjectTranslationService;
+use App\Support\SkillCatalog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +18,7 @@ class ProjectController extends AdminController
 {
     public function index()
     {
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $skillsJson = SkillCatalog::make()->grouped();
         $allSkills = array_merge(
             $skillsJson['languages'] ?? [],
             $skillsJson['frameworks'] ?? [],
@@ -37,7 +39,10 @@ class ProjectController extends AdminController
             $project->skills = array_map(fn($code) => $skillsMap[$code] ?? $code, $skillsCodes);
 
             $images = json_decode($project->images, true) ?: [];
-            $project->thumbnail = "/" . ltrim($images[0], '/') ?? 'https://via.placeholder.com/400x200?text=No+Image';
+            $firstImage = $images[0] ?? null;
+            $project->thumbnail = $firstImage
+                ? (Str::startsWith($firstImage, ['http://', 'https://']) ? $firstImage : '/' . ltrim($firstImage, '/'))
+                : 'https://via.placeholder.com/400x200?text=No+Image';
 
             return $project;
         });
@@ -51,7 +56,7 @@ class ProjectController extends AdminController
     public function create()
     {
         $skills = Skill::get();
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $skillsJson = SkillCatalog::make()->grouped();
 
         return view('admin.projectsNew', [
             'customization' => fn($config, $else = null) => $this->search($config, $else),
@@ -63,6 +68,7 @@ class ProjectController extends AdminController
 
     public function store(Request $e)
     {
+        $storage = app(AssetStorageService::class);
         $project = new Project();
         $project->name = $e->name;
         $project->preview = $e->preview;
@@ -91,16 +97,14 @@ class ProjectController extends AdminController
             $image_base64 = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $value);
             $image_binary = base64_decode($image_base64);
             $imageName = 'image_' . md5('images' . $key . strtotime('now')) . '.png';
-            file_put_contents(public_path('storage/images/') . $imageName, $image_binary);
-            $images[] = 'storage/images/' . $imageName;
+            $images[] = $storage->putContent($image_binary, 'images', $imageName);
         }
         $project->images = json_encode($images, true);
 
         if ($e->hasFile('videos') && $e->file('videos')->isValid()) {
             $eVideo = $e->file('videos');
             $videoName = md5($eVideo->getClientOriginalName() . strtotime("now")) . "." . $eVideo->getClientOriginalExtension();
-            $eVideo->move(public_path('storage/videos/'), $videoName);
-            $project->videos = 'storage/videos/' . $videoName;
+            $project->videos = $storage->putUploadedFile($eVideo, 'videos', $videoName);
         } else {
             $project->videos = null;
         }
@@ -138,15 +142,21 @@ class ProjectController extends AdminController
         $project = Project::where("demo", $uuid)->first();
         Session::put("uuid", $uuid);
 
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $skillsJson = SkillCatalog::make()->grouped();
         $skillsChecked = json_decode($project->skills, true);
 
         $images = [];
         $dataImage = json_decode($project->images, true);
         if ($dataImage) {
             foreach ($dataImage as $image) {
-                if (file_exists($image)) {
-                    $data = file_get_contents($image);
+                if (Str::startsWith($image, ['http://', 'https://'])) {
+                    $images[] = $image;
+                    continue;
+                }
+
+                $path = public_path(ltrim($image, '/'));
+                if (file_exists($path)) {
+                    $data = file_get_contents($path);
                     $images[] = "data:image/jpeg;base64," . base64_encode($data);
                 }
             }
@@ -165,6 +175,7 @@ class ProjectController extends AdminController
 
     public function update(Request $e, $uuid)
     {
+        $storage = app(AssetStorageService::class);
         $project = Project::where("demo", $uuid)->first();
 
         if (!$project) {
@@ -194,29 +205,32 @@ class ProjectController extends AdminController
 
         $images = [];
         if ($e->has('images')) {
-            $dataImage = json_decode($project->images, true);
-            if ($dataImage) {
-                foreach ($dataImage as $image) {
-                    if (file_exists($image)) unlink(public_path($image));
-                }
-            }
+            $oldImages = json_decode($project->images, true) ?: [];
 
             foreach ($e['images'] as $key => $value) {
+                if (!Str::startsWith($value, 'data:image/')) {
+                    $images[] = $value;
+                    continue;
+                }
+
                 $image_base64 = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $value);
                 $image_binary = base64_decode($image_base64);
                 $imageName = 'image_' . md5('images' . $key . strtotime('now')) . '.png';
-                file_put_contents(public_path('storage/images/') . $imageName, $image_binary);
-                $images[] = 'storage/images/' . $imageName;
+                $images[] = $storage->putContent($image_binary, 'images', $imageName);
             }
+
+            foreach (array_diff($oldImages, $images) as $removedImage) {
+                $storage->delete($removedImage);
+            }
+
             $project->images = json_encode($images, true);
         }
 
         if ($e->hasFile('videos') && $e->file('videos')->isValid()) {
-            if (file_exists($project->videos)) unlink(public_path($project->videos));
+            $storage->delete($project->videos);
             $eVideo = $e->file('videos');
             $videoName = md5($eVideo->getClientOriginalName() . strtotime("now")) . "." . $eVideo->getClientOriginalExtension();
-            $eVideo->move(public_path('storage/videos/'), $videoName);
-            $project->videos = 'storage/videos/' . $videoName;
+            $project->videos = $storage->putUploadedFile($eVideo, 'videos', $videoName);
         }
 
         $project->save();
@@ -225,17 +239,18 @@ class ProjectController extends AdminController
 
     public function destroy($uuid)
     {
+        $storage = app(AssetStorageService::class);
         $project = Project::where("demo", $uuid)->first();
 
         if ($project) {
             $dataImage = json_decode($project->images, true);
             if ($dataImage) {
                 foreach ($dataImage as $image) {
-                    if (file_exists($image)) unlink(public_path($image));
+                    $storage->delete($image);
                 }
             }
 
-            if (file_exists($project->videos)) unlink(public_path($project->videos));
+            $storage->delete($project->videos);
 
             $diretorio = public_path("demo/" . $uuid);
             if (File::exists($diretorio)) {

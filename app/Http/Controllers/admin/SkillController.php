@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Skill;
+use App\Support\SkillCatalog;
 use Illuminate\Http\Request;
 
 class SkillController extends AdminController
@@ -10,7 +11,7 @@ class SkillController extends AdminController
     public function index()
     {
         $skills = Skill::get();
-        $skillsJson = json_decode(file_get_contents('storage/json/languagens_and_frameworks.json'), true);
+        $skillsJson = SkillCatalog::make()->grouped();
 
         return view('admin.skills', [
             'customization' => fn($config, $else = null) => $this->search($config, $else),

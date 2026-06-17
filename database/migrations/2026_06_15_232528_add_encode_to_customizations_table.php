@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('customizations', function (Blueprint $table) {
-            $table->boolean('encode')->default(false);
-        });
+        if (!Schema::hasColumn('customizations', 'encode')) {
+            Schema::table('customizations', function (Blueprint $table) {
+                $table->boolean('encode')->default(false);
+            });
+        }
     }
 
     /**

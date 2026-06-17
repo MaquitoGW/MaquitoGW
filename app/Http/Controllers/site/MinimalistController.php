@@ -8,6 +8,8 @@ use App\Models\Project;
 use App\Models\Info;
 use App\Models\Contact;
 use App\Models\Customization;
+use App\Models\Skill;
+use App\Support\SkillCatalog;
 use Illuminate\Http\Request;
 
 class MinimalistController extends Controller
@@ -37,6 +39,8 @@ class MinimalistController extends Controller
 
         // Pegar projetos
         $projects = Project::where('active', true)->get();
+        $skills = Skill::orderBy('year', 'asc')->get();
+        $skillsJson = SkillCatalog::make()->grouped();
 
         // Pegar experiências profissionais
         $experiences = Experience::where('user_id', 1)->orderBy('position_order')->get();
@@ -56,6 +60,8 @@ class MinimalistController extends Controller
             'contacts' => $contacts,
             'projects' => $projects,
             'experiences' => $experiences,
+            'skills' => $skills,
+            'skillsJson' => $skillsJson,
             'customization' => $customization,
             'quote' => $quote,
             'author' => $author,

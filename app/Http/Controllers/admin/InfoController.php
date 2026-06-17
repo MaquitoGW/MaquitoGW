@@ -5,9 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\Info;
+use App\Services\AssetStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\File;
 
 class InfoController extends AdminController
 {
@@ -70,6 +70,7 @@ class InfoController extends AdminController
 
     public function addContacts(Request $request)
     {
+        $storage = app(AssetStorageService::class);
         $addContacts = new Contact();
         $addContacts->instagram = $request->instagram ?? null;
         $addContacts->twitter = $request->twitter ?? null;
@@ -81,12 +82,7 @@ class InfoController extends AdminController
 
         if ($request->hasFile("csv") && $request->file("csv")->isValid()) {
             $csv = $request->file("csv");
-            $extension = $csv->extension();
-            $csvName = md5($csv->getClientOriginalName() . strtotime("now")) . "." . $extension;
-            $path = '/storage/csv/';
-            $csvNamePath = $path . $csvName;
-            $csv->move(public_path($path), $csvName);
-            $addContacts->csv = $csvNamePath;
+            $addContacts->csv = $storage->putUploadedFile($csv, 'csv');
         }
 
         $addContacts->save();
@@ -95,22 +91,19 @@ class InfoController extends AdminController
 
     public function updateContacts(Request $request)
     {
+        $storage = app(AssetStorageService::class);
         $contacts = Contact::where('id', $request->id);
         
         $contactsGET = $contacts->first();
         $csvNamePath = $contactsGET?->csv;
         
         if ($request->hasFile("csv") && $request->file("csv")->isValid()) {
-            if (!empty($contactsGET?->csv)) {
-                File::delete(public_path($contactsGET->csv));
-            }
-
             $csv = $request->file("csv");
-            $extension = $csv->extension();
-            $csvName = md5($csv->getClientOriginalName() . strtotime("now")) . "." . $extension;
-            $path = '/storage/csv/';
-            $csvNamePath = $path . $csvName;
-            $csv->move(public_path($path), $csvName);
+            $csvNamePath = $storage->putUploadedFile($csv, 'csv');
+
+            if (!empty($contactsGET?->csv) && $contactsGET->csv !== $csvNamePath) {
+                $storage->delete($contactsGET->csv);
+            }
         }
 
         $contacts->update([

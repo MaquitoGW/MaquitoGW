@@ -160,6 +160,52 @@
                         <label for="google-translate-url">URL da API Google Translate</label>
                         <input type="url" id="google-translate-url" name="google-translate-url" value="{{ old('google-translate-url', $serverSettings['GOOGLE_TRANSLATE_URL'] ?? env('GOOGLE_TRANSLATE_URL', 'https://translate.googleapis.com/translate_a/single')) }}" placeholder="https://translate.googleapis.com/translate_a/single">
                     </div>
+
+                    <div class="admin-field">
+                        <label for="portfolio-enabled">Portfolio publico</label>
+                        <select id="portfolio-enabled" name="portfolio-enabled">
+                            <option value="true" {{ old('portfolio-enabled', $serverSettings['PORTFOLIO_ENABLED'] ?? env('PORTFOLIO_ENABLED', 'true')) == 'true' ? 'selected' : '' }}>Ativado</option>
+                            <option value="false" {{ old('portfolio-enabled', $serverSettings['PORTFOLIO_ENABLED'] ?? env('PORTFOLIO_ENABLED', 'true')) == 'false' ? 'selected' : '' }}>Desativado</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="file-storage-driver">Storage de arquivos</label>
+                        <select id="file-storage-driver" name="file-storage-driver">
+                            <option value="local" {{ old('file-storage-driver', $serverSettings['FILE_STORAGE_DRIVER'] ?? env('FILE_STORAGE_DRIVER', 'local')) == 'local' ? 'selected' : '' }}>Local</option>
+                            <option value="r2" {{ old('file-storage-driver', $serverSettings['FILE_STORAGE_DRIVER'] ?? env('FILE_STORAGE_DRIVER', 'local')) == 'r2' ? 'selected' : '' }}>Cloudflare R2</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-endpoint">R2 Endpoint</label>
+                        <input type="url" id="r2-endpoint" name="r2-endpoint" value="{{ old('r2-endpoint', $serverSettings['R2_ENDPOINT'] ?? env('R2_ENDPOINT')) }}" placeholder="https://accountid.r2.cloudflarestorage.com">
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-public-url">R2 URL publica</label>
+                        <input type="url" id="r2-public-url" name="r2-public-url" value="{{ old('r2-public-url', $serverSettings['R2_PUBLIC_URL'] ?? env('R2_PUBLIC_URL')) }}" placeholder="https://cdn.seudominio.com">
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-bucket">R2 Bucket</label>
+                        <input type="text" id="r2-bucket" name="r2-bucket" value="{{ old('r2-bucket', $serverSettings['R2_BUCKET'] ?? env('R2_BUCKET')) }}">
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-default-region">R2 Regiao</label>
+                        <input type="text" id="r2-default-region" name="r2-default-region" value="{{ old('r2-default-region', $serverSettings['R2_DEFAULT_REGION'] ?? env('R2_DEFAULT_REGION', 'auto')) }}">
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-access-key-id">R2 Access Key</label>
+                        <input type="text" id="r2-access-key-id" name="r2-access-key-id" value="{{ old('r2-access-key-id', $serverSettings['R2_ACCESS_KEY_ID'] ?? env('R2_ACCESS_KEY_ID')) }}">
+                    </div>
+
+                    <div class="admin-field">
+                        <label for="r2-secret-access-key">R2 Secret Key</label>
+                        <input type="password" id="r2-secret-access-key" name="r2-secret-access-key" value="{{ old('r2-secret-access-key', $serverSettings['R2_SECRET_ACCESS_KEY'] ?? env('R2_SECRET_ACCESS_KEY')) }}">
+                    </div>
                 </div>
 
                 <div class="admin-form-actions">

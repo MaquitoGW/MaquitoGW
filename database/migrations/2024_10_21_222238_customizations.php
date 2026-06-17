@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('customizations', function (Blueprint $table) {
             $table->id(); // Chave primária
-            $table->string('config')->Lnullable();
+            $table->string('config')->nullable();
             $table->string('value')->nullable();
             $table->timestamps(); // Colunas 'created_at' e 'updated_at'
         });

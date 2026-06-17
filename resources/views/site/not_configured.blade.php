@@ -1,178 +1,311 @@
 @extends('layouts.site')
 
-@section('title', 'Site em Configuração')
+@section('title', !empty($portfolioDisabled) ? 'Portfolio indisponivel' : 'Site em configuracao')
 
 @section('main')
+    @php
+        $isDisabled = !empty($portfolioDisabled);
+        $statusItems = [
+            [
+                'label' => 'Perfil profissional',
+                'state' => isset($infos) ? 'ok' : ($isDisabled ? 'neutral' : 'error'),
+                'text' => isset($infos) ? 'Configurado' : 'Aguardando dados',
+            ],
+            [
+                'label' => 'Contatos',
+                'state' => isset($contacts) ? 'ok' : ($isDisabled ? 'neutral' : 'error'),
+                'text' => isset($contacts) ? 'Configurado' : 'Aguardando dados',
+            ],
+            [
+                'label' => 'Projetos',
+                'state' => isset($projects) ? 'ok' : 'neutral',
+                'text' => isset($projects) ? 'Disponiveis' : 'Opcional',
+            ],
+        ];
+    @endphp
 
-    <section class="setup-container">
+    <section class="setup-shell">
+        <div class="setup-panel">
+            <div class="setup-header">
+                <span class="setup-badge">
+                    <i class="fa-solid {{ $isDisabled ? 'fa-power-off' : 'fa-screwdriver-wrench' }}"></i>
+                    {{ $isDisabled ? 'Portfolio desativado' : 'Configuracao pendente' }}
+                </span>
 
-        <div class="setup-card">
+                <h1>{{ $isDisabled ? 'Portfolio temporariamente indisponivel' : 'Site em configuracao' }}</h1>
 
-            <div class="setup-icon">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <p>
+                    @if ($isDisabled)
+                        O portfolio publico foi desativado nas configuracoes do painel. A area administrativa continua disponivel para manutencao, ajustes de conteudo e reativacao.
+                    @else
+                        Alguns dados essenciais ainda nao foram configurados. Complete as informacoes no painel para publicar o portfolio com seguranca.
+                    @endif
+                </p>
             </div>
 
-            <h1 class="setup-title">
-                Site em configuração
-            </h1>
-
-            <p class="setup-description">
-                O portfólio ainda não foi totalmente configurado ou está em processo de inicialização.
-                Alguns dados essenciais não foram encontrados no sistema.
-            </p>
-
-            <div class="setup-status">
-
-                <div class="status-item">
-                    <span class="dot {{ isset($infos) ? 'ok' : 'error' }}"></span>
-                    <p>Informações do perfil</p>
-                </div>
-
-                <div class="status-item">
-                    <span class="dot {{ isset($contacts) ? 'ok' : 'error' }}"></span>
-                    <p>Contatos</p>
-                </div>
-
-                <div class="status-item">
-                    <span class="dot {{ isset($projects) ? 'ok' : 'warn' }}"></span>
-                    <p>Projetos</p>
-                </div>
-
+            <div class="setup-status-grid">
+                @foreach ($statusItems as $item)
+                    <div class="setup-status-card">
+                        <span class="setup-status-dot {{ $item['state'] }}"></span>
+                        <div>
+                            <strong>{{ $item['label'] }}</strong>
+                            <small>{{ $item['text'] }}</small>
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
             <div class="setup-actions">
-
-                <a href="/" class="btn-primary">
-                    <i class="fa-solid fa-rotate"></i>
-                    Recarregar
-                </a>
-
-                <a href="{{ route('login') }}" class="btn-secondary">
-                    <i class="fa-solid fa-lock"></i>
+                <a href="{{ route('login') }}" class="setup-btn setup-btn-primary">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     Acessar painel
                 </a>
-
+                <a href="/" class="setup-btn setup-btn-secondary">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    Verificar novamente
+                </a>
             </div>
 
-            <p class="setup-footer">
-                Sistema carregado em modo seguro de fallback
-            </p>
-
+            <div class="setup-footer-note">
+                <i class="fa-regular fa-circle-check"></i>
+                Sistema online em modo seguro de fallback.
+            </div>
         </div>
-
     </section>
 
     <style>
-        .setup-container {
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
+        :root,
+        body[data-app-theme-effective="light"] {
+            --setup-bg: #f6f8fa;
+            --setup-panel: #ffffff;
+            --setup-border: #d0d7de;
+            --setup-text: #24292f;
+            --setup-muted: #57606a;
+            --setup-subtle: #f6f8fa;
+            --setup-primary: var(--primary-color, #2f81f7);
+            --setup-shadow: 0 24px 60px rgba(31, 35, 40, 0.12);
         }
 
-        .setup-card {
+        html.dark,
+        .dark,
+        body[data-app-theme-effective="dark"] {
+            --setup-bg: #0d1117;
+            --setup-panel: #161b22;
+            --setup-border: #30363d;
+            --setup-text: #e6edf3;
+            --setup-muted: #8b949e;
+            --setup-subtle: #0d1117;
+            --setup-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-app-theme-effective="light"]) {
+                --setup-bg: #0d1117;
+                --setup-panel: #161b22;
+                --setup-border: #30363d;
+                --setup-text: #e6edf3;
+                --setup-muted: #8b949e;
+                --setup-subtle: #0d1117;
+                --setup-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            }
+        }
+
+        body {
+            background: var(--setup-bg) !important;
+            overflow-x: hidden;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body > main.container {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .setup-shell {
+            position: fixed;
+            inset: 0;
             width: 100%;
-            max-width: 520px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: 100dvh;
+            margin: 0 !important;
+            overflow-y: auto;
+            display: grid;
+            place-items: center;
+            padding: 48px 20px;
+            box-sizing: border-box;
+            background:
+                radial-gradient(circle at 0 0, rgba(47, 129, 247, 0.14) 0, rgba(47, 129, 247, 0.08) 14rem, transparent 30rem),
+                var(--setup-bg);
+            color: var(--setup-text);
+        }
+
+        .setup-panel {
+            width: min(760px, 100%);
+            border: 1px solid var(--setup-border);
             border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-            backdrop-filter: blur(10px);
+            background: var(--setup-panel);
+            box-shadow: var(--setup-shadow);
+            padding: 32px;
         }
 
-        .setup-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: var(--primary-color, #4f46e5);
+        .setup-header {
+            max-width: 620px;
         }
 
-        .setup-title {
-            font-size: 24px;
-            margin-bottom: 10px;
-            font-family: 'Aldrich', sans-serif;
+        .setup-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border: 1px solid var(--setup-border);
+            border-radius: 999px;
+            background: var(--setup-subtle);
+            color: var(--setup-muted);
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .setup-description {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 25px;
-            line-height: 1.6;
+        .setup-header h1 {
+            margin: 18px 0 10px;
+            color: var(--setup-text);
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.08;
+            letter-spacing: 0;
         }
 
-        .setup-status {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 25px;
+        .setup-header p {
+            margin: 0;
+            color: var(--setup-muted);
+            font-size: 16px;
+            line-height: 1.65;
         }
 
-        .status-item {
+        .setup-status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .setup-status-card {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 13px;
-            opacity: 0.8;
+            gap: 12px;
+            min-height: 74px;
+            padding: 14px;
+            border: 1px solid var(--setup-border);
+            border-radius: 12px;
+            background: var(--setup-subtle);
         }
 
-        .dot {
+        .setup-status-card strong,
+        .setup-status-card small {
+            display: block;
+        }
+
+        .setup-status-card strong {
+            color: var(--setup-text);
+            font-size: 14px;
+        }
+
+        .setup-status-card small {
+            margin-top: 3px;
+            color: var(--setup-muted);
+            font-size: 12px;
+        }
+
+        .setup-status-dot {
             width: 10px;
             height: 10px;
-            border-radius: 50%;
+            border-radius: 999px;
+            background: #6e7681;
+            box-shadow: 0 0 0 4px rgba(110, 118, 129, 0.12);
         }
 
-        .dot.ok {
-            background: #22c55e;
+        .setup-status-dot.ok {
+            background: #2da44e;
+            box-shadow: 0 0 0 4px rgba(45, 164, 78, 0.14);
         }
 
-        .dot.error {
-            background: #ef4444;
-        }
-
-        .dot.warn {
-            background: #f59e0b;
+        .setup-status-dot.error {
+            background: #cf222e;
+            box-shadow: 0 0 0 4px rgba(207, 34, 46, 0.14);
         }
 
         .setup-actions {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .setup-btn {
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .btn-primary,
-        .btn-secondary {
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 16px;
+            border-radius: 10px;
+            border: 1px solid var(--setup-border);
+            font-size: 14px;
+            font-weight: 700;
             text-decoration: none;
-            transition: 0.2s;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
         }
 
-        .btn-primary {
-            background: #4f46e5;
-            color: white;
+        .setup-btn:hover {
+            transform: translateY(-1px);
         }
 
-        .btn-primary:hover {
-            background: #4338ca;
+        .setup-btn-primary {
+            border-color: var(--setup-primary);
+            background: var(--setup-primary);
+            color: #ffffff;
         }
 
-        .btn-secondary {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: inherit;
+        .setup-btn-secondary {
+            background: var(--setup-panel);
+            color: var(--setup-text);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .setup-btn-secondary:hover {
+            background: var(--setup-subtle);
         }
 
-        .setup-footer {
-            font-size: 11px;
-            opacity: 0.5;
+        .setup-footer-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--setup-border);
+            color: var(--setup-muted);
+            font-size: 13px;
+        }
+
+        .setup-footer-note i {
+            color: #2da44e;
+        }
+
+        @media (max-width: 720px) {
+            .setup-panel {
+                padding: 24px;
+                border-radius: 14px;
+            }
+
+            .setup-status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .setup-btn {
+                width: 100%;
+            }
         }
     </style>
-
 @endsection

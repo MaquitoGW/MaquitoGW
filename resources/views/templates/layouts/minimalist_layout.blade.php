@@ -24,7 +24,7 @@
     $projectsData = $projects->values()->map(function ($project, $index) use ($skillMap) {
         $images = collect(json_decode($project->images ?? '[]', true) ?: [])
             ->filter()
-            ->map(fn($image) => '/' . ltrim($image, '/'))
+            ->map(fn($image) => str_starts_with($image, 'http') ? $image : '/' . ltrim($image, '/'))
             ->values()
             ->all();
         $skillCodes = json_decode($project->skills ?? '[]', true) ?: [];
@@ -37,7 +37,7 @@
             'description' => $project->localizedPreview(),
             'image' => $image,
             'images' => $images,
-            'video' => !empty($project->videos) ? '/' . ltrim($project->videos, '/') : null,
+            'video' => !empty($project->videos) ? (str_starts_with($project->videos, 'http') ? $project->videos : '/' . ltrim($project->videos, '/')) : null,
             'tags' => $tags,
             'github' => $project->github,
             'demo' => !empty($project->demo) ? url('/demo/' . $project->demo) : null,

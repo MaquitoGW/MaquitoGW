@@ -43,25 +43,29 @@
 
     <div class="skills-grid">
         @forelse ($skills as $skill)
-            @foreach ($skillsJson as $type)
-                @foreach ($type as $code => $language)
-                    @if ($code == $skill->code)
-                        <div class="skill-card">
-                            <div class="skill-header">
-                                <i class="{{ $language['icon'] }} skill-icon"></i>
-                                <span class="skill-year">{{ $skill->year }}</span>
-                            </div>
-                            <div class="skill-content">
-                                <h3 class="skill-title">{{ $language['name'] }}</h3>
-                                <p class="skill-description">{{ $language['description_pt'] }}</p>
-                            </div>
-                            <div class="skill-footer">
-                                <button action-click="skills/delete/{{ $code }}" class="remove-skill-btn"><i class="fas fa-trash-alt"></i> Remover</button>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            @endforeach
+            @php
+                $catalog = collect($skillsJson)->flatMap(fn($group) => $group);
+                $language = $catalog[$skill->code] ?? [
+                    'name' => $skill->code,
+                    'description_pt' => '',
+                    'icon' => 'fa-solid fa-code',
+                ];
+            @endphp
+            <div class="skill-card">
+                <div class="skill-header">
+                    <i class="{{ $language['icon'] }} skill-icon"></i>
+                    <span class="skill-year">{{ $skill->year }}</span>
+                </div>
+                <div class="skill-content">
+                    <h3 class="skill-title">{{ $language['name'] }}</h3>
+                    <p class="skill-description">{{ $language['description_pt'] ?? '' }}</p>
+                </div>
+                <div class="skill-footer">
+                    <a href="{{ route('skills.delete', $skill->code) }}" class="remove-skill-btn" onclick="return confirm('Remover esta habilidade?')">
+                        <i class="fas fa-trash-alt"></i> Remover
+                    </a>
+                </div>
+            </div>
         @empty
             <div class="empty-state">
                 <i class="fa-solid fa-star"></i>

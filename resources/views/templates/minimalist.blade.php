@@ -21,7 +21,11 @@
 
     $projectImage = function ($project) {
         $images = json_decode($project->images ?? '[]', true) ?: [];
-        return count($images) > 0 ? '/' . ltrim($images[0], '/') : 'https://via.placeholder.com/800x600?text=Project';
+        if (count($images) === 0) {
+            return 'https://via.placeholder.com/800x600?text=Project';
+        }
+
+        return str_starts_with($images[0], 'http') ? $images[0] : '/' . ltrim($images[0], '/');
     };
 
     $filters = $projects
@@ -190,18 +194,25 @@
                             $progress = min((int) round(($projectUsageCount / $totalProjects) * 100), 100);
                             $skillName = $skillMap[$item->code] ?? $item->code;
                             $skillIcon = $skillIconMap[$item->code] ?? 'fa-solid fa-code';
+                            $skillYears = $item->year ? max(now()->year - (int) $item->year + 1, 0) : null;
                         @endphp
                         <article class="skill-card">
                             <div class="skill-card-top">
                                 <span class="skill-icon"><i class="{{ $skillIcon }}"></i></span>
-                                <span class="skill-years">{{ trans_choice('site.minimalist.projects_count', $projectUsageCount, ['count' => $projectUsageCount]) }}</span>
+                                <span class="skill-years">
+                                    @if ($skillYears)
+                                        {{ trans_choice('site.minimalist.skill_years', $skillYears, ['count' => $skillYears]) }}
+                                    @else
+                                        {{ trans_choice('site.minimalist.projects_count', $projectUsageCount, ['count' => $projectUsageCount]) }}
+                                    @endif
+                                </span>
                             </div>
                             <h3>{{ $skillName }}</h3>
                             <div class="skill-card-footer">
                                 <div class="skill-bar" aria-hidden="true">
                                     <div class="skill-progress" style="width: {{ $progress }}%"></div>
                                 </div>
-                                <span>{{ $progress }}%</span>
+                                <span>{{ trans_choice('site.minimalist.projects_count', $projectUsageCount, ['count' => $projectUsageCount]) }}</span>
                             </div>
                         </article>
                     @endforeach
@@ -223,11 +234,21 @@
 
                 <div class="experience-timeline">
                     @foreach ($experiences as $experience)
+                        @php
+                            $experienceDescription = $experience->localizedDescription();
+                            $experiencePromotions = $experience->localizedPromotions();
+                            $experienceSkills = collect($experience->skills ?? [])
+                                ->map(fn($code) => [
+                                    'name' => $skillMap[$code] ?? $code,
+                                    'icon' => $skillIconMap[$code] ?? 'fa-solid fa-code',
+                                ])
+                                ->values();
+                        @endphp
                         <div class="experience-item">
                             <div class="experience-card">
                                 <div class="experience-header">
                                     <div>
-                                        <h3 class="experience-position">{{ $experience->position }}</h3>
+                                        <h3 class="experience-position">{{ $experience->localizedPosition() }}</h3>
                                         <h4 class="experience-company">{{ $experience->company }}</h4>
                                     </div>
                                     <div class="experience-meta">
@@ -247,15 +268,37 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($experience->description)
+                                @if ($experienceDescription)
                                     <div class="experience-description">
                                         <ul>
-                                            @foreach (preg_split('/\r\n|\r|\n/', $experience->description) as $line)
+                                            @foreach (preg_split('/\r\n|\r|\n/', $experienceDescription) as $line)
                                                 @if (trim($line) !== '')
                                                     <li>{{ $line }}</li>
                                                 @endif
                                             @endforeach
                                         </ul>
+                                    </div>
+                                @endif
+
+                                @if (count($experiencePromotions) > 0)
+                                    <div class="experience-promotions">
+                                        <h5>{{ __('site.minimalist.promotions') }}</h5>
+                                        <ul>
+                                            @foreach ($experiencePromotions as $promotion)
+                                                <li>{{ $promotion }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                @if ($experienceSkills->count() > 0)
+                                    <div class="experience-skills">
+                                        @foreach ($experienceSkills as $skill)
+                                            <span class="experience-skill">
+                                                <i class="{{ $skill['icon'] }}"></i>
+                                                {{ $skill['name'] }}
+                                            </span>
+                                        @endforeach
                                     </div>
                                 @endif
                             </div>
@@ -276,12 +319,21 @@
 
             <div class="contact-container">
                 <div class="contact-info">
-                    @if (!is_null($contacts['email_business'] ?? null) || !is_null($contacts['email_personal'] ?? null))
+                    @if (!is_null($contacts['email_business'] ?? null))
                         <div class="contact-card">
                             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                             <div>
-                                <h3>Email</h3>
-                                <p>{{ $contacts['email_business'] ?? $contacts['email_personal'] }}</p>
+                                <h3>{{ __('site.other.email_business') }}</h3>
+                                <p>{{ $contacts['email_business'] }}</p>
+                            </div>
+                        </div>
+                    @endif
+                    @if (!is_null($contacts['email_personal'] ?? null))
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="fas fa-envelope-open-text"></i></div>
+                            <div>
+                                <h3>{{ __('site.other.email_personal') }}</h3>
+                                <p>{{ $contacts['email_personal'] }}</p>
                             </div>
                         </div>
                     @endif

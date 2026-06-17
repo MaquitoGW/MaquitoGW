@@ -33,10 +33,11 @@
 </head>
 
 <body>
-    @if (isset($isNotConfigurad))
+    @if (isset($isNotConfigurad) || isset($portfolioDisabled))
         <main class="container">
             @yield('main')
         </main>
+        <script src="/js/theme.js"></script>
     @else
         <header class="header" id="header">
             <a href="/" class="logoname"></a>

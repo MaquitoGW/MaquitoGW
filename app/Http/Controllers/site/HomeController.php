@@ -4,12 +4,14 @@ namespace App\Http\Controllers\site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\AppSetting;
 use App\Models\Customization;
 use App\Models\Experience;
 use App\Models\Info;
 use App\Models\Project;
 use App\Models\SiteVisit;
 use App\Models\Skill;
+use App\Support\SkillCatalog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -18,6 +20,13 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $this->trackVisit($request, 'site');
+
+        if ($this->setting('PORTFOLIO_ENABLED', env('PORTFOLIO_ENABLED', 'true')) === 'false') {
+            return response()->view('site.not_configured', [
+                'portfolioDisabled' => true,
+                'isNotConfigurad' => true,
+            ], 200);
+        }
 
         if (env("MULTIPLE_LANGUAGES") == 1) {
             $languageUserGET = str_replace("-", "_", App::getLocale());
@@ -45,11 +54,7 @@ class HomeController extends Controller
 
         $skills = Skill::orderBy('year', 'asc')->get();
 
-        $skillsJsonPath = storage_path('app/json/languagens_and_frameworks.json');
-
-        $skillsJson = file_exists($skillsJsonPath)
-            ? json_decode(file_get_contents($skillsJsonPath), true)
-            : [];
+        $skillsJson = SkillCatalog::make()->grouped();
 
         $skin = $this->search('site_skin', 'default');
 
@@ -87,11 +92,7 @@ class HomeController extends Controller
             return redirect()->route('index');
         }
 
-        $skillsJsonPath = storage_path('app/json/languagens_and_frameworks.json');
-
-        $skillsJson = file_exists($skillsJsonPath)
-            ? json_decode(file_get_contents($skillsJsonPath), true)
-            : [];
+        $skillsJson = SkillCatalog::make()->grouped();
 
         return view('site.details', [
             'customization' => fn($config, $else = null) => $this->search($config, $else),
@@ -115,6 +116,15 @@ class HomeController extends Controller
         return $customization->encode
             ? base64_decode($customization->value)
             : $customization->value;
+    }
+
+    private function setting(string $key, ?string $fallback = null): ?string
+    {
+        try {
+            return AppSetting::where('key', $key)->value('value') ?? $fallback;
+        } catch (\Throwable) {
+            return $fallback;
+        }
     }
 
     // tracking seguro
