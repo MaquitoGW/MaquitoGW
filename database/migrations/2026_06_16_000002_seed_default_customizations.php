@@ -21,14 +21,14 @@ return new class extends Migration
             'color_text' => '#24292f',
             'color_button' => '#2f81f7',
             'custom_logo_code' => 'MinhaLogo',
-            'favicon' => null,
+            'favicon' => '',
         ];
 
         foreach ($defaults as $config => $value) {
             DB::table('customizations')->updateOrInsert(
                 ['config' => $config],
                 [
-                    'value' => $value,
+                    'value' => $value ?? '',
                     'encode' => false,
                     'updated_at' => $now,
                     'created_at' => $now,
