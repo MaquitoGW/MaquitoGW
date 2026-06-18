@@ -4,9 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Link;
 use App\Models\User;
+use App\Services\AssetStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 
 class LinkController extends AdminController
 {
@@ -112,6 +112,7 @@ class LinkController extends AdminController
     public function updateProfile(Request $request)
     {
         $user = User::query()->orderBy('id')->firstOrFail();
+        $storage = app(AssetStorageService::class);
 
         $validated = $request->validate([
             'links_display_name' => 'nullable|string|max:255',
@@ -123,15 +124,12 @@ class LinkController extends AdminController
         foreach (['links_avatar', 'links_banner'] as $field) {
             if ($request->hasFile($field) && $request->file($field)->isValid()) {
                 if (!empty($user->{$field})) {
-                    File::delete(public_path($user->{$field}));
+                    $storage->delete($user->{$field});
                 }
 
                 $image = $request->file($field);
                 $imageName = md5($field . $image->getClientOriginalName() . now()) . '.' . $image->extension();
-                $path = '/storage/links/';
-                File::ensureDirectoryExists(public_path($path));
-                $image->move(public_path($path), $imageName);
-                $validated[$field] = $path . $imageName;
+                $validated[$field] = $storage->putUploadedFile($image, 'links', $imageName);
             } else {
                 unset($validated[$field]);
             }

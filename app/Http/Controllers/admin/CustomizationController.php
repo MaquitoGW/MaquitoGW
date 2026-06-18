@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Customization;
+use App\Services\AssetStorageService;
 use Illuminate\Http\Request;
 
 class CustomizationController extends AdminController
@@ -94,16 +95,22 @@ class CustomizationController extends AdminController
 
     public function updateImages(Request $request)
     {
+        $storage = app(AssetStorageService::class);
+
         foreach ($request->except('_token') as $config => $e) {
             if ($request->hasFile($config) && $request->file($config)->isValid()) {
                 $image = $request->file($config);
                 $imageName = md5($image->getClientOriginalName() . strtotime('now')) . '.' . $image->extension();
-                $path = '/storage/images/';
-                $image->move(public_path($path), $imageName);
+                $path = $storage->putUploadedFile($image, 'images', $imageName);
+
+                $oldCustomization = Customization::where('config', $config)->first();
+                if ($oldCustomization && $oldCustomization->value !== $path) {
+                    $storage->delete($oldCustomization->value);
+                }
 
                 Customization::updateOrCreate(
                     ['config' => $config],
-                    ['value' => $path . $imageName]
+                    ['value' => $path]
                 );
             }
         }
