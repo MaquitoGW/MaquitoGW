@@ -37,6 +37,7 @@ class SettingsController extends AdminController
             'r2-access-key-id' => 'nullable|string|max:255',
             'r2-secret-access-key' => 'nullable|string|max:255',
             'r2-bucket' => 'nullable|string|max:255',
+            'r2-prefix' => 'nullable|string|max:255',
             'r2-public-url' => 'nullable|url|max:500',
             'r2-default-region' => 'nullable|string|max:80',
         ]);
@@ -64,6 +65,7 @@ class SettingsController extends AdminController
             'R2_ACCESS_KEY_ID' => [$validated['r2-access-key-id'] ?? '', true],
             'R2_SECRET_ACCESS_KEY' => [$validated['r2-secret-access-key'] ?? '', true],
             'R2_BUCKET' => [$validated['r2-bucket'] ?? '', true],
+            'R2_PREFIX' => [$validated['r2-prefix'] ?? '', true],
             'R2_PUBLIC_URL' => [$validated['r2-public-url'] ?? '', true],
             'R2_DEFAULT_REGION' => [$validated['r2-default-region'] ?? 'auto', false],
         ];
@@ -123,6 +125,7 @@ class SettingsController extends AdminController
             'R2_ACCESS_KEY_ID',
             'R2_SECRET_ACCESS_KEY',
             'R2_BUCKET',
+            'R2_PREFIX',
             'R2_PUBLIC_URL',
             'R2_DEFAULT_REGION',
         ];

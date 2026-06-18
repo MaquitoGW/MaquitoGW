@@ -193,6 +193,11 @@
                     </div>
 
                     <div class="admin-field">
+                        <label for="r2-prefix">R2 Prefixo</label>
+                        <input type="text" id="r2-prefix" name="r2-prefix" value="{{ old('r2-prefix', $serverSettings['R2_PREFIX'] ?? env('R2_PREFIX')) }}" placeholder="portfolio">
+                    </div>
+
+                    <div class="admin-field">
                         <label for="r2-default-region">R2 Regiao</label>
                         <input type="text" id="r2-default-region" name="r2-default-region" value="{{ old('r2-default-region', $serverSettings['R2_DEFAULT_REGION'] ?? env('R2_DEFAULT_REGION', 'auto')) }}">
                     </div>

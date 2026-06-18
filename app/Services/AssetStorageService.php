@@ -22,7 +22,7 @@ class AssetStorageService
         $name = ltrim($name, '/');
 
         if ($this->disk() === 'r2') {
-            $path = trim($directory . '/' . $name, '/');
+            $path = $this->r2Path(trim($directory . '/' . $name, '/'));
             Storage::disk('r2')->put($path, $content, ['visibility' => 'public']);
 
             return $this->publicUrl($path);
@@ -82,5 +82,13 @@ class AssetStorageService
     private function r2PublicUrl(): ?string
     {
         return env('R2_PUBLIC_URL') ? rtrim((string) env('R2_PUBLIC_URL'), '/') : null;
+    }
+
+    private function r2Path(string $path): string
+    {
+        $prefix = trim((string) env('R2_PREFIX', ''), '/');
+        $path = trim($path, '/');
+
+        return $prefix !== '' ? $prefix . '/' . $path : $path;
     }
 }

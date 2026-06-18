@@ -37,6 +37,7 @@ return new class extends Migration
             ['key' => 'R2_ACCESS_KEY_ID', 'value' => env('R2_ACCESS_KEY_ID'), 'type' => 'string'],
             ['key' => 'R2_SECRET_ACCESS_KEY', 'value' => env('R2_SECRET_ACCESS_KEY'), 'type' => 'string'],
             ['key' => 'R2_BUCKET', 'value' => env('R2_BUCKET'), 'type' => 'string'],
+            ['key' => 'R2_PREFIX', 'value' => env('R2_PREFIX', ''), 'type' => 'string'],
             ['key' => 'R2_PUBLIC_URL', 'value' => env('R2_PUBLIC_URL'), 'type' => 'string'],
             ['key' => 'R2_DEFAULT_REGION', 'value' => env('R2_DEFAULT_REGION', 'auto'), 'type' => 'string'],
         ];
